@@ -191,10 +191,12 @@ class User extends Person
 	{
 		/*
 		beheerind:
-			empty    	= no authorization
-			3			= read
-			6			= read/write
-			9			= all
+			De betekenis van beheerind verschilt per site (de code is gelijk):
+			Culemborg:  leeg/0 = geen beheerrechten, 3 = lezen, 6 = lezen/schrijven, 9 = alles
+			Zoetermeer: 0 = intranet zonder forum, 1 = + forum, 2 = + Redactie,
+			            3 = + WAS lezen, 4 = + WAS wijzigen (maatjes alleen lezen),
+			            5 = 2+3, 6 = 2+4, 7 = 6 + maatjes wijzigen, 9 = beheerder
+			Oude waarde 'j' telt als 9.
 		*/
 		if ($this->beheerind == 'j' || $this->beheerind == '9')
 		return TRUE;
@@ -206,10 +208,12 @@ class User extends Person
 	{
 		/*
 		beheerind:
-			empty/0    	= no authorization
-			3			= read
-			6			= read/write
-			9			= all
+			De betekenis van beheerind verschilt per site (de code is gelijk):
+			Culemborg:  leeg/0 = geen beheerrechten, 3 = lezen, 6 = lezen/schrijven, 9 = alles
+			Zoetermeer: 0 = intranet zonder forum, 1 = + forum, 2 = + Redactie,
+			            3 = + WAS lezen, 4 = + WAS wijzigen (maatjes alleen lezen),
+			            5 = 2+3, 6 = 2+4, 7 = 6 + maatjes wijzigen, 9 = beheerder
+			Oude waarde 'j' telt als 9.
 		*/
 		if (is_numeric($this->beheerind))
 			return $this->beheerind;
