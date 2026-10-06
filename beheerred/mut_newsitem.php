@@ -10,6 +10,8 @@ if (!isset($_SESSION["username"])) {
   header("location:../index.php");
   exit();
 }
+// Rechtencontrole (zie includes/rechten.php)
+require_recht('redactie');
 /**********************/
 
 if (isset($_SESSION["userid"])) {

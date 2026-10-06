@@ -28,7 +28,7 @@ foreach ($userColl->userColl as $user) {
 	$htmlextra      = '';
 	$first_disabled = 'disabled';
 
-	if ($curr_user->username === $user->username || $curr_user->beheerind > 6) {
+	if ($curr_user->username === $user->username || heeft_recht('presentie_anderen')) {
 		$first_disabled = '';
 		// Let op: id-attribuut is vervangen door data-switch,
 		// want meerdere elementen met hetzelfde id is ongeldige HTML.

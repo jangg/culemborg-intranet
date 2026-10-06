@@ -173,6 +173,8 @@ if (!isset($_SESSION["username"])) {
   header("location:../index.php");
   exit();
 }
+// Rechtencontrole (zie includes/rechten.php)
+require_recht('was_lezen');
 /**********************/
 
 if (isset($_SESSION["userid"])) {
@@ -199,8 +201,13 @@ if (isset($_POST["backWzBut"]) && $_POST["backWzBut"] == "back") {
     } else {
       header("location: overz_werkzoekenden.php");
     }
-    exit();
   }
+  exit();   // okt 2026: stond eerst in de else, waardoor het script na de terugknop soms doorliep
+}
+
+// Alles wat hierna met POST komt, wijzigt gegevens
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  require_recht('was_wijzigen');
 }
 
 $wkz = new Werkzoekende("id", $_SESSION["werkzkd_id"]);

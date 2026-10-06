@@ -12,6 +12,8 @@ if (!isset($_SESSION['username'])) {
 	header('location:../index.php');
 	exit();
 }
+// Rechtencontrole (zie includes/rechten.php)
+require_recht('was_lezen');
 /**********************/
 
 // error_log('Start van proces_jg.php');
@@ -26,6 +28,11 @@ if (isset($_POST['backJsBut']) && $_POST['backJsBut'] == 'back')
 {
 	header("location: mut_jobgroup.php?id=" . $_SESSION['jobgroup_id']);
 	exit();	
+}
+
+// Alles hierna wijzigt gegevens, behalve modJs (dat haalt alleen een sessie op)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['modJs'])) {
+	require_recht('was_wijzigen');
 }
 
 if (isset($_POST['updateJgBut']) && $_POST['updateJgBut'] == 'wijzig')

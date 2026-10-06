@@ -9,6 +9,8 @@ if (!isset($_SESSION["username"])) {
 	header("location:../index.php");
 	exit();
 }
+// Rechtencontrole (zie includes/rechten.php)
+require_recht('was_wijzigen');
 
 // Huidige gebruiker ophalen
 if (isset($_SESSION["userid"])) {

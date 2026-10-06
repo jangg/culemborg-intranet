@@ -27,6 +27,8 @@ if (!isset($_SESSION["username"])) {
   header("location:../index.php");
   exit();
 }
+// Rechtencontrole (zie includes/rechten.php)
+require_recht('was_lezen');
 /**********************/
 
 if (isset($_SESSION["userid"])) {
@@ -47,6 +49,11 @@ if (isset($_GET["id"])) {
 if (isset($_POST["backMtBut"]) && $_POST["backMtBut"] == "back") {
   header("location: overz_maatjes.php");
   exit();
+}
+
+// Alles wat hierna met POST komt, wijzigt het maatje
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  require_recht('maatjes_wijzigen');
 }
 
 $mtj = new Maatje("id", $_SESSION["maatje_id"]);
@@ -417,7 +424,7 @@ if (isset($_POST["updateMtBut"]) && $_POST["updateMtBut"] == "wijzig") {
 						<textarea type="textarea" name="omschrijving" rows="5" class="form-control" value=""><?php echo $mtj->omschrijving; ?></textarea>
 					</div>
 					<!-- Oplossing om ervoor te zorgen dat alleen Joke (en ik) met beheerind > 6 maatjes kunnen wijzigen of toevoegen -->
-					<?php if ($curr_user->beheerind > 6) {
+					<?php if (heeft_recht('maatjes_wijzigen')) {
 					echo '<div class="forms-group mb-1">
 										<button name="updateMtBut" value="wijzig" type="submit" class="btn btn-primary btn-width btn-sm">Wijzig</button>
 										<button name="backMtBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button>

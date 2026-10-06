@@ -5,7 +5,7 @@ include_once('../class/c_werkzoekende.php');
 include_once('../class/c_intakeform.php');
 
 // Noodreparatie okt 2026: zonder deze regel was deze pagina zonder inloggen bereikbaar.
-require_login(3);
+require_recht('was_lezen');
 
 function updateIntakeform ($wkz, $wkz_nw, $intakeform, $intakeform_nw)
 {
@@ -32,6 +32,11 @@ if (isset($_POST['backWzBut']) && $_POST['backWzBut'] == 'back')
 {
 	header("location: overz_werkzoekenden.php");
 	exit();	
+}
+
+// Opslaan mag alleen met het recht was_wijzigen (de terugknop hierboven mag iedereen met was_lezen)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	require_recht('was_wijzigen');
 }
 
 $wkz = new Werkzoekende ();

@@ -8,6 +8,8 @@ if (!isset($_SESSION['username'])) {
 	header('location:../index.php');
 	exit();
 }
+// Rechtencontrole (zie includes/rechten.php)
+require_recht('maatjes_wijzigen');
 
 // Huidige gebruiker ophalen
 if (isset($_SESSION['userid'])) {
@@ -312,7 +314,7 @@ $(document).ready(function () {
 				</div>
 
 				<div class="forms-group mb-1">
-					<?php if ($curr_user->beheerind > 6): ?>
+					<?php if (heeft_recht('maatjes_wijzigen')): ?>
 						<button name="saveMtBut" id="saveMtBut" value="bewaar" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 					<?php else: ?>
 						<button type="button" class="btn btn-primary btn-width btn-sm" disabled>Bewaar</button>

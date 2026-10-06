@@ -9,6 +9,11 @@ require_login();
 // echo $_POST['userid'];
 if(isset($_POST['userid']) && is_numeric($_POST['userid']))
 {
+	// Je eigen aanwezigheid mag je altijd wijzigen, die van anderen alleen met het recht presentie_anderen
+	if ((int)$_POST['userid'] !== (int)$_SESSION['userid'] && !heeft_recht('presentie_anderen')) {
+		http_response_code(403);
+		exit('Je mag alleen je eigen aanwezigheid wijzigen.');
+	}
 	$user = new User('id', $_POST['userid']);
 	if ($user->presentInd != 'j')
 		$user->presentInd = 'j';

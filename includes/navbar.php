@@ -1,25 +1,14 @@
 <?php
 /***************************************
-*****
-***** Autorisatie levels worden hier bepaald
-***** 0 = Alleen lezen, geen Forum
-***** 1 = Alleen lezen, ook Forum lezen
-***** 2 = Lezen + Forum lezen/schrijven
-***** 3 = 2
-***** 4 = 3 + Redactie 
-***** 5 = 3 + WAS
-***** 6 = 3 + Redactie & WAS
-***** 7 = 6
-***** 8 = 6
-***** 9 = 6
-*******************************************/
-
-$level			= isset($curr_user) ? (int)$curr_user->authLevel() : 0;
-$canForumRead 	= $level >= 1;
-$canForumWrite 	= $level >= 2;
-$canRedactie 	= $level === 4 || $level >= 6;
-$canWas      	= $level >= 5;
-$canAll 		= $level === 9;
+ * Wie wat mag, staat per site in includes/rechten.php.
+ * Hier wordt alleen gevraagd: heeft deze gebruiker dit recht?
+ * Zo gebruiken het menu en de pagina's zelf altijd dezelfde regels.
+ ***************************************/
+$canForumRead  = heeft_recht('forum_lezen');
+$canForumWrite = heeft_recht('forum_schrijven');
+$canRedactie   = heeft_recht('redactie');
+$canWas        = heeft_recht('was_lezen');
+$canAll        = heeft_recht('beheerder');
 ?>
 <nav class="navbar navbar-expand-xl navbar-dark fixed-top bg-primary">
 	<div class="container">

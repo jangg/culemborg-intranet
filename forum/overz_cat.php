@@ -12,6 +12,8 @@ if (!isset($_SESSION['username'])) {
 	header('location:../index.php');
 	exit();
 }
+// Rechtencontrole (zie includes/rechten.php)
+require_recht('forum_lezen');
 if (isset($_SESSION['userid']))
 {
 	$curr_user = new User ('id', $_SESSION['userid']);
@@ -49,6 +51,7 @@ if (isset($_POST['resetBut']) && $_POST['resetBut'] == 'reset')
 	
 if (isset($_POST['verstuurBut']) && $_POST['verstuurBut'] == 'verstuur')
 {
+	require_recht('forum_schrijven');
 	if (isset($_POST['onderwerp']) && $_POST['onderwerp'] != '' && $_POST['tekst'] != '')
 	{
 		$newTopic = new Topic();

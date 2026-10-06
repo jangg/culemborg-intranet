@@ -10,6 +10,8 @@ if (!isset($_SESSION["username"])) {
 	header("Location: ../index.php");
 	exit();
 }
+// Rechtencontrole (zie includes/rechten.php)
+require_recht('was_lezen');
 
 // ── Huidige gebruiker ────────────────────────────────────────────────────────
 $curr_user = isset($_SESSION["userid"])
@@ -18,6 +20,7 @@ $curr_user = isset($_SESSION["userid"])
 
 // ── Werkzoekende soft-delete (delind = 'j') ──────────────────────────────────
 if (filter_input(INPUT_GET, 'del') === 'j') {
+	require_recht('was_wijzigen');
 	$del_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 	if ($del_id !== false && $del_id > 0) {
 		$item = new Werkzoekende('id', $del_id);

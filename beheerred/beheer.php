@@ -10,6 +10,8 @@ if (!isset($_SESSION['username'])) {
 	header('Location: ../index.php');
 	exit();
 }
+// Rechtencontrole (zie includes/rechten.php)
+require_recht('redactie');
 
 // Huidige gebruiker initialiseren
 $curr_user = isset($_SESSION['userid'])

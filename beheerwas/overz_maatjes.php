@@ -10,6 +10,8 @@ if (!isset($_SESSION['username'])) {
 	header('location:../index.php');
 	exit();
 }
+// Rechtencontrole (zie includes/rechten.php)
+require_recht('was_lezen');
 /**********************/
 
 if (isset($_SESSION['userid']))
@@ -25,6 +27,7 @@ maatje verwijderen (delind wordt j)
 ********************************* */
 if (isset($_GET['del']) && $_GET['del'] == 'j') 
 {
+	require_recht('maatjes_wijzigen');
 	$item = new Maatje ('id', $_GET['id']);
 	// error_log($item);
 	if ($item->delind != 'j') 
@@ -118,7 +121,7 @@ foreach($maatjeColl->maatjeColl as $maatje)
 		<td class="text-left p-0">' . $maatje->woonplaats . '</td>
 		<td class="text-left p-0">' . $maatje->telefoonnr . '</td>
 		<td';
-		if ($curr_user->beheerind > 6)
+		if (heeft_recht('maatjes_wijzigen'))
 			$html .= ' class="text-center p-0"><a href="overz_maatjes.php?id=' . $maatje->id . '&del=j"' . ' onclick="return confirm(\'Weet je zeker dat je dit maatje wilt verwijderen?\');"><i class="fa-regular fa-trash-can" style="font-size: 14px;"></i></a>';
 		$html .= '</td>
 		</tr>

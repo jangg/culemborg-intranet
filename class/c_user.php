@@ -191,11 +191,10 @@ class User extends Person
 	{
 		/*
 		beheerind:
-			De betekenis van beheerind verschilt per site (de code is gelijk):
-			Culemborg:  leeg/0 = geen beheerrechten, 3 = lezen, 6 = lezen/schrijven, 9 = alles
-			Zoetermeer: 0 = intranet zonder forum, 1 = + forum, 2 = + Redactie,
-			            3 = + WAS lezen, 4 = + WAS wijzigen (maatjes alleen lezen),
-			            5 = 2+3, 6 = 2+4, 7 = 6 + maatjes wijzigen, 9 = beheerder
+			De betekenis van beheerind verschilt per site (de code is gelijk).
+			Welk niveau welk recht geeft, staat per site in includes/rechten.php.
+			Gebruik in pagina's heeft_recht('naam') / require_recht('naam') uit config.php,
+			niet het getal zelf.
 			Oude waarde 'j' telt als 9.
 		*/
 		if ($this->beheerind == 'j' || $this->beheerind == '9')
@@ -208,11 +207,10 @@ class User extends Person
 	{
 		/*
 		beheerind:
-			De betekenis van beheerind verschilt per site (de code is gelijk):
-			Culemborg:  leeg/0 = geen beheerrechten, 3 = lezen, 6 = lezen/schrijven, 9 = alles
-			Zoetermeer: 0 = intranet zonder forum, 1 = + forum, 2 = + Redactie,
-			            3 = + WAS lezen, 4 = + WAS wijzigen (maatjes alleen lezen),
-			            5 = 2+3, 6 = 2+4, 7 = 6 + maatjes wijzigen, 9 = beheerder
+			De betekenis van beheerind verschilt per site (de code is gelijk).
+			Welk niveau welk recht geeft, staat per site in includes/rechten.php.
+			Gebruik in pagina's heeft_recht('naam') / require_recht('naam') uit config.php,
+			niet het getal zelf.
 			Oude waarde 'j' telt als 9.
 		*/
 		if (is_numeric($this->beheerind))
