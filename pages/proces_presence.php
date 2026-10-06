@@ -3,6 +3,9 @@
 include_once('../config.php');
 include_once('../class/c_user.php');
 
+// Noodreparatie okt 2026: zonder deze regel was deze pagina zonder inloggen bereikbaar.
+require_login();
+
 // echo $_POST['userid'];
 if(isset($_POST['userid']) && is_numeric($_POST['userid']))
 {

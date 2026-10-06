@@ -39,4 +39,47 @@ function openDB ()
 	}
 }
 openDB();
+
+/* ------------------------------------------------------------------
+ * Toegangscontrole (noodreparatie oktober 2026)
+ *
+ * require_login($minLevel)
+ *   Zet je bovenaan een pagina, direct na de include van config.php.
+ *   - Niet ingelogd?  Dan naar het inlogscherm en stoppen.
+ *   - $minLevel > 0?  Dan moet beheerind (authLevel) minstens zo hoog zijn,
+ *     anders krijgt de bezoeker "403 Forbidden" en stopt het script.
+ *   Belangrijk: exit() na header() is nodig. header() stuurt alleen een
+ *   instructie naar de browser; zonder exit() draait de rest van de
+ *   pagina gewoon door (en wordt bijvoorbeeld de PDF tóch gemaakt).
+ *
+ * require_cli_or_admin()
+ *   Voor scripts die door een cronjob (command line) worden gedraaid.
+ *   PHP_SAPI is 'cli' als het script via "php bestand.php" draait en
+ *   bijvoorbeeld 'fpm-fcgi' als het via de webserver wordt aangeroepen.
+ *   Via de browser mag alleen een ingelogde beheerder (niveau 9) het starten.
+ * ------------------------------------------------------------------ */
+function require_login(int $minLevel = 0): void
+{
+	if (!isset($_SESSION['userid'])) {
+		header('Location: /index.php');
+		exit();
+	}
+	if ($minLevel > 0) {
+		include_once __DIR__ . '/class/c_user.php';
+		$user = new User('id', $_SESSION['userid']);
+		if ((int)$user->authLevel() < $minLevel) {
+			http_response_code(403);
+			exit('Je hebt geen toegang tot deze pagina.');
+		}
+	}
+}
+
+function require_cli_or_admin(): void
+{
+	if (PHP_SAPI === 'cli') {
+		return;
+	}
+	require_login(9);
+}
+
 ?>

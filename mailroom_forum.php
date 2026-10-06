@@ -19,6 +19,9 @@ require_once __DIR__ . '/class/c_user_coll.php';
 require_once __DIR__ . '/class/c_topic.php';
 require_once __DIR__ . '/class/c_post.php';
 
+// Noodreparatie okt 2026: zonder deze regel was deze pagina zonder inloggen bereikbaar.
+require_cli_or_admin();
+
 /**
  * -------- FUNCTIES --------
  */

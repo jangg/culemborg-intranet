@@ -20,6 +20,11 @@
 
 declare(strict_types=1);
 
+// Noodreparatie okt 2026: zonder deze regel was deze pagina zonder inloggen bereikbaar.
+// Alleen via de command line (cron) of door een ingelogde beheerder (niveau 9).
+require_once __DIR__ . '/../config.php';
+require_cli_or_admin();
+
 function getFlag(string $key): bool
 {
 	if (!isset($_GET[$key])) return false;
@@ -67,7 +72,7 @@ if (isset($_GET['limit']) && is_numeric($_GET['limit']))
 }
 
 // $config = require __DIR__ . '/../config/config.php';
-$config = require 'config.php';
+$config = require __DIR__ . '/config.php';
 $logFile  = $config['log_file'];
 $lockFile = $config['lock_file'];
 

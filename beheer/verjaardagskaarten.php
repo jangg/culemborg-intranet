@@ -18,6 +18,9 @@ include_once(__DIR__ . '/../config.php');
 include_once __DIR__ . '/../class/c_maatje_coll.php';
 include_once __DIR__ . '/../class/c_werkzoekende_coll.php';
 
+// Noodreparatie okt 2026: zonder deze regel was deze pagina zonder inloggen bereikbaar.
+require_cli_or_admin();
+
 function getMsgHtml ()
 {
 	$html =  file_get_contents(__DIR__ . '/../kaarten/felicitatiekaart.html', TRUE);

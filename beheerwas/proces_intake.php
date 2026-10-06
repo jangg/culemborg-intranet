@@ -4,6 +4,9 @@ include_once('../class/c_user.php');
 include_once('../class/c_werkzoekende.php');
 include_once('../class/c_intakeform.php');
 
+// Noodreparatie okt 2026: zonder deze regel was deze pagina zonder inloggen bereikbaar.
+require_login(3);
+
 function updateIntakeform ($wkz, $wkz_nw, $intakeform, $intakeform_nw)
 {
 	if ($intakeform_nw != $intakeform)
