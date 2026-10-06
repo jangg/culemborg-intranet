@@ -76,7 +76,11 @@ function require_login(int $minLevel = 0): void
 
 function require_cli_or_admin(): void
 {
-	if (PHP_SAPI === 'cli') {
+	// Een webverzoek heeft altijd een REQUEST_METHOD (GET, POST, ...).
+	// Een cronjob niet, ook niet als de server daarvoor de CGI-versie van
+	// PHP gebruikt (dan is PHP_SAPI 'cgi-fcgi' in plaats van 'cli').
+	// Een bezoeker kan REQUEST_METHOD niet weglaten, dus dit is veilig.
+	if (PHP_SAPI === 'cli' || !isset($_SERVER['REQUEST_METHOD'])) {
 		return;
 	}
 	require_login(9);
