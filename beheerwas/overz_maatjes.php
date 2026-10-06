@@ -177,7 +177,9 @@ foreach($maatjeColl->maatjeColl as $maatje)
 				<!-- Links -->
 				<div class="d-flex flex-wrap align-items-center gap-2">
 				  <a class="btn btn-primary mr-2" style="min-width:140px" href="beheer.php">Menu</a>
+				  <?php if (heeft_recht('maatjes_wijzigen')): ?>
 				  <a class="btn btn-primary mr-2" style="min-width:140px" href="aanmelding_mtj.php">Nieuw maatje</a>
+				  <?php endif; ?>
 				  <a class="btn btn-primary mr-2" style="min-width:140px" href="photolib.php?q=mtj">Foto's</a>
 				</div>
 		

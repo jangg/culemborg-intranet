@@ -100,10 +100,12 @@ foreach ($wzColl->werkzoekendeColl as $werkzoekende) {
 		$acties .= '<i class="fa-regular fa-envelope" style="opacity: 0;"></i>&nbsp;&nbsp;&nbsp;';
 	}
 
-	// Verwijderactie met bevestiging
-	$acties .= '<a href="overz_werkzoekenden.php?id=' . $wzId . '&amp;del=j"'
-			 . ' onclick="return confirm(\'Weet je zeker dat je deze werkzoekende wilt verwijderen?\');">'
-			 . '<i class="fa-regular fa-trash-can"></i></a>&nbsp;&nbsp;&nbsp;';
+	// Verwijderactie met bevestiging (alleen tonen met het recht was_wijzigen)
+	if (heeft_recht('was_wijzigen')) {
+		$acties .= '<a href="overz_werkzoekenden.php?id=' . $wzId . '&amp;del=j"'
+				 . ' onclick="return confirm(\'Weet je zeker dat je deze werkzoekende wilt verwijderen?\');">'
+				 . '<i class="fa-regular fa-trash-can"></i></a>&nbsp;&nbsp;&nbsp;';
+	}
 
 	// ── Maatje-naam (trim om dubbele spaties bij leeg tussenvoegsels te vermijden) ──
 	if ($werkzoekende->id_maatje !== '') {
@@ -202,7 +204,9 @@ foreach ($wzColl->werkzoekendeColl as $werkzoekende) {
 						<!-- Navigatieknoppen links -->
 						<div class="d-flex flex-wrap align-items-center gap-2">
 							<a class="btn btn-primary mr-2" style="min-width:140px" href="beheer.php">Menu</a>
+							<?php if (heeft_recht('was_wijzigen')): ?>
 							<a class="btn btn-primary mr-2" style="min-width:140px" href="aanmelding_wkz.php">Nieuwe werkzkd</a>
+							<?php endif; ?>
 							<a class="btn btn-primary mr-2" style="min-width:140px" href="photolib.php?q=wkz">Foto's</a>
 							<a class="btn btn-primary mr-2" style="min-width:140px" href="overz_wkz_vrjrdgn.php">Verjaardagen</a>
 						</div>
