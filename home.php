@@ -86,7 +86,7 @@ function getMsgs ($number, $naam)
 		if ($newsitem->picfile1 <> '') {			
 			$newsitemHTML[$n] .= '				
 						<figure class="figure float-' . $place . '" style="width: ' . $width . '%; margin-' . $marginpl . ': ' . $margin . 'px;">
-						<img src="https://' . LOC_DOMAIN_INTRA . '/img/' . $newsitem->picfile1 . '" class="figure-img img-fluid" alt="' . LOC_NAME .  '">
+						<img src="/img/' . $newsitem->picfile1 . '" class="figure-img img-fluid" alt="' . LOC_NAME .  '">
 						</figure>';
 		}
 		
