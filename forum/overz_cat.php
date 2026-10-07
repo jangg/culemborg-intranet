@@ -116,7 +116,7 @@ foreach($topicsColl->topicColl as $topic){
 		 <td class="col-5 mx-0 d-md-none"><a href="overz_topic.php?id=' . h($topic->id) . '">' . h($topic->onderwerp) . '</a></span></td>
 		 <td class="col-1 text-center mx-0">' . $aantal . '</td>
 		 <td class="col-2 text-center mx-0 overflow-hidden d-none d-md-block">' . $datum_lp2 . '</td>
-		 <td class="col-4 text-left mx-0">' . $laatste_post_tekst . '</td>
+		 <td class="col-4 text-left mx-0">' . h($laatste_post_tekst) . '</td>
 		 <td class="col-1 text-center mx-0">' .	 $user_lp_name . '</td>
 	</tr>';
 }

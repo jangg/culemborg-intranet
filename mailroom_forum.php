@@ -68,10 +68,10 @@ function getMsgTemplate(): string
 function buildForumMessage(string $template, Topic $topic, Post $post, string $userName): string
 {
 	// Post-tekst bevat al HTML; niet escapen
-	$messageText = $post->tekst ?? '';
+	$messageText = Tools::opmaakHtml($post->tekst ?? '');   // gefilterde HTML (geen script e.d.)
 	$search = ['###message_topic###', '###message_text###', '###topic_id###', '###naam###', '###afzenderDomein###'];
 	$replace = [
-		$topic->onderwerp ?? '',
+		htmlspecialchars($topic->onderwerp ?? '', ENT_QUOTES, 'UTF-8'),
 		$messageText,
 		$topic->id ?? '',
 		htmlspecialchars($userName),

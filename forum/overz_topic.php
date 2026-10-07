@@ -95,7 +95,7 @@ foreach ($postsColl->postColl as $post) {
 	<tr class="d-flex mx-0">
 	<td scope="col" class="col-2 text-center mx-0 overflow-hidden">' . $datum_lp2 . '</td>
 	<td scope="col" class="col-1 text-center mx-0 overflow-hidden">' . h($user->voornaam) . ' ' . h($user->tussenvoegsels) . ' ' . h($user->achternaam) . '</td>
-	<td scope="col" class="col-9 text-left mx-0">' . $post->tekst . '</td>
+	<td scope="col" class="col-9 text-left mx-0">' . Tools::opmaakHtml($post->tekst) . '</td>
 	</tr>';
 }
 ?>

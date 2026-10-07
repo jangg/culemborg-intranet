@@ -35,8 +35,29 @@ class Tools
     // $tags: welke tags mogen. Standaard eenvoudige tekstopmaak.
     // -----------------------------------------------------------------------
     public const TAGS_INLINE = ['b', 'strong', 'i', 'em', 'u', 'br', 'span', 'small', 'mark', 'sup', 'sub'];
+    public const ATTR_INLINE = ['a' => ['href']];
 
-    public static function veiligeHtml(?string $html, array $tags = self::TAGS_INLINE): string
+    // Voor teksten uit de Summernote-editor (forum, later nieuws en agenda)
+    public const TAGS_OPMAAK = ['p', 'div', 'br', 'hr', 'b', 'strong', 'i', 'em', 'u', 's', 'strike', 'sup', 'sub',
+        'span', 'font', 'small', 'mark', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'blockquote',
+        'pre', 'code', 'a', 'img', 'table', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'th', 'caption'];
+    public const ATTR_OPMAAK = [
+        '*'    => ['style'],						// bij elke toegestane tag; de inhoud wordt apart gefilterd
+        'a'    => ['href', 'target'],
+        'img'  => ['src', 'alt', 'width', 'height'],
+        'font' => ['color', 'face', 'size'],		// Summernote gebruikt soms nog <font color="...">
+        'td'   => ['colspan', 'rowspan'],
+        'th'   => ['colspan', 'rowspan'],
+        'ol'   => ['start'],
+    ];
+
+    // Kort: veiligeHtml() met de instellingen voor Summernote-teksten.
+    public static function opmaakHtml(?string $html): string
+    {
+        return self::veiligeHtml($html, self::TAGS_OPMAAK, self::ATTR_OPMAAK);
+    }
+
+    public static function veiligeHtml(?string $html, array $tags = self::TAGS_INLINE, array $attributen = self::ATTR_INLINE): string
     {
         $html = (string)$html;
         if (trim($html) === '') {
@@ -55,7 +76,7 @@ class Tools
         if ($wortel === null) {
             return h($html);	// iets onleesbaars: veilig als tekst tonen
         }
-        self::schoonKnoop($wortel, $tags);
+        self::schoonKnoop($wortel, $tags, $attributen);
 
         $uit = '';
         foreach ($wortel->childNodes as $kind) {
@@ -64,9 +85,9 @@ class Tools
         return $uit;
     }
 
-    private static function schoonKnoop(DOMNode $knoop, array $tags): void
+    private static function schoonKnoop(DOMNode $knoop, array $tags, array $attributen): void
     {
-        $weg = ['script', 'style', 'iframe', 'object', 'embed', 'form', 'input', 'button', 'textarea', 'select', 'link', 'meta'];
+        $weg = ['script', 'style', 'iframe', 'object', 'embed', 'form', 'input', 'button', 'textarea', 'select', 'link', 'meta', 'svg', 'math'];
         // Eerst een kopie van de lijst kinderen maken: we veranderen de boom tijdens het doorlopen.
         foreach (iterator_to_array($knoop->childNodes) as $kind) {
             if ($kind instanceof DOMComment) {
@@ -81,7 +102,7 @@ class Tools
                 $knoop->removeChild($kind);	// helemaal weg, inclusief inhoud
                 continue;
             }
-            self::schoonKnoop($kind, $tags);	// eerst de kinderen van dit element schoonmaken
+            self::schoonKnoop($kind, $tags, $attributen);	// eerst de kinderen van dit element
             if (!in_array($naam, $tags, true)) {
                 // Tag niet toegestaan: de tag weghalen, de inhoud (tekst) laten staan.
                 while ($kind->firstChild) {
@@ -90,19 +111,62 @@ class Tools
                 $knoop->removeChild($kind);
                 continue;
             }
-            // Toegestane tag: alle attributen weg, behalve een veilige href bij <a>.
+            // Toegestane tag: alleen de toegestane attributen houden, en die controleren.
+            $magHier = array_merge($attributen['*'] ?? [], $attributen[$naam] ?? []);
             foreach (iterator_to_array($kind->attributes) as $attr) {
-                $an = strtolower($attr->nodeName);
-                $ok = ($naam === 'a' && $an === 'href'
-                       && preg_match('~^(https?://|mailto:|/|\.\./|[a-z0-9_./-]+$)~i', trim($attr->nodeValue)));
+                $an  = strtolower($attr->nodeName);
+                $val = trim($attr->nodeValue);
+                $ok  = in_array($an, $magHier, true);
+                if ($ok && ($an === 'href' || $an === 'src')) {
+                    $ok = self::veiligeUrl($val, $an === 'src');
+                } elseif ($ok && $an === 'style') {
+                    $val = self::veiligeStyle($val);
+                    $ok  = ($val !== '');
+                    if ($ok) {
+                        $kind->setAttribute('style', $val);
+                    }
+                } elseif ($ok && $an === 'target') {
+                    $ok = ($val === '_blank');
+                }
                 if (!$ok) {
                     $kind->removeAttribute($attr->nodeName);
                 }
             }
             if ($naam === 'a') {
-                $kind->setAttribute('rel', 'noopener');
+                $kind->setAttribute('rel', 'noopener noreferrer');
             }
         }
+    }
+
+    private static function veiligeUrl(string $url, bool $afbeelding): bool
+    {
+        // Toegestaan: http(s), mailto (niet bij afbeeldingen), relatieve adressen,
+        // en bij afbeeldingen ook "data:image/..." (Summernote zet geplakte plaatjes zo in de tekst).
+        // Niet toegestaan: javascript:, vbscript:, data:text/html en dergelijke.
+        if (preg_match('~^https?://~i', $url)) return true;
+        if (!$afbeelding && preg_match('~^mailto:~i', $url)) return true;
+        if ($afbeelding && preg_match('~^data:image/(png|jpe?g|gif|webp);base64,~i', $url)) return true;
+        return (bool)preg_match('~^(/|\./|\.\./|[a-z0-9_-]+(/|\.|$))~i', $url) && !preg_match('~^[a-z][a-z0-9+.-]*:~i', $url);
+    }
+
+    private static function veiligeStyle(string $style): string
+    {
+        // Alleen onschuldige CSS-eigenschappen (kleur, uitlijning, maten, lettertype).
+        // Alles met url(, expression( of javascript: valt weg.
+        $mag = ['color', 'background-color', 'text-align', 'font-weight', 'font-style', 'font-size', 'font-family',
+                'text-decoration', 'line-height', 'width', 'height', 'max-width', 'float', 'margin', 'margin-left',
+                'margin-right', 'margin-top', 'margin-bottom', 'padding', 'padding-left', 'padding-right',
+                'padding-top', 'padding-bottom', 'border', 'border-collapse', 'vertical-align', 'list-style-type'];
+        $uit = [];
+        foreach (explode(';', $style) as $regel) {
+            if (strpos($regel, ':') === false) continue;
+            [$eig, $waarde] = array_map('trim', explode(':', $regel, 2));
+            $eig = strtolower($eig);
+            if (!in_array($eig, $mag, true)) continue;
+            if (preg_match('~url\s*\(|expression|javascript:|[<>\\\\]~i', $waarde)) continue;
+            $uit[] = $eig . ': ' . $waarde;
+        }
+        return implode('; ', $uit);
     }
 
     public static function afbeeldingen(string $map): array
