@@ -363,6 +363,17 @@ class Tools
 
 	public static function MailRoom($nameTo, $emailTo, $onderwerp, $tekst)
 	{
+		/* Testmodus (alleen lokaal in MAMP): zet in includes/configDB.php
+		     define("MAIL_TESTMODUS", true);
+		   Dan wordt de mail niet verstuurd, maar in de PHP error log gezet
+		   (MAMP: /Applications/MAMP/logs/php_error.log). Op de servers staat
+		   deze regel niet in configDB.php, dus daar wordt gewoon verstuurd. */
+		if (defined('MAIL_TESTMODUS') && MAIL_TESTMODUS === true)
+		{
+			error_log("MAIL_TESTMODUS - niet verstuurd\nAan: $nameTo <$emailTo>\nOnderwerp: $onderwerp\n"
+				. html_entity_decode(strip_tags($tekst), ENT_QUOTES, 'UTF-8'));
+			return true;
+		}
 		// Maak een nieuw PHPMailer-object
 		$mail = self::getMailer();
 		// echo 'MailRoom is gestart.<br/>';
