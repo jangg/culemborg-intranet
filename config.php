@@ -113,6 +113,17 @@ function require_recht(string $recht): void
 	}
 }
 
+function knop_uit(string $recht): string
+{
+	// Voor knoppen die iets wijzigen, bijvoorbeeld in HTML:
+	//   <button + (echo knop_uit('was_wijzigen')) + name="opslaan" ...>
+	// Let op: een vraagteken met > erachter mag niet in een //-commentaar staan,
+	// want PHP ziet dat als einde van de PHP-code, ook binnen commentaar.
+	// Zonder het recht wordt de knop uitgeschakeld (grijs, niet klikbaar).
+	// De server controleert het daarna nog een keer met require_recht().
+	return heeft_recht($recht) ? '' : ' disabled';
+}
+
 function require_cli_or_admin(): void
 {
 	// Een webverzoek heeft altijd een REQUEST_METHOD (GET, POST, ...).

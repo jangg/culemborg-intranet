@@ -98,7 +98,7 @@ function getAllPs()
         ? $statusArray[$ps->wzstatus]
         : "Verandering") .
       '</div>
-		<div class="" style="font-size: .8em; display: inline-block; padding: 0px 10px; float: right; vertical-align: top;"><button class="psdel" data-idps=' .
+		<div class="" style="font-size: .8em; display: inline-block; padding: 0px 10px; float: right; vertical-align: top;"><button class="psdel"' . knop_uit('was_wijzigen') . ' data-idps=' .
       $ps->id .
       '><i class="fa fa-trash-alt ifont"></i></button></div>
 		</div>';
@@ -845,7 +845,7 @@ if ($wkz->id_user_modified != "") {
 						<input type="text" name="date_uitstroom" class="form-control date" value="<?= $wkz->date_uitstroom ?>"/>
 					</div>
 					<div class="forms-group mb-1">
-						<button name="updateWzBut" value="wijzig" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
+						<button<?= knop_uit('was_wijzigen') ?> name="updateWzBut" value="wijzig" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 					</div>
 					</form>
 				</div>		
@@ -869,8 +869,8 @@ if ($wkz->id_user_modified != "") {
 								<textarea type="textarea" name="tekst" rows="10" class="form-control" value=""></textarea>
 							</div>
 							<div class="forms-group mb-1">
-								<button name="saveAtBut" value="bewaar" type="submit" class="btn btn-primary btn-width btn-sm">Wijzig</button>
-								<button name="resetAtBut" value="reset" type="submit" class="btn btn-secondary btn-width btn-sm">Cancel</button>
+								<button<?= knop_uit('was_wijzigen') ?> name="saveAtBut" value="bewaar" type="submit" class="btn btn-primary btn-width btn-sm">Wijzig</button>
+								<button<?= knop_uit('was_wijzigen') ?> name="resetAtBut" value="reset" type="submit" class="btn btn-secondary btn-width btn-sm">Cancel</button>
 							</div>
 							</form>
 							<?php echo $htmlAant; ?>
@@ -901,8 +901,8 @@ if ($wkz->id_user_modified != "") {
 								<textarea type="textarea" name="pstoelichting" rows="5" class="form-control" value=""></textarea>
 							</div>
 							<div class="forms-group mb-1">
-								<button name="savePsBut" value="bewaar" type="submit" class="btn btn-primary btn-width btn-sm">Wijzig</button>
-								<button name="resetPsBut" value="reset" type="submit" class="btn btn-secondary btn-width btn-sm">Cancel</button>
+								<button<?= knop_uit('was_wijzigen') ?> name="savePsBut" value="bewaar" type="submit" class="btn btn-primary btn-width btn-sm">Wijzig</button>
+								<button<?= knop_uit('was_wijzigen') ?> name="resetPsBut" value="reset" type="submit" class="btn btn-secondary btn-width btn-sm">Cancel</button>
 							</div>
 							</form>
 							<?php echo $htmlPs; ?>

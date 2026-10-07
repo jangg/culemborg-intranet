@@ -69,8 +69,8 @@ foreach ($jgsessieColl->jgsessieColl as $jgsessie)
 		<td>' . $jgsessie->titel . '</td>
 		<td>' . $locatie . '</td>
 		<td>
-			<button class="mod" data-idjs='. $jgsessie->id . '><i class="fas fa-edit ifont" /></i></button>
-			<button class="del" data-idjs='. $jgsessie->id . '><i class="fa fa-trash-alt ifont"></i></button>
+			<button class="mod"' . knop_uit('was_wijzigen') . ' data-idjs='. $jgsessie->id . '><i class="fas fa-edit ifont" /></i></button>
+			<button class="del"' . knop_uit('was_wijzigen') . ' data-idjs='. $jgsessie->id . '><i class="fa fa-trash-alt ifont"></i></button>
 		</td>
 	</tr>';
 }
@@ -100,7 +100,7 @@ foreach ($wkzColl->werkzoekendeColl as $wkz)
 		<td>' . $wkz->status . '</td>
 		<td>
 			<button class="wkzmut" data-idwkz=' . $wkz->id . ' data-idjg=' . $jgp->id . '><i class="fas fa-edit ifont" /></i></button>
-			<button class="wkzdel" data-idwkz=' . $wkz->id . '><i class="fa fa-trash-alt ifont"></i></button>
+			<button class="wkzdel"' . knop_uit('was_wijzigen') . ' data-idwkz=' . $wkz->id . '><i class="fa fa-trash-alt ifont"></i></button>
 		</td>
 	</tr> ';
 }
@@ -120,7 +120,8 @@ if ($wkzHTML == '')
 			$('#locatie').val('---');
 		});
 		
-		if($('#jg-titel').length > 0 && $('#jg-titel').val() != '')
+		// Alleen met het recht was_wijzigen mag de +-knop aan
+		if(<?= heeft_recht('was_wijzigen') ? 'true' : 'false' ?> && $('#jg-titel').length > 0 && $('#jg-titel').val() != '')
 		{
 			$('#addJs').prop('disabled', function(i, v) { return !v; });
 		}
@@ -360,9 +361,9 @@ if ($wkzHTML == '')
 						<textarea type="text" name="opmerkingen" class="form-control" rows="6"><?php echo $jgp->opmerkingen; ?></textarea>
 					</div>
 					<div class="forms-group mb-1">
-						<button name="updateJgBut" value="wijzig" type="submit" class="btn btn-primary btn-width btn-sm">Wijzig</button>
+						<button<?= knop_uit('was_wijzigen') ?> name="updateJgBut" value="wijzig" type="submit" class="btn btn-primary btn-width btn-sm">Wijzig</button>
 						<button name="backJgBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button>
-						<button <button name="deleteJgBut" value="delete" type="submit" class="btn btn-danger btn-width btn-sm" style="float: right;" data-id="<?= $jgp->id ?>">Delete</button>
+						<button<?= knop_uit('was_wijzigen') ?> name="deleteJgBut" value="delete" type="submit" class="btn btn-danger btn-width btn-sm" style="float: right;" data-id="<?= $jgp->id ?>">Delete</button>
 					</div>
 					</form>
 				</div>
@@ -438,7 +439,7 @@ if ($wkzHTML == '')
 							<input id="js-locatie" type="text" name="js-locatie" class="form-control" value="<?php // echo $jgsessie->id_locatie; ?>" required>
 						</div>
 						<div class="forms-group mb-1">
-							<button name="updateJsBut" value="wijzig" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
+							<button<?= knop_uit('was_wijzigen') ?> name="updateJsBut" value="wijzig" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 							<button name="backJsBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button>
 						</div>
 						</form>

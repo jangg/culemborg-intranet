@@ -345,7 +345,7 @@ foreach ($intakerLijst as $intaker)
 						<?php endif; ?>
 				  </div>
 				  <div class="forms-group mb-1">
-					  <button name="saveWzBut" value="bewaar1" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
+					  <button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar1" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 					  <!-- <button name="backWzBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button> -->
 				  </div>				
 			  </form>
@@ -403,7 +403,7 @@ foreach ($intakerLijst as $intaker)
 					</div>
 				</div>
 				<div class="forms-group mb-1">
-					<button name="saveWzBut" value="bewaar2" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
+					<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar2" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 					<!-- <button name="backWzBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button> -->
 				</div>
 				</form>
@@ -440,7 +440,7 @@ foreach ($intakerLijst as $intaker)
 					<input type="text" name="partner_beroep" class="form-control" value="<?php echo $intakeform->partner_beroep; ?>" maxlength="120">
 				</div>
 				<div class="forms-group mb-1">
-					<button name="saveWzBut" value="bewaar3" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
+					<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar3" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 					<!-- <button name="backWzBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button> -->
 				</div>
 				</form>			
@@ -561,7 +561,7 @@ foreach ($intakerLijst as $intaker)
 					<textarea type="text" name="andere_hulp" class="form-control" rows="4" ><?php echo $intakeform->andere_hulp; ?></textarea>
 				</div>
 				<div class="forms-group mb-1">
-					<button name="saveWzBut" value="bewaar4" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
+					<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar4" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 					<!-- <button name="backWzBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button> -->
 				</div>				
 				</form>
@@ -625,7 +625,7 @@ foreach ($intakerLijst as $intaker)
 					<textarea type="text" name="werkervaring" class="form-control" rows="4" ><?php echo $intakeform->werkervaring; ?></textarea>
 				</div>
 				<div class="forms-group mb-1">
-					<button name="saveWzBut" value="bewaar5" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
+					<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar5" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 					<!-- <button name="backWzBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button> -->
 				</div>				
 				</form>
@@ -705,7 +705,7 @@ foreach ($intakerLijst as $intaker)
 					<textarea type="text" name="werkbijzh" class="form-control" rows="4"><?php echo $intakeform->werkbijzh; ?></textarea>
 				</div>
 				<div class="forms-group mb-1">
-					<button name="saveWzBut" value="bewaar6" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
+					<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar6" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 					<!-- <button name="backWzBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button> -->
 				</div>				
 				</form>
@@ -773,7 +773,7 @@ foreach ($intakerLijst as $intaker)
 				</div>
 
 				<div class="forms-group mb-1">
-					<button name="saveWzBut" value="bewaar7" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
+					<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar7" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 					<!-- <button name="backWzBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button> -->
 				</div>				
 				</form>
@@ -811,7 +811,7 @@ foreach ($intakerLijst as $intaker)
 					</select>
 				</div>
 				<div class="forms-group mb-1">
-					<button name="saveWzBut" value="bewaar8" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
+					<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar8" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 					<!-- <button name="backWzBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button> -->
 				</div>
 				</form>			
@@ -872,7 +872,7 @@ foreach ($intakerLijst as $intaker)
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="forms-group mb-1">
-						<button name="saveWzBut" value="bewaar9" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
+						<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar9" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
 						<!-- <button name="backWzBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button> -->
 					</div>
 				</div>
