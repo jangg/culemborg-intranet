@@ -19,8 +19,9 @@ if (isset($_POST['aanmelden']) && $_POST['username'] != '')
  //	echo  $user;
 	if ($user->id != NULL)
 	{
-		// if ($user->password == md5($_POST['password']))
-		if ($user->password == $_POST['password'])
+		// verifyPassword() werkt met de hash, en zet een leesbaar wachtwoord
+		// (nieuwe gebruiker uit phpMyAdmin) meteen om. updateToDB() hieronder slaat dat op.
+		if ($user->verifyPassword((string)($_POST['password'] ?? '')))
 		{
 			$_SESSION['username'] = $_POST['username'];
 			$_SESSION['userid'] = $user->id;
@@ -74,6 +75,9 @@ else $foutidpw = FALSE;
 				<div class="col-lg-4"></div>
 				<div class="col-lg-4">
 					<h5>Inloggen</h5>
+					<?php if (isset($_GET['gewijzigd'])): ?>
+						<div class="alert alert-success">Je wachtwoord is gewijzigd. Je kunt nu inloggen met je nieuwe wachtwoord.</div>
+					<?php endif; ?>
 				<form role="form" method="POST" action="index.php">
 					<div class="form-groups">
 						<label for="username">Gebruikersnaam</label>
