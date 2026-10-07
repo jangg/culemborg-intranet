@@ -1,0 +1,21 @@
+# ------------------------------------------------------------------
+# Persoonsfoto's: alleen voor ingelogde gebruikers.
+# Elk verzoek voor een bestand in deze map wordt doorgestuurd naar
+# /foto.php. Die controleert eerst of je bent ingelogd (en voor foto's
+# van werkzoekenden of je de WAS mag inzien) en geeft dan pas de foto.
+# De adressen in de pagina's en nieuwsberichten blijven gewoon werken.
+# ------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteRule ^(.*)$ /foto.php?map=fotoos_person&f=$1 [L,QSA]
+</IfModule>
+# Zonder mod_rewrite: liever geen foto's dan foto's voor iedereen.
+<IfModule !mod_rewrite.c>
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+		Deny from all
+	</IfModule>
+</IfModule>

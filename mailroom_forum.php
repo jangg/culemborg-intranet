@@ -57,7 +57,7 @@ function logEmail(string $emailadres): void
 
 function getMsgTemplate(): string
 {
-	$templatePath = LOC_TEMPLATEDIR . 'forummsg.html';
+	$templatePath = __DIR__ . '/mail_apps/forummsg.html';   // LOC_TEMPLATEDIR bestond niet
 	if (!file_exists($templatePath)) {
 		fwrite(STDERR, "Fout: e-mailtemplate niet gevonden.\n");
 		exit(1);

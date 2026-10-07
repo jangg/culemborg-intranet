@@ -1,0 +1,19 @@
+# ------------------------------------------------------------------
+# Intranet: basisbeveiliging (okt 2026)
+# ------------------------------------------------------------------
+
+# Geen mappenlijst tonen als er geen index.php in een map staat.
+Options -Indexes
+
+# Bestanden die nooit via de browser opgevraagd mogen worden:
+# .inc (PHP-code die anders als leesbare tekst wordt getoond),
+# .sql (databasestructuur), .log/.lock, .md (documentatie), .sh (scripts).
+<FilesMatch "\.(inc|sql|log|lock|md|sh|bak)$">
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+		Deny from all
+	</IfModule>
+</FilesMatch>

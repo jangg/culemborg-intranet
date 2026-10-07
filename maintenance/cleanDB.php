@@ -71,10 +71,10 @@ if (isset($_GET['limit']) && is_numeric($_GET['limit']))
 	$limit = max(1, (int)$_GET['limit']);
 }
 
-// $config = require __DIR__ . '/../config/config.php';
-$config = require __DIR__ . '/config.php';
-$logFile  = $config['log_file'];
-$lockFile = $config['lock_file'];
+// okt 2026: maintenance/config.php had eigen databasegegevens (in beide sites intraDB!).
+// Nu dezelfde verbinding als de rest van de site ($connection uit config.php / configDB.php).
+$logFile  = __DIR__ . '/cleanup_werkzkd.log';
+$lockFile = sys_get_temp_dir() . '/cleanup_werkzkd_' . md5(__DIR__) . '.lock';   // per site een eigen slot
 
 $lockHandle = acquire_lock($lockFile);
 if ($lockHandle === false) 
@@ -96,12 +96,9 @@ try
 {
 	log_line("START cleanup_werkzkd (dryRun=" . ($dryRun ? 'yes' : 'no') . ", limit={$limit})", $logFile, $verbose);
 
-	$pdo = new PDO(
-		$config['db']['dsn'],
-		$config['db']['user'],
-		$config['db']['pass'],
-		$config['db']['options']
-	);
+	global $connection;
+	$pdo = $connection;
+	$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);   // zoals in de oude maintenance/config.php
 
 	// 1) Kandidaten selecteren
 	$sqlSelect = "
