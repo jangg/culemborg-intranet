@@ -122,7 +122,11 @@ function h($waarde): string
 	// ENT_SUBSTITUTE: ongeldige tekens (bijv. latin1 in een utf8-pagina) worden
 	// vervangen in plaats van dat de hele tekst leeg wordt.
 	// (string)($waarde ?? ''): NULL en getallen worden netjes tekst.
-	return htmlspecialchars((string)($waarde ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+	// false (double_encode): codes die al in de database staan, zoals &eacute; in
+	// "Ren&eacute;", blijven staan en de browser toont gewoon é. Zonder deze
+	// parameter werd het &amp;eacute; en zag je de code zelf.
+	// < > " ' worden nog steeds omgezet, dus dit is net zo veilig.
+	return htmlspecialchars((string)($waarde ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
 }
 
 function knop_uit(string $recht): string
