@@ -80,7 +80,7 @@ function getMsgs ($number, $naam)
 			$margin = 0;
 		$newsitemHTML[$n] = '
 					<h3 class="bluefont">' . $newsitem->titel . '</h3>
-					<h5 class="bluefont">' . strftime('%e %B %Y', $datum->getTimestamp()) . '</h5>'
+					<h5 class="bluefont">' . Tools::nlDatumLang($datum) . '</h5>'
 					;
 		
 		if ($newsitem->picfile1 <> '') {			
