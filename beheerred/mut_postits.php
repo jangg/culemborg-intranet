@@ -148,7 +148,7 @@ if (isset($_POST['updateMtBut']) && $_POST['updateMtBut'] == 'wijzig')
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Link tekst</span>
 						</div>
-						<input type="text" name="linkTekstL" class="form-control" value="<?php echo$postitL->linkTekst; ?>">
+						<input type="text" name="linkTekstL" class="form-control" value="<?php echo h($postitL->linkTekst) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -193,7 +193,7 @@ if (isset($_POST['updateMtBut']) && $_POST['updateMtBut'] == 'wijzig')
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Link tekst</span>
 						</div>
-						<input type="text" name="linkTekstR" class="form-control" value="<?php echo$postitR->linkTekst; ?>">
+						<input type="text" name="linkTekstR" class="form-control" value="<?php echo h($postitR->linkTekst) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">

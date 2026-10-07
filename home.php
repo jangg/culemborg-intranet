@@ -18,9 +18,9 @@ function getPostits ()
 				<a href="' . h($postit->link) . '" style="color: dark; background-color: #da8ff8;">
 					<div style="position: absolute; top: 10px;">
 						<p style="font-size: 1.0em;">' . Tools::ConvertTS($postit->publDatum) . '</p>
-						<p style="font-size: 1.2em; color: rgb(42, 52, 112); text-align: center;">' . h($postit->titel) . '</p>
-						<p style="font-size: 1.0em;">' . h($postit->tekst) . '</p>
-						<p style="font-size: 1.0em; text-align: center;">' . h($postit->linkTekst) . '</p>
+						<p style="font-size: 1.2em; color: rgb(42, 52, 112); text-align: center;">' . Tools::veiligeHtml($postit->titel) . '</p>
+						<p style="font-size: 1.0em;">' . Tools::veiligeHtml($postit->tekst) . '</p>
+						<p style="font-size: 1.0em; text-align: center;">' . Tools::veiligeHtml($postit->linkTekst) . '</p>
 					</div>
 				</a>
 			</li>
@@ -35,9 +35,9 @@ function getPostits ()
 			<li>
 				<a href="' . h($postit->link) . '">
 						<p style="font-size: 1.0em;">' . Tools::ConvertTS($postit->publDatum) . '</p>
-						<p style="font-size: 1.2em; color: rgb(42, 52, 112); text-align: center;">' . h($postit->titel) . '</p>
-						<p style="font-size: 1.0em;">' . h($postit->tekst) . '</p>
-						<p style="font-size: 1.0em; text-align: center;">' . h($postit->linkTekst) . '</p>
+						<p style="font-size: 1.2em; color: rgb(42, 52, 112); text-align: center;">' . Tools::veiligeHtml($postit->titel) . '</p>
+						<p style="font-size: 1.0em;">' . Tools::veiligeHtml($postit->tekst) . '</p>
+						<p style="font-size: 1.0em; text-align: center;">' . Tools::veiligeHtml($postit->linkTekst) . '</p>
 				</a>
 			</li>
 		</ul>
@@ -236,13 +236,13 @@ $postits = getPostits ();
 		<div class="container my-0" id="sticky">
 			<div class="row my-0">
 				<div class="col-md-4 d-md-block" id="sticky-right">
-					<?php echo h($postits[0]) ?>
+					<?php echo $postits[0]; // al veilige HTML: opgebouwd in getPostits() met Tools::veiligeHtml() en h() ?>
 				</div>
 				<div class="col-md-4 d-none d-md-block">
 					<img src="logos/<?php echo LOC_LOGO; ?>" class="mx-auto d-block mb-5" style="height: 180px;">
 				</div>
 				<div class="col-md-4 d-md-block" id="sticky-left">
-					<?php echo h($postits[1]) ?>
+					<?php echo $postits[1]; // al veilige HTML: opgebouwd in getPostits() met Tools::veiligeHtml() en h() ?>
 				</div>
 
 <!-- 			<div class="row">

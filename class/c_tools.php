@@ -22,6 +22,89 @@ class Tools
     // Alleen echte afbeeldingen: geen .htaccess, geen verborgen bestanden
     // (die beginnen met een punt) en geen submappen zoals thumbs/.
     // -----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
+    // veiligeHtml(): laat alleen toegestane HTML-opmaak door (okt 2026)
+    //
+    // h() maakt van ALLE HTML gewone tekst. Soms wil je juist wel opmaak tonen
+    // (een <b> of <br> in een postit, later de teksten uit Summernote), maar geen
+    // <script>, onclick="..." of javascript:-links. Deze functie:
+    //   - leest de HTML in met DOMDocument (de HTML-lezer van PHP);
+    //   - laat tags die in $tags staan staan, met alleen veilige attributen;
+    //   - gooit <script>, <style>, <iframe> e.d. weg, inclusief inhoud;
+    //   - van andere tags blijft alleen de tekst over.
+    // $tags: welke tags mogen. Standaard eenvoudige tekstopmaak.
+    // -----------------------------------------------------------------------
+    public const TAGS_INLINE = ['b', 'strong', 'i', 'em', 'u', 'br', 'span', 'small', 'mark', 'sup', 'sub'];
+
+    public static function veiligeHtml(?string $html, array $tags = self::TAGS_INLINE): string
+    {
+        $html = (string)$html;
+        if (trim($html) === '') {
+            return '';
+        }
+        $doc = new DOMDocument();
+        // De <meta charset> zorgt dat é, ë e.d. als UTF-8 gelezen worden.
+        // libxml-meldingen over "onbekende tags" zijn niet interessant: onderdrukken.
+        $oud = libxml_use_internal_errors(true);
+        $doc->loadHTML('<!DOCTYPE html><html><head><meta charset="utf-8"></head><body><div id="vh">'
+            . $html . '</div></body></html>');
+        libxml_clear_errors();
+        libxml_use_internal_errors($oud);
+
+        $wortel = $doc->getElementById('vh');
+        if ($wortel === null) {
+            return h($html);	// iets onleesbaars: veilig als tekst tonen
+        }
+        self::schoonKnoop($wortel, $tags);
+
+        $uit = '';
+        foreach ($wortel->childNodes as $kind) {
+            $uit .= $doc->saveHTML($kind);
+        }
+        return $uit;
+    }
+
+    private static function schoonKnoop(DOMNode $knoop, array $tags): void
+    {
+        $weg = ['script', 'style', 'iframe', 'object', 'embed', 'form', 'input', 'button', 'textarea', 'select', 'link', 'meta'];
+        // Eerst een kopie van de lijst kinderen maken: we veranderen de boom tijdens het doorlopen.
+        foreach (iterator_to_array($knoop->childNodes) as $kind) {
+            if ($kind instanceof DOMComment) {
+                $knoop->removeChild($kind);
+                continue;
+            }
+            if (!($kind instanceof DOMElement)) {
+                continue;	// gewone tekst is altijd goed (DOMDocument escapet die zelf bij saveHTML)
+            }
+            $naam = strtolower($kind->nodeName);
+            if (in_array($naam, $weg, true)) {
+                $knoop->removeChild($kind);	// helemaal weg, inclusief inhoud
+                continue;
+            }
+            self::schoonKnoop($kind, $tags);	// eerst de kinderen van dit element schoonmaken
+            if (!in_array($naam, $tags, true)) {
+                // Tag niet toegestaan: de tag weghalen, de inhoud (tekst) laten staan.
+                while ($kind->firstChild) {
+                    $knoop->insertBefore($kind->firstChild, $kind);
+                }
+                $knoop->removeChild($kind);
+                continue;
+            }
+            // Toegestane tag: alle attributen weg, behalve een veilige href bij <a>.
+            foreach (iterator_to_array($kind->attributes) as $attr) {
+                $an = strtolower($attr->nodeName);
+                $ok = ($naam === 'a' && $an === 'href'
+                       && preg_match('~^(https?://|mailto:|/|\.\./|[a-z0-9_./-]+$)~i', trim($attr->nodeValue)));
+                if (!$ok) {
+                    $kind->removeAttribute($attr->nodeName);
+                }
+            }
+            if ($naam === 'a') {
+                $kind->setAttribute('rel', 'noopener');
+            }
+        }
+    }
+
     public static function afbeeldingen(string $map): array
     {
         $soorten = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
