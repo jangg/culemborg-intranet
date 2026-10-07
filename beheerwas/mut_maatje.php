@@ -212,7 +212,7 @@ if (isset($_POST["updateMtBut"]) && $_POST["updateMtBut"] == "wijzig") {
      $directory = "../fotoos_person/";
 
      // Alle bestanden ophalen (geen directories)
-     $files = array_diff(scandir($directory), ["..", "."]);
+     $files = Tools::afbeeldingen($directory);   // alleen afbeeldingen (geen .htaccess e.d.)
      ?>
 				<img class="card-img-top mb-2" src="../fotoos_person/<?php if ($mtj->picfile == "") {echo "";} else {echo $mtj->picfile;} ?>" style="max-width: 160px;" alt="" />
 					<div class="input-group input-group-sm mb-1">

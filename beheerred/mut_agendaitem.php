@@ -42,7 +42,7 @@ $user_created = new User ('id', $agendaitem->id_user_created);
  $directory = "../img/";
 
  // Alle bestanden ophalen (geen directories)
- $files = array_diff(scandir($directory), ["..", "."]);
+ $files = Tools::afbeeldingen($directory);   // alleen afbeeldingen (geen .htaccess e.d.)
 ?>
 
 <!DOCTYPE html>

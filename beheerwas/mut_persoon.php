@@ -512,7 +512,7 @@ if ($wkz->id_user_modified != "") {
      $directory = "../fotoos_wkz/";
 
      // Alle bestanden ophalen (geen directories)
-     $files = array_diff(scandir($directory), ["..", "."]);
+     $files = Tools::afbeeldingen($directory);   // alleen afbeeldingen (geen .htaccess e.d.)
      ?>
 						<img class="card-img-top mb-2" src="../fotoos_wkz/
 							<?php if ($wkz->picfile == "") {

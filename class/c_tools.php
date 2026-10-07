@@ -17,6 +17,25 @@ class Tools
     // -----------------------------------------------------------------------
     // Nederlandstalige datum-helpers (vervangt deprecated strftime())
     // -----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
+    // Afbeeldingen in een map, voor een keuzelijst (okt 2026)
+    // Alleen echte afbeeldingen: geen .htaccess, geen verborgen bestanden
+    // (die beginnen met een punt) en geen submappen zoals thumbs/.
+    // -----------------------------------------------------------------------
+    public static function afbeeldingen(string $map): array
+    {
+        $soorten = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+        $lijst = [];
+        foreach (scandir($map) ?: [] as $naam) {
+            if ($naam[0] === '.') continue;							// ., .., .htaccess, .DS_Store
+            if (!is_file(rtrim($map, '/') . '/' . $naam)) continue;	// mappen overslaan
+            if (!in_array(strtolower(pathinfo($naam, PATHINFO_EXTENSION)), $soorten, true)) continue;
+            $lijst[] = $naam;
+        }
+        natcasesort($lijst);	// "natuurlijk" sorteren, zonder verschil tussen hoofd- en kleine letters
+        return array_values($lijst);
+    }
+
     public static function nlMaand(DateTimeImmutable $d): string
     {
         $maanden = [
