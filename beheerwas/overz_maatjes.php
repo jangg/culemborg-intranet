@@ -82,7 +82,7 @@ foreach($maatjeColl->maatjeColl as $maatje)
 		$emailtxt = '';
 	} else
 	{
-		$emailtxt = '<a href="mailto:' . $maatje->emailadres . '"><i class="fa-regular fa-envelope"></i></a> ' . $maatje->emailadres;
+		$emailtxt = '<a href="mailto:' . h($maatje->emailadres) . '"><i class="fa-regular fa-envelope"></i></a> ' . h($maatje->emailadres);
 	}
 
 	$user = new User ('id_person', $maatje->id_person);
@@ -110,19 +110,19 @@ foreach($maatjeColl->maatjeColl as $maatje)
 	$html .= '	
 	
 	<tr id="tafel">
-		<td class="text-center p-0"><a href="mut_maatje.php?id=' . $maatje->id . '"><i class="fa-solid fa-user"></i></a></td>
-		<td class="text-center p-0">' . $maatje->id . '</td>
-		<td class="text-left p-0">' . $maatje->achternaam . ', ' . $maatje->voornaam . ' ' . $maatje->tussenvoegsels . '</td>
-		<td class="text-left p-0">' . '<span style="display: none;">' .$user->activity . '</span>' . Tools::ConvertTS($user->activity) . '</td>
+		<td class="text-center p-0"><a href="mut_maatje.php?id=' . h($maatje->id) . '"><i class="fa-solid fa-user"></i></a></td>
+		<td class="text-center p-0">' . h($maatje->id) . '</td>
+		<td class="text-left p-0">' . h($maatje->achternaam) . ', ' . h($maatje->voornaam) . ' ' . h($maatje->tussenvoegsels) . '</td>
+		<td class="text-left p-0">' . '<span style="display: none;">' .h($user->activity) . '</span>' . Tools::ConvertTS($user->activity) . '</td>
 		<td class="text-left p-0">' . $nbrClientsTxt . '</td>
 		<td class="text-left p-0">' .  $emailtxt . '</td>
-		<td class="text-left p-0"">' . $maatje->straat . ' ' . $maatje->huisnummer . '</td>
-		<td class="text-left p-0">' . $maatje->postcode . '</td>
-		<td class="text-left p-0">' . $maatje->woonplaats . '</td>
-		<td class="text-left p-0">' . $maatje->telefoonnr . '</td>
+		<td class="text-left p-0"">' . h($maatje->straat) . ' ' . h($maatje->huisnummer) . '</td>
+		<td class="text-left p-0">' . h($maatje->postcode) . '</td>
+		<td class="text-left p-0">' . h($maatje->woonplaats) . '</td>
+		<td class="text-left p-0">' . h($maatje->telefoonnr) . '</td>
 		<td';
 		if (heeft_recht('maatjes_wijzigen'))
-			$html .= ' class="text-center p-0"><a href="overz_maatjes.php?id=' . $maatje->id . '&del=j"' . ' onclick="return confirm(\'Weet je zeker dat je dit maatje wilt verwijderen?\');"><i class="fa-regular fa-trash-can" style="font-size: 14px;"></i></a>';
+			$html .= ' class="text-center p-0"><a href="overz_maatjes.php?id=' . h($maatje->id) . '&del=j"' . ' onclick="return confirm(\'Weet je zeker dat je dit maatje wilt verwijderen?\');"><i class="fa-regular fa-trash-can" style="font-size: 14px;"></i></a>';
 		$html .= '</td>
 		</tr>
 	</tr>';

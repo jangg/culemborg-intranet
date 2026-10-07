@@ -36,20 +36,20 @@ $canAll        = heeft_recht('beheerder');
 				</li>
 
 				<li class="nav-item <?php if (basename($_SERVER['PHP_SELF']) == 'overz_forum.php' || basename($_SERVER['PHP_SELF']) == 'overz_cat.php' || basename($_SERVER['PHP_SELF']) == 'overz_topic.php') echo 'active'; ?>">
-					<a class="nav-link <?= $canForumRead ? '' : 'disabled' ?>" href="<?= $canForumRead ? '/forum/overz_forum.php' : '#' ?>">Forum</a>
+					<a class="nav-link <?= h($canForumRead ? '' : 'disabled') ?>" href="<?= h($canForumRead ? '/forum/overz_forum.php' : '#') ?>">Forum</a>
 				</li>
 				
 				
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Beheer</a>
 					<div class="dropdown-menu">
-					<a class="dropdown-item <?= $canRedactie ? '' : 'disabled' ?>"
-					   href="<?= $canRedactie ? '/beheerred/beheer.php' : '#' ?>"
-					   <?= $canRedactie ? '' : 'aria-disabled="true"' ?>>Redactie</a>
+					<a class="dropdown-item <?= h($canRedactie ? '' : 'disabled') ?>"
+					   href="<?= h($canRedactie ? '/beheerred/beheer.php' : '#') ?>"
+					   <?= h($canRedactie ? '' : 'aria-disabled="true"') ?>>Redactie</a>
 					
-					<a class="dropdown-item <?= $canWas ? '' : 'disabled' ?>"
-					   href="<?= $canWas ? '/beheerwas/beheer.php' : '#' ?>"
-					   <?= $canWas ? '' : 'aria-disabled="true"' ?>>de WAS</a>					
+					<a class="dropdown-item <?= h($canWas ? '' : 'disabled') ?>"
+					   href="<?= h($canWas ? '/beheerwas/beheer.php' : '#') ?>"
+					   <?= h($canWas ? '' : 'aria-disabled="true"') ?>>de WAS</a>					
 				   </div>
 				</li>
 			</ul>

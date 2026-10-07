@@ -39,7 +39,7 @@ if (isset($_SESSION["userid"])) {
 }
 
 if (isset($_GET["id"])) {
-  $_SESSION["maatje_id"] = $_GET["id"];
+  $_SESSION["maatje_id"] = (int)$_GET["id"];
 } else {
   if (!isset($_SESSION["maatje_id"])) {
     $_SESSION["maatje_id"] = "0";
@@ -214,7 +214,7 @@ if (isset($_POST["updateMtBut"]) && $_POST["updateMtBut"] == "wijzig") {
      // Alle bestanden ophalen (geen directories)
      $files = Tools::afbeeldingen($directory);   // alleen afbeeldingen (geen .htaccess e.d.)
      ?>
-				<img class="card-img-top mb-2" src="../fotoos_person/<?php if ($mtj->picfile == "") {echo "";} else {echo $mtj->picfile;} ?>" style="max-width: 160px;" alt="" />
+				<img class="card-img-top mb-2" src="../fotoos_person/<?php if ($mtj->picfile == "") {echo "";} else {echo h($mtj->picfile);} ?>" style="max-width: 160px;" alt="" />
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Filenaam foto</span>
@@ -223,8 +223,8 @@ if (isset($_POST["updateMtBut"]) && $_POST["updateMtBut"] == "wijzig") {
 							<option value="">--</option>
 							<?php foreach ($files as $file): ?>
 							<?php if (is_file($directory . "/" . $file)): ?>
-							<option value="<?php echo $file; ?>" <?php if ($mtj->picfile == $file) {echo " selected";} ?>>
-							<?php echo $file; ?>
+							<option value="<?php echo h($file) ?>" <?php if ($mtj->picfile == $file) {echo " selected";} ?>>
+							<?php echo h($file) ?>
 							</option>
 							<?php endif; ?>
 							<?php endforeach; ?>
@@ -235,91 +235,91 @@ if (isset($_POST["updateMtBut"]) && $_POST["updateMtBut"] == "wijzig") {
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text" style="width: 100%;">Voornaam</span>
 						</div>
-						<input type="text" name="voornaam" class="form-control" value="<?php echo $mtj->voornaam; ?>">
+						<input type="text" name="voornaam" class="form-control" value="<?php echo h($mtj->voornaam) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Tussenvoegsels</span>
 						</div>
-						<input type="text" name="tussenvoegsels" class="form-control" value="<?php echo $mtj->tussenvoegsels; ?>">
+						<input type="text" name="tussenvoegsels" class="form-control" value="<?php echo h($mtj->tussenvoegsels) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text" style="width: 100%;">Achternaam</span>
 						</div>
-						<input type="text" name="achternaam" class="form-control" value="<?php echo $mtj->achternaam; ?>" required>
+						<input type="text" name="achternaam" class="form-control" value="<?php echo h($mtj->achternaam) ?>" required>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Id person</span>
 						</div>
-						<input type="text" name="id_person" class="form-control" disabled value="<?php echo $mtj->id_person; ?>">
+						<input type="text" name="id_person" class="form-control" disabled value="<?php echo h($mtj->id_person) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Datum/tijd nieuw</span>
 						</div>
-						<input type="text" name="datetime_created" class="form-control" disabled value="<?php echo $mtj->datetime_created; ?>">
+						<input type="text" name="datetime_created" class="form-control" disabled value="<?php echo h($mtj->datetime_created) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Datum/tijd gewijzigd</span>
 						</div>
-						<input type="text" name="datetime_modified" class="form-control" disabled value="<?php echo $mtj->datetime_modified; ?>">
+						<input type="text" name="datetime_modified" class="form-control" disabled value="<?php echo h($mtj->datetime_modified) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Emailadres</span>
 						</div>
-						<input type="email" name="emailadres" class="form-control" value="<?php echo $mtj->emailadres; ?>">
+						<input type="email" name="emailadres" class="form-control" value="<?php echo h($mtj->emailadres) ?>">
 						<?php if ($mtj->emailadres != ""): ?>
-						<a href="mailto: <?php echo $mtj->emailadres; ?>" target="_blank"><i class="fas fa-envelope" style="font-size: 2em;"></i></a>
+						<a href="mailto: <?php echo h($mtj->emailadres) ?>" target="_blank"><i class="fas fa-envelope" style="font-size: 2em;"></i></a>
 						<?php endif; ?>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Telefoonnummers</span>
 						</div>
-						<input type="text" name="telefoonnr" class="form-control" value="<?php echo $mtj->telefoonnr; ?>">
+						<input type="text" name="telefoonnr" class="form-control" value="<?php echo h($mtj->telefoonnr) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">URL LinkedIn</span>
 						</div>
-						<input type="text" name="link_linkedin" class="form-control" value="<?php echo $mtj->link_linkedin; ?>">
+						<input type="text" name="link_linkedin" class="form-control" value="<?php echo h($mtj->link_linkedin) ?>">
 						<?php if ($mtj->link_linkedin != ""): ?>
-						<a href="<?php echo $mtj->link_linkedin; ?>" target="_blank"><i class="fab fa-linkedin" style="font-size: 2em;"></i></a>
+						<a href="<?php echo h($mtj->link_linkedin) ?>" target="_blank"><i class="fab fa-linkedin" style="font-size: 2em;"></i></a>
 						<?php endif; ?>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Straat</span>
 						</div>
-						<input type="text" name="straat" class="form-control" value="<?php echo $mtj->straat; ?>">
+						<input type="text" name="straat" class="form-control" value="<?php echo h($mtj->straat) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Huisnummer</span>
 						</div>
-						<input type="text" name="huisnummer" class="form-control" value="<?php echo $mtj->huisnummer; ?>">
+						<input type="text" name="huisnummer" class="form-control" value="<?php echo h($mtj->huisnummer) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Postcode</span>
 						</div>
-						<input type="text" name="postcode" class="form-control" value="<?php echo $mtj->postcode; ?>">
+						<input type="text" name="postcode" class="form-control" value="<?php echo h($mtj->postcode) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Woonplaats</span>
 						</div>
-						<input type="text" name="woonplaats" class="form-control" value="<?php echo $mtj->woonplaats; ?>">
+						<input type="text" name="woonplaats" class="form-control" value="<?php echo h($mtj->woonplaats) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Geboortedatum</span>
 						</div>
-						<input type="text" name="date_geboorte" id="date_geboorte" class="form-control" value="<?= $mtj->date_geboorte ?>" placeholder="jjjj-mm-dd"></p>
+						<input type="text" name="date_geboorte" id="date_geboorte" class="form-control" value="<?= h($mtj->date_geboorte) ?>" placeholder="jjjj-mm-dd"></p>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -341,13 +341,13 @@ if (isset($_POST["updateMtBut"]) && $_POST["updateMtBut"] == "wijzig") {
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text" style="width: 100%;">Id maatje</span>
 						</div>
-						<input type="text" name="id" class="form-control" disabled value="<?php echo $mtj->id; ?>">
+						<input type="text" name="id" class="form-control" disabled value="<?php echo h($mtj->id) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text" style="width: 100%;">Functie</span>
 						</div>
-						<textarea type="textarea" name="functie" rows="5" class="form-control" value=""><?php echo $mtj->functie; ?></textarea>
+						<textarea type="textarea" name="functie" rows="5" class="form-control" value=""><?php echo h($mtj->functie) ?></textarea>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -403,25 +403,25 @@ if (isset($_POST["updateMtBut"]) && $_POST["updateMtBut"] == "wijzig") {
         foreach ($wkzList->werkzoekendeColl as $wkz) {
           $wkzs .=
             '<a href="mut_persoon.php?id=' .
-            $wkz->id .
+            h($wkz->id) .
             '">' .
-            $wkz->voornaam .
+            h($wkz->voornaam) .
             " " .
-            $wkz->tussenvoegsels .
+            h($wkz->tussenvoegsels) .
             " " .
-            $wkz->achternaam .
+            h($wkz->achternaam) .
             "</a><br/>";
         }
       }
       ?>
-						<div class="p-1 m-0 form-control" style="background-color: #e4e7eb; font-size: .9em; max-width: 100%; height: 100%;"><?php echo $wkzs; ?></div>
+						<div class="p-1 m-0 form-control" style="background-color: #e4e7eb; font-size: .9em; max-width: 100%; height: 100%;"><?php echo h($wkzs) ?></div>
 					</div>
 
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text" style="width: 100%;">Omschrijving</span>
 						</div>
-						<textarea type="textarea" name="omschrijving" rows="5" class="form-control" value=""><?php echo $mtj->omschrijving; ?></textarea>
+						<textarea type="textarea" name="omschrijving" rows="5" class="form-control" value=""><?php echo h($mtj->omschrijving) ?></textarea>
 					</div>
 					<!-- Oplossing om ervoor te zorgen dat alleen Joke (en ik) met beheerind > 6 maatjes kunnen wijzigen of toevoegen -->
 					<?php if (heeft_recht('maatjes_wijzigen')) {

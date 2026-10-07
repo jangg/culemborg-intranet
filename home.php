@@ -15,12 +15,12 @@ function getPostits ()
 		$postits[0] = '
 		<ul>
 			<li>
-				<a href="' . $postit->link . '" style="color: dark; background-color: #da8ff8;">
+				<a href="' . h($postit->link) . '" style="color: dark; background-color: #da8ff8;">
 					<div style="position: absolute; top: 10px;">
 						<p style="font-size: 1.0em;">' . Tools::ConvertTS($postit->publDatum) . '</p>
-						<p style="font-size: 1.2em; color: rgb(42, 52, 112); text-align: center;">' . $postit->titel . '</p>
-						<p style="font-size: 1.0em;">' . $postit->tekst . '</p>
-						<p style="font-size: 1.0em; text-align: center;">' . $postit->linkTekst . '</p>
+						<p style="font-size: 1.2em; color: rgb(42, 52, 112); text-align: center;">' . h($postit->titel) . '</p>
+						<p style="font-size: 1.0em;">' . h($postit->tekst) . '</p>
+						<p style="font-size: 1.0em; text-align: center;">' . h($postit->linkTekst) . '</p>
 					</div>
 				</a>
 			</li>
@@ -33,11 +33,11 @@ function getPostits ()
 		$postits[1] = '
 		<ul>
 			<li>
-				<a href="' . $postit->link . '">
+				<a href="' . h($postit->link) . '">
 						<p style="font-size: 1.0em;">' . Tools::ConvertTS($postit->publDatum) . '</p>
-						<p style="font-size: 1.2em; color: rgb(42, 52, 112); text-align: center;">' . $postit->titel . '</p>
-						<p style="font-size: 1.0em;">' . $postit->tekst . '</p>
-						<p style="font-size: 1.0em; text-align: center;">' . $postit->linkTekst . '</p>
+						<p style="font-size: 1.2em; color: rgb(42, 52, 112); text-align: center;">' . h($postit->titel) . '</p>
+						<p style="font-size: 1.0em;">' . h($postit->tekst) . '</p>
+						<p style="font-size: 1.0em; text-align: center;">' . h($postit->linkTekst) . '</p>
 				</a>
 			</li>
 		</ul>
@@ -79,14 +79,14 @@ function getMsgs ($number, $naam)
 		} else
 			$margin = 0;
 		$newsitemHTML[$n] = '
-					<h3 class="bluefont">' . $newsitem->titel . '</h3>
+					<h3 class="bluefont">' . h($newsitem->titel) . '</h3>
 					<h5 class="bluefont">' . Tools::nlDatumLang($datum) . '</h5>'
 					;
 		
 		if ($newsitem->picfile1 <> '') {			
 			$newsitemHTML[$n] .= '				
 						<figure class="figure float-' . $place . '" style="width: ' . $width . '%; margin-' . $marginpl . ': ' . $margin . 'px;">
-						<img src="/img/' . $newsitem->picfile1 . '" class="figure-img img-fluid" alt="' . LOC_NAME .  '">
+						<img src="/img/' . h($newsitem->picfile1) . '" class="figure-img img-fluid" alt="' . LOC_NAME .  '">
 						</figure>';
 		}
 		
@@ -96,7 +96,7 @@ function getMsgs ($number, $naam)
 		if ($newsitem->tekst_knop <> '' && $newsitem->link_knop <> '')
 		{
 			$newsitemHTML[$n] .= '
-			<p><br/><a class="btn btn-primary" href="' . $newsitem->link_knop . '" role="button">' . $newsitem->tekst_knop . ' &raquo;</a></p>';
+			<p><br/><a class="btn btn-primary" href="' . h($newsitem->link_knop) . '" role="button">' . h($newsitem->tekst_knop) . ' &raquo;</a></p>';
 		}
 		
 		$n++;
@@ -236,13 +236,13 @@ $postits = getPostits ();
 		<div class="container my-0" id="sticky">
 			<div class="row my-0">
 				<div class="col-md-4 d-md-block" id="sticky-right">
-					<?php echo $postits[0]; ?>
+					<?php echo h($postits[0]) ?>
 				</div>
 				<div class="col-md-4 d-none d-md-block">
 					<img src="logos/<?php echo LOC_LOGO; ?>" class="mx-auto d-block mb-5" style="height: 180px;">
 				</div>
 				<div class="col-md-4 d-md-block" id="sticky-left">
-					<?php echo $postits[1]; ?>
+					<?php echo h($postits[1]) ?>
 				</div>
 
 <!-- 			<div class="row">

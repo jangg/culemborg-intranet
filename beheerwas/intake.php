@@ -79,7 +79,7 @@ foreach ($intakerLijst as $intaker)
 		$sel = 'selected';
 	}
 	else $sel = '';
-	$intakerListHTML .= '<option value="' . $intaker->id . '" ' . $sel . '>' . $intaker->voornaam . ' ' . $intaker->tussenvoegsels . ' ' . $intaker->achternaam . '</option>';
+	$intakerListHTML .= '<option value="' . h($intaker->id) . '" ' . $sel . '>' . h($intaker->voornaam) . ' ' . h($intaker->tussenvoegsels) . ' ' . h($intaker->achternaam) . '</option>';
 }
 
 
@@ -185,15 +185,15 @@ foreach ($intakerLijst as $intaker)
 			</div>
 			<div class="row rounded text-center text-white pb-2 mb-2">
 				<div class="col-sm-12">
-					<h4 class="mx-auto"><?php echo $wkz->voornaam . ' ' . $wkz->tussenvoegsels . ' ' . $wkz->achternaam; ?></h4>
+					<h4 class="mx-auto"><?php echo h($wkz->voornaam . ' ' . h($wkz->tussenvoegsels) . ' ' . $wkz->achternaam) ?></h4>
 				</div>
 			</div>
 		</div>
 
 		<div class="container" id="tabContainer">
 			<p>
-				<a class="btn btn-primary but-size" href="intake_pdf.php?id=<?php echo $wkz->id; ?>" role="button">maak PDF</a>
-				<a class="btn btn-primary but-size" href="mut_persoon.php?id=<?php echo $wkz->id; ?>" role="button">terug</a>
+				<a class="btn btn-primary but-size" href="intake_pdf.php?id=<?php echo h($wkz->id) ?>" role="button">maak PDF</a>
+				<a class="btn btn-primary but-size" href="mut_persoon.php?id=<?php echo h($wkz->id) ?>" role="button">terug</a>
 			</p>
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item" role="presentation">
@@ -231,24 +231,24 @@ foreach ($intakerLijst as $intaker)
 <!--1---------------------------------------------------------------------------------------------->			
 			<div id="personalia" class="container tab-pane fade show active" role="tabpanel" aria-labelledby="personalia-tab"><br>
 				<h3>Basisinformatie</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo $wkz->id?>#personalia" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#personalia" id="postwz" novalidate>
 					<div class="input-group input-group-sm mb-2">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Voornaam</span>
 						</div>
-						<input type="text" name="voornaam" class="form-control" value="<?php echo $wkz->voornaam; ?>">
+						<input type="text" name="voornaam" class="form-control" value="<?php echo h($wkz->voornaam) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-2">
 						<div class="input-group-prepend" style="width: 30%;">
 							  <span class=" input-group-text text-left text-wrap" style="width: 100%;">Tussenvoegsels</span>
 						</div>
-						<input type="text" name="tussenvoegsels" class="form-control" value="<?php echo $wkz->tussenvoegsels; ?>">
+						<input type="text" name="tussenvoegsels" class="form-control" value="<?php echo h($wkz->tussenvoegsels) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-2">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Achternaam</span>
 						</div>
-						<input type="text" name="achternaam" class="form-control" value="<?php echo $wkz->achternaam; ?>" required>
+						<input type="text" name="achternaam" class="form-control" value="<?php echo h($wkz->achternaam) ?>" required>
 					</div>
 					<div class="input-group input-group-sm mb-2">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -265,69 +265,69 @@ foreach ($intakerLijst as $intaker)
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text text-left text-wrap" style="width: 100%;">Roepnaam</span>
 					  </div>
-					  <input type="text" name="roepnaam" class="form-control" value="<?php echo $intakeform->roepnaam; ?>">
+					  <input type="text" name="roepnaam" class="form-control" value="<?php echo h($intakeform->roepnaam) ?>">
 				  </div>
 				  <div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class=" input-group-text text-left text-wrap" style="width: 100%;">Straat</span>
 					  </div>
-					  <input type="text" name="straat" class="form-control" value="<?php echo $wkz->straat; ?>">
+					  <input type="text" name="straat" class="form-control" value="<?php echo h($wkz->straat) ?>">
 				  </div>
 				  <div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class=" input-group-text text-left text-wrap" style="width: 100%;">Huisnummer</span>
 					  </div>
-					  <input type="text" name="huisnummer" class="form-control" value="<?php echo $wkz->huisnummer; ?>">
+					  <input type="text" name="huisnummer" class="form-control" value="<?php echo h($wkz->huisnummer) ?>">
 				  </div>
 				  <div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class=" input-group-text text-left text-wrap" style="width: 100%;">Postcode</span>
 					  </div>
-					  <input type="text" name="postcode" class="form-control"  maxlength="7" value="<?php echo $wkz->postcode; ?>">
+					  <input type="text" name="postcode" class="form-control"  maxlength="7" value="<?php echo h($wkz->postcode) ?>">
 				  </div>
 				  <div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class=" input-group-text text-left text-wrap" style="width: 100%;">Woonplaats</span>
 					  </div>
-					  <input type="text" name="woonplaats" class="form-control" value="<?php echo $wkz->woonplaats; ?>" required>
+					  <input type="text" name="woonplaats" class="form-control" value="<?php echo h($wkz->woonplaats) ?>" required>
 				  </div>
 			
 				  <div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class=" input-group-text text-left text-wrap" style="width: 100%;">Emailadres</span>
 					  </div>
-					  <input type="email" name="emailadres" class="form-control" value="<?php echo $wkz->emailadres; ?>" disabled>
+					  <input type="email" name="emailadres" class="form-control" value="<?php echo h($wkz->emailadres) ?>" disabled>
 				  </div>
 				  <div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class=" input-group-text text-left text-wrap" style="width: 100%;">Telefoonnummer</span>
 					  </div>
-					  <input type="tel" name="telefoonnr" class="form-control"  maxlength="11" value="<?php echo $wkz->telefoonnr; ?>" required>
+					  <input type="tel" name="telefoonnr" class="form-control"  maxlength="11" value="<?php echo h($wkz->telefoonnr) ?>" required>
 				  </div>
 				  <div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class=" input-group-text text-left text-wrap" style="width: 100%;">Geboortedatum</span>
 					  </div>
-					  <input type="text" name="gebdatum" id="gebdatum" class="form-control" value="<?php echo $wkz->date_geboorte; ?>" maxlength="10" placeholder="jjjj-mm-dd">
+					  <input type="text" name="gebdatum" id="gebdatum" class="form-control" value="<?php echo h($wkz->date_geboorte) ?>" maxlength="10" placeholder="jjjj-mm-dd">
 				  </div>
 				  <div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class=" input-group-text text-left text-wrap" style="width: 100%;">Geboorteplaats</span>
 					  </div>
-					  <input type="text" name="gebplaats" class="form-control" value="<?php echo $intakeform->gebplaats; ?>">
+					  <input type="text" name="gebplaats" class="form-control" value="<?php echo h($intakeform->gebplaats) ?>">
 				  </div>
 				  <div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class=" input-group-text text-left text-wrap" style="width: 100%;">Geboorteland</span>
 					  </div>
-					  <input type="text" name="gebland" class="form-control" value="<?php echo $intakeform->gebland; ?>">
+					  <input type="text" name="gebland" class="form-control" value="<?php echo h($intakeform->gebland) ?>">
 				  </div>
 				  
 				  <div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class=" input-group-text text-left text-wrap" style="width: 100%;">Nationaliteit</span>
 					  </div>
-					  <input type="text" name="nationaliteit" class="form-control"  maxlength="3" value="<?php echo $intakeform->nationaliteit; ?>">
+					  <input type="text" name="nationaliteit" class="form-control"  maxlength="3" value="<?php echo h($intakeform->nationaliteit) ?>">
 				  </div>
 				  <div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
@@ -339,9 +339,9 @@ foreach ($intakerLijst as $intaker)
 					  <div class="input-group-prepend" style="width: 30%;">
 						  <span class=" input-group-text text-left text-wrap" style="width: 100%;">URL LinkedIn</span>
 					  </div>
-					  <input type="text" name="link_linkedin" class="form-control" value="<?php echo $wkz->link_linkedin; ?>">
+					  <input type="text" name="link_linkedin" class="form-control" value="<?php echo h($wkz->link_linkedin) ?>">
 					  	<?php if ($wkz->link_linkedin != ''): ?>
-							<a href="<?php echo $wkz->link_linkedin; ?>" target="_blank"><i class="fab fa-linkedin" style="font-size: 2em;"></i></a>
+							<a href="<?php echo h($wkz->link_linkedin) ?>" target="_blank"><i class="fab fa-linkedin" style="font-size: 2em;"></i></a>
 						<?php endif; ?>
 				  </div>
 				  <div class="forms-group mb-1">
@@ -354,18 +354,18 @@ foreach ($intakerLijst as $intaker)
 			
 			<div id="aanmelding" class="container tab-pane fade" role="tabpanel" aria-labelledby="aanmelding-tab"><br>
 				<h3>Aanmelding</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo $wkz->id?>#aanmelding" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#aanmelding" id="postwz" novalidate>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Situatie</span>
 					</div>
-					<textarea type="text" name="situatie" class="form-control" rows="8" disabled><?php echo $wkz->situatie; ?></textarea>
+					<textarea type="text" name="situatie" class="form-control" rows="8" disabled><?php echo h($wkz->situatie) ?></textarea>
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class="input-group-text text-left text-wrap" style="width: 100%;">Opmerkingen</span>
 					</div>
-					<textarea type="text" name="opmerkingen" class="form-control" rows="8" disabled><?php echo $wkz->opmerkingen; ?></textarea>				
+					<textarea type="text" name="opmerkingen" class="form-control" rows="8" disabled><?php echo h($wkz->opmerkingen) ?></textarea>				
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
@@ -413,7 +413,7 @@ foreach ($intakerLijst as $intaker)
 			<div id="gezin" class="container tab-pane fade" role="tabpanel" aria-labelledby="gezin-tab" hidden><br>
 			
 				<h3>Gezin</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo $wkz->id?>#gezin" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#gezin" id="postwz" novalidate>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Echtelijke staat</span>
@@ -431,13 +431,13 @@ foreach ($intakerLijst as $intaker)
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class="input-group-text text-left text-wrap" style="width: 100%;">Aantal volwassenen/kinderen</span>
 					</div>
-					<input type="text" name="volw_kind" class="form-control" value="<?php echo $intakeform->volw_kind; ?>" maxlength="120">				
+					<input type="text" name="volw_kind" class="form-control" value="<?php echo h($intakeform->volw_kind) ?>" maxlength="120">				
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Opleiding/beroep partner (indien relevant)</span>
 					</div>
-					<input type="text" name="partner_beroep" class="form-control" value="<?php echo $intakeform->partner_beroep; ?>" maxlength="120">
+					<input type="text" name="partner_beroep" class="form-control" value="<?php echo h($intakeform->partner_beroep) ?>" maxlength="120">
 				</div>
 				<div class="forms-group mb-1">
 					<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar3" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
@@ -449,7 +449,7 @@ foreach ($intakerLijst as $intaker)
 
 			<div id="ondersteuning" class="container tab-pane fade" role="tabpanel" aria-labelledby="ondersteuning-tab"><br>
 				<h3>Ondersteuning</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo $wkz->id?>#ondersteuning" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#ondersteuning" id="postwz" novalidate>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Wie heeft de werkzoekende aangemeld?</span>
@@ -466,7 +466,7 @@ foreach ($intakerLijst as $intaker)
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Hoe is werkzoekende bij JobHulp Culemborg terechtgekomen?</span>
 					</div>
-					<textarea type="text" name="bron" class="form-control"  rows="4" maxlength="8192"><?php echo $intakeform->bron; ?></textarea>
+					<textarea type="text" name="bron" class="form-control"  rows="4" maxlength="8192"><?php echo h($intakeform->bron) ?></textarea>
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
@@ -485,13 +485,13 @@ foreach ($intakerLijst as $intaker)
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Waar loopt werkzoekende tegenaan in huidige situatie/zoektocht naar (ander) werk?</span>
 					</div>
-					<textarea type="text" name="uitdagingen" class="form-control"  rows="4" ><?php echo $intakeform->uitdagingen; ?></textarea>
+					<textarea type="text" name="uitdagingen" class="form-control"  rows="4" ><?php echo h($intakeform->uitdagingen) ?></textarea>
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Is er sprake van iets waardoor JobHulp niet zou kunnen helpen? (bv. alcohol, drugs, psychische problemen etc.)</span>
 					</div>
-					<textarea type="text" name="beperking" class="form-control"  rows="4" ><?php echo $intakeform->beperking; ?></textarea>
+					<textarea type="text" name="beperking" class="form-control"  rows="4" ><?php echo h($intakeform->beperking) ?></textarea>
 				</div>
 				<!-- <div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
@@ -546,19 +546,19 @@ foreach ($intakerLijst as $intaker)
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">In geval van een uitkering of bijstand: wordt voldaan aan de sollicitatie-eis van de uitkerende instantie?</span>
 					</div>
-					<textarea type="text" name="eisen" class="form-control"  rows="4" ><?php echo $intakeform->eisen; ?></textarea>
+					<textarea type="text" name="eisen" class="form-control"  rows="4" ><?php echo h($intakeform->eisen) ?></textarea>
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Welk netwerk of welke hulpverlening is/was al aanwezig?</span>
 					</div>
-					<textarea type="text" name="netwerken" class="form-control" rows="4" ><?php echo $intakeform->netwerken; ?></textarea>
+					<textarea type="text" name="netwerken" class="form-control" rows="4" ><?php echo h($intakeform->netwerken) ?></textarea>
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Is andere hulp gewenst? Zo ja, welke?</span>
 					</div>
-					<textarea type="text" name="andere_hulp" class="form-control" rows="4" ><?php echo $intakeform->andere_hulp; ?></textarea>
+					<textarea type="text" name="andere_hulp" class="form-control" rows="4" ><?php echo h($intakeform->andere_hulp) ?></textarea>
 				</div>
 				<div class="forms-group mb-1">
 					<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar4" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
@@ -570,7 +570,7 @@ foreach ($intakerLijst as $intaker)
 			
 			<div id="ervaring" class="container tab-pane fade" role="tabpanel" aria-labelledby="ervaring-tab"><br>
 				<h3>Ervaring en opleiding</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo $wkz->id?>#ervaring" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#ervaring" id="postwz" novalidate>
 				<div class="input-group input-group-sm mb-2">
 				  	<div class="input-group-prepend" style="width: 30%;">
 					  <span class="input-group-text text-left text-wrap" style="width: 100%;">Recent CV aanwezig? (Alleen nodig als er geen goed LinkedIn profiel is)</span>
@@ -615,14 +615,14 @@ foreach ($intakerLijst as $intaker)
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Is er bereidheid om tijd en/of middelen te steken in een aanvullende opleiding of stage? Zijn er beperkende factoren?</span>
 					</div>
-					<textarea type="text" name="studie" class="form-control" rows="4"><?php echo $intakeform->studie; ?></textarea>
+					<textarea type="text" name="studie" class="form-control" rows="4"><?php echo h($intakeform->studie) ?></textarea>
 				</div>
 	
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Werkervaring (indien er geen CV is en geen LinkedIn profiel)</span>
 					</div>
-					<textarea type="text" name="werkervaring" class="form-control" rows="4" ><?php echo $intakeform->werkervaring; ?></textarea>
+					<textarea type="text" name="werkervaring" class="form-control" rows="4" ><?php echo h($intakeform->werkervaring) ?></textarea>
 				</div>
 				<div class="forms-group mb-1">
 					<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar5" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
@@ -634,18 +634,18 @@ foreach ($intakerLijst as $intaker)
 			
 			<div id="nieuw_werk" class="container tab-pane fade" role="tabpanel" aria-labelledby="nieuw_werk-tab"><br>
 				<h3>Eisen en wensen voor nieuw werk</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo $wkz->id?>#nieuw_werk" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#nieuw_werk" id="postwz" novalidate>
 				<div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 					  <span class="input-group-text text-left text-wrap" style="width: 100%;">In welke richting wil de werkzoekende betaald werk vinden?</span>
 					  </div>
-					  <textarea type="text" name="werk_gewenst" class="form-control" rows="4"><?php echo $intakeform->werk_gewenst; ?></textarea>				
+					  <textarea type="text" name="werk_gewenst" class="form-control" rows="4"><?php echo h($intakeform->werk_gewenst) ?></textarea>				
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 					  <span class="input-group-text text-left text-wrap" style="width: 100%;">Zijn er sociale of medische beperkingen? (bv. arbeidsongeschiktheid, laaggeletterdheid, autisme, aphasie etc.)</span>
 					  </div>
-					  <textarea type="text" name="voorwaarden" class="form-control" rows="4"><?php echo $intakeform->voorwaarden; ?></textarea>				
+					  <textarea type="text" name="voorwaarden" class="form-control" rows="4"><?php echo h($intakeform->voorwaarden) ?></textarea>				
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
@@ -690,19 +690,19 @@ foreach ($intakerLijst as $intaker)
 					  <div class="input-group-prepend" style="width: 30%;">
 					  <span class="input-group-text text-left text-wrap" style="width: 100%;">Maximale reistijd</span>
 					  </div>
-					  <input type="text" name="reistijd" class="form-control" value="<?php echo $intakeform->reistijd; ?>">				
+					  <input type="text" name="reistijd" class="form-control" value="<?php echo h($intakeform->reistijd) ?>">				
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 					  <span class="input-group-text text-left text-wrap" style="width: 100%;">Beschikbaar vervoer</span>
 					  </div>
-					  <input type="text" name="vervoer" class="form-control" value="<?php echo $intakeform->vervoer; ?>">				
+					  <input type="text" name="vervoer" class="form-control" value="<?php echo h($intakeform->vervoer) ?>">				
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Verdere bijzonderheden</span>
 					</div>
-					<textarea type="text" name="werkbijzh" class="form-control" rows="4"><?php echo $intakeform->werkbijzh; ?></textarea>
+					<textarea type="text" name="werkbijzh" class="form-control" rows="4"><?php echo h($intakeform->werkbijzh) ?></textarea>
 				</div>
 				<div class="forms-group mb-1">
 					<button<?= knop_uit('was_wijzigen') ?> name="saveWzBut" value="bewaar6" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>
@@ -714,7 +714,7 @@ foreach ($intakerLijst as $intaker)
 			
 			<div id="overig" class="container tab-pane fade" role="tabpanel" aria-labelledby="overig-tab"><br>
 				<h3>Overige informatie</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo $wkz->id?>#overig" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#overig" id="postwz" novalidate>
 				<div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 					  <span class="input-group-text text-left text-wrap" style="width: 100%;">Intake afgenomen door</span>
@@ -727,7 +727,7 @@ foreach ($intakerLijst as $intaker)
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Overige opmerkingen</span>
 					</div>
-					<textarea type="text" name="overige_opm" class="form-control" rows="8"><?php echo $intakeform->overige_opm; ?></textarea>
+					<textarea type="text" name="overige_opm" class="form-control" rows="8"><?php echo h($intakeform->overige_opm) ?></textarea>
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
@@ -782,24 +782,24 @@ foreach ($intakerLijst as $intaker)
 			
 			<div id="akkoord" class="container tab-pane fade" role="tabpanel" aria-labelledby="akkoord-tab"><br>
 				<h3>Akkoord</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo $wkz->id?>#akkoord" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#akkoord" id="postwz" novalidate>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text" style="width: 100%;">Datum</span>
 					</div>
-					<input type="date" id="akkoord_datum" name="akkoord_datum" class="form-control" value="<?php echo $intakeform->akkoord_datum; ?>" placeholder="jjjj-mm-dd">
+					<input type="date" id="akkoord_datum" name="akkoord_datum" class="form-control" value="<?php echo h($intakeform->akkoord_datum) ?>" placeholder="jjjj-mm-dd">
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text" style="width: 100%;">Plaats</span>
 					</div>
-					<input type="text" name="akkoord_plaats" class="form-control" value="<?php echo $intakeform->akkoord_plaats; ?>" maxlength="80">
+					<input type="text" name="akkoord_plaats" class="form-control" value="<?php echo h($intakeform->akkoord_plaats) ?>" maxlength="80">
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text" style="width: 100%;">Naam</span>
 					</div>
-					<input type="text" name="akkoord_naam" class="form-control" value="<?php echo $intakeform->akkoord_naam; ?>" maxlength="80">
+					<input type="text" name="akkoord_naam" class="form-control" value="<?php echo h($intakeform->akkoord_naam) ?>" maxlength="80">
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
@@ -820,7 +820,7 @@ foreach ($intakerLijst as $intaker)
 	
 			<div id="advies" class="container tab-pane fade" role="tabpanel" aria-labelledby="advies-tab"><br>
 				<h3>Advies</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo $wkz->id?>#advies" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#advies" id="postwz" novalidate>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class="input-group-text text-left text-wrap" style="width: 100%;">Advies deelname jobgroep</span>
@@ -855,13 +855,13 @@ foreach ($intakerLijst as $intaker)
 					  <div class="input-group-prepend" style="width: 30%;">
 					  <span class="input-group-text text-left text-wrap" style="width: 100%;">JobHulp Culemborg kan helaas niet helpen want ...</span>
 					  </div>
-					  <textarea type="text" name="advnietontv" class="form-control" rows="4"><?php echo $intakeform->advnietontv; ?></textarea>				
+					  <textarea type="text" name="advnietontv" class="form-control" rows="4"><?php echo h($intakeform->advnietontv) ?></textarea>				
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 					  <span class="input-group-text text-left text-wrap" style="width: 100%;">Overige opmerkingen.</span>
 					  </div>
-					  <textarea type="text" name="advopmerkingen" class="form-control" rows="4"><?php echo $intakeform->advopmerkingen; ?></textarea>				
+					  <textarea type="text" name="advopmerkingen" class="form-control" rows="4"><?php echo h($intakeform->advopmerkingen) ?></textarea>				
 				</div>
 				<div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">

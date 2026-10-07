@@ -63,7 +63,7 @@ foreach ($userColl->userColl as $user)
 
 	$html .='
 	<tr>
-			<td>' . $user->voornaam . ' ' . $user->tussenvoegsels . ' ' . $user->achternaam . '</td>
+			<td>' . h($user->voornaam) . ' ' . h($user->tussenvoegsels) . ' ' . h($user->achternaam) . '</td>
 			<td>
 				<label>komt naar de meeting&nbsp;&nbsp;</label>
 				<input type="checkbox" data-toggle="toggle" data-size="sm" data-on="' . $first_text . '" data-off="' . $second_text . '" data-onstyle="success" data-offstyle="secondary" ' .
@@ -112,7 +112,7 @@ foreach ($userColl->userColl as $user)
 	<div class="container my-5" >
 		<?php $date = new DateTime();
 			$datum = $date->format("j F Y"); ?>
-		<h3 class="bluefont"><?php echo $datum; ?></h3>
+		<h3 class="bluefont"><?php echo h($datum) ?></h3>
 		<h1 class="text-black mb-5 bluefont">Aanwezigheidslijst 14 december</h1>
 		<table class="table table-sm">
 		<thead>

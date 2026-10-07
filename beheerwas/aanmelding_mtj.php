@@ -33,10 +33,7 @@ function calculateAge(string $date): int
 }
 
 /** Veilige output: voorkomt XSS */
-function h(?string $value): string
-{
-	return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
-}
+// h() staat nu in config.php (voor alle pagina's)
 
 // Terug-knop
 if (isset($_POST['backMtBut']) && $_POST['backMtBut'] === 'back') {
@@ -263,7 +260,7 @@ $(document).ready(function () {
 						<span class="input-group-text" style="width: 100%;">Leeftijd</span>
 					</div>
 					<input type="text" class="form-control"
-						   value="<?php echo ($mtj->date_geboorte ?? '') !== '' ? calculateAge($mtj->date_geboorte) : ''; ?>"
+						   value="<?php echo h(($mtj->date_geboorte ?? '') !== '' ? calculateAge($mtj->date_geboorte) : '') ?>"
 						   disabled>
 				</div>
 

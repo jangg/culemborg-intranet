@@ -40,12 +40,12 @@ foreach($categorieColl->categorieColl as $categorie)
 	$html .= '	
 	<tr class="d-flex mx-0">
 	<td class="col-7 mx-0">
-	<span class="lead"><a href="overz_cat.php?id=' . $categorie->id . '">' . $categorie->naam . '</a></span><br/>' . $categorie->omschrijving . 
+	<span class="lead"><a href="overz_cat.php?id=' . h($categorie->id) . '">' . h($categorie->naam) . '</a></span><br/>' . h($categorie->omschrijving) . 
 	'</td>
 	<td class="col-1 text-center mx-0">' . $aantalTopics . '</td>
 	<td class="col-1 text-center mx-0">' . $aantalPosts . '</td>
 	<td class="col-2 text-center mx-0">' . $datum_lp2 . '</td>
-    <td class="col-1 text-center mx-0">' . $user_laatste_post->voornaam . ' ' . $user_laatste_post->tussenvoegsels . ' ' . $user_laatste_post->achternaam . '</td>
+    <td class="col-1 text-center mx-0">' . h($user_laatste_post->voornaam) . ' ' . h($user_laatste_post->tussenvoegsels) . ' ' . h($user_laatste_post->achternaam) . '</td>
 	</tr>';
 }
 ?>

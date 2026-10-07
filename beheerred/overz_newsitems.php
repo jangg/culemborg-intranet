@@ -52,16 +52,16 @@ foreach($newsitemColl->newsitemColl as $newsitem)
 	$user_created = new User ('id', $newsitem->id_user_created);
 	$html .= '		
 	<tr style="font-size: 0.9em;">
-		<td style="text-align: center;" class="p-0"><a href="mut_newsitem.php?id=' . $newsitem->id . '"><i class="fas fa-newspaper"></i></i></a></td>
-		<td class="p-0 text-center">' . $newsitem->datetime_created		. '</td>
-		<td class="p-0 text-center">' . $newsitem->datetime_modified	. '</td>
-		<td class="p-0 text-center">' . $user_created->username	. '</td>
-		<td class="p-0 text-left">' . $newsitem->titel				. '</td>
-		<td class="p-0 text-center">' . $newsitem->pubind_intern		. '</td>
+		<td style="text-align: center;" class="p-0"><a href="mut_newsitem.php?id=' . h($newsitem->id) . '"><i class="fas fa-newspaper"></i></i></a></td>
+		<td class="p-0 text-center">' . h($newsitem->datetime_created)		. '</td>
+		<td class="p-0 text-center">' . h($newsitem->datetime_modified)	. '</td>
+		<td class="p-0 text-center">' . h($user_created->username)	. '</td>
+		<td class="p-0 text-left">' . h($newsitem->titel)				. '</td>
+		<td class="p-0 text-center">' . h($newsitem->pubind_intern)		. '</td>
 		<td class="p-0 text-center">' . substr($newsitem->datetime_pub_intern, 0, 10) . '</td>
-		<td class="p-0 text-center">' . $newsitem->pubind_extern		. '</td>
+		<td class="p-0 text-center">' . h($newsitem->pubind_extern)		. '</td>
 		<td class="p-0 text-center">' . substr($newsitem->datetime_pub_extern, 0, 10) . '</td>
-		<td style="text-align: center;" class="p-0"><a href="overz_newsitems.php?id=' . $newsitem->id . '&del=j"' . ' onclick="return confirm(\'Weet je zeker dat je dit bericht wilt verwijderen?\');"><i class="fa-regular fa-trash-can"></i></a></td>
+		<td style="text-align: center;" class="p-0"><a href="overz_newsitems.php?id=' . h($newsitem->id) . '&del=j"' . ' onclick="return confirm(\'Weet je zeker dat je dit bericht wilt verwijderen?\');"><i class="fa-regular fa-trash-can"></i></a></td>
 		</tr>';
 }
 ?>

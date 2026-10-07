@@ -130,19 +130,19 @@ if (isset($_POST['updateMtBut']) && $_POST['updateMtBut'] == 'wijzig')
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Datum</span>
 						</div>
-						<input type="text" name="publDatumL" id="publDatumL" class="form-control" value="<?php echo $postitL->publDatum; ?>">
+						<input type="text" name="publDatumL" id="publDatumL" class="form-control" value="<?php echo h($postitL->publDatum) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text" style="width: 100%;">Titel</span>
 						</div>
-						<input type="text" name="titelL" class="form-control" value="<?php echo $postitL->titel; ?>" required>
+						<input type="text" name="titelL" class="form-control" value="<?php echo h($postitL->titel) ?>" required>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Tekst (max. 100 char)</span>
 						</div>
-						<input type="text" name="tekstL" class="form-control" value="<?php echo $postitL->tekst; ?>">
+						<input type="text" name="tekstL" class="form-control" value="<?= h($postitL->tekst) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -154,13 +154,13 @@ if (isset($_POST['updateMtBut']) && $_POST['updateMtBut'] == 'wijzig')
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Link (URL)</span>
 						</div>
-						<input type="text" name="linkL" class="form-control" value="<?php echo $postitL->link; ?>">
+						<input type="text" name="linkL" class="form-control" value="<?php echo h($postitL->link) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Kleur</span>
 						</div>
-						<input type="text" name="kleurL" class="form-control" value="<?php echo $postitL->kleur; ?>">
+						<input type="text" name="kleurL" class="form-control" value="<?php echo h($postitL->kleur) ?>">
 					</div>
 				</div>
 				<div class="col-md-6 bg-light mt-2 pt-2">
@@ -175,19 +175,19 @@ if (isset($_POST['updateMtBut']) && $_POST['updateMtBut'] == 'wijzig')
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Datum</span>
 						</div>
-						<input type="text" name="publDatumR" id="publDatumR" class="form-control" value="<?php echo $postitR->publDatum; ?>">
+						<input type="text" name="publDatumR" id="publDatumR" class="form-control" value="<?php echo h($postitR->publDatum) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text" style="width: 100%;">Titel</span>
 						</div>
-						<input type="text" name="titelR" class="form-control" value="<?php echo $postitR->titel; ?>" required>
+						<input type="text" name="titelR" class="form-control" value="<?php echo h($postitR->titel) ?>" required>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Tekst (max. 100 char)</span>
 						</div>
-						<input type="text" name="tekstR" class="form-control" value="<?php echo $postitR->tekst; ?>">
+						<input type="text" name="tekstR" class="form-control" value="<?= h($postitR->tekst) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -199,13 +199,13 @@ if (isset($_POST['updateMtBut']) && $_POST['updateMtBut'] == 'wijzig')
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Link (URL)</span>
 						</div>
-						<input type="text" name="linkR" class="form-control" value="<?php echo $postitR->link; ?>">
+						<input type="text" name="linkR" class="form-control" value="<?php echo h($postitR->link) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Kleur</span>
 						</div>
-						<input type="text" name="kleurR" class="form-control" value="<?php echo $postitR->kleur; ?>">
+						<input type="text" name="kleurR" class="form-control" value="<?php echo h($postitR->kleur) ?>">
 					</div>
 					<div class="forms-group mb-1">
 						<button name="updateMtBut" value="wijzig" type="submit" class="btn btn-primary btn-width btn-sm">Wijzig</button>

@@ -120,7 +120,7 @@ foreach ($agenda as $agendaitem)
 		$agenda_html .=
 		'</div><div class="col-4 ">'
 		. '<i class="far fa-clock" aria-hidden="true"></i> ' . $begintijd . ' - ' . $eindtijd . '<br/>'
-		. '<i class="fa fa-map-marker-alt" aria-hidden="true"></i> ' . $agendaitem->locatie . '<br/>
+		. '<i class="fa fa-map-marker-alt" aria-hidden="true"></i> ' . h($agendaitem->locatie) . '<br/>
 		<br/>
 		</div></div>';
 	}

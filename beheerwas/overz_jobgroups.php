@@ -54,15 +54,15 @@ foreach($jobgroupColl->jobgroupColl as $jobgroup)
 	}
 	$html .= '		
 	<tr style="font-size: 0.9em;">
-		<td style="text-align: center;" class="p-0"><a href="mut_jobgroup.php?id=' . $jobgroup->id . '"><i class="bi bi-people"></i></a></td>
-		<td style="text-align: left;" class="p-0">' . $jobgroup->titel . '</td>
-		<td class="p-0">' . $jobgroup->status . '</td>
+		<td style="text-align: center;" class="p-0"><a href="mut_jobgroup.php?id=' . h($jobgroup->id) . '"><i class="bi bi-people"></i></a></td>
+		<td style="text-align: left;" class="p-0">' . h($jobgroup->titel) . '</td>
+		<td class="p-0">' . h($jobgroup->status) . '</td>
 		<td class="p-0">' . $online . '</td>
 		<td style="text-align: left;" class="p-0">' . $locatie . '</td>
-		<td class="p-0">' . $jobgroup->startDate . '</td>
-		<td class="p-0">' . $jobgroup->soort . '</td>
-		<td class="p-0">' . $jobgroup->nbrSessies() . '</td>
-		<td class="p-0">' . $jobgroup->nbrPlaatsen . '</td>
+		<td class="p-0">' . h($jobgroup->startDate) . '</td>
+		<td class="p-0">' . h($jobgroup->soort) . '</td>
+		<td class="p-0">' . h($jobgroup->nbrSessies()) . '</td>
+		<td class="p-0">' . h($jobgroup->nbrPlaatsen) . '</td>
 		<td class="p-0">' . ($jobgroup->nbrPlaatsen - $jobgroup->nbrDeelnemers()) . '</td>
 	</tr>';
 }

@@ -100,20 +100,20 @@ $fotopath = 'fotoos_person/';
 					if ($maatje->telefoonnr == '')
 						$telefoon = '--'; else $telefoon = $maatje->telefoonnr;
 					if (substr($maatje->telefoonnr, 0, 3) == '06-')
-						$whatsapp = '<a href="https://wa.me/316' . substr($maatje->telefoonnr, 3, 8) . '">WhatsApp ' . $maatje->voornaam . '</a>';
+						$whatsapp = '<a href="https://wa.me/316' . h(substr($maatje->telefoonnr, 3, 8)) . '">WhatsApp ' . h($maatje->voornaam) . '</a>';
 						else $whatsapp = '--';		
 						if ($maatje->link_linkedin == '')
 						$linkedin = '--'; else {
 							$link = explode('/', $maatje->link_linkedin);
-							$linkedin = '<a href="' . $maatje->link_linkedin . '">' . $maatje->voornaam . $maatje->tussenvoegsels . $maatje->achternaam . '</a>';
+							$linkedin = '<a href="' . h($maatje->link_linkedin) . '">' . $maatje->voornaam . $maatje->tussenvoegsels . $maatje->achternaam . '</a>';
 						}
 					echo '		
 					<div class="card bg-light m-1 m-lg-2 shadow-sm">
 						<img class="card-img-top" src="' . $picture . '" alt="">
 						<div class="card-body m-0 px-1 py-2 px-lg-2">
-							<h5 class="card-title">' . $maatje->voornaam . ' ' . $maatje->tussenvoegsels . ' ' . $maatje->achternaam .'</h5>
-							<h6 class="card-subtitle text-muted">' . $maatje->functie . '</h6>
-							<p class="card-text mt-2">' . $maatje->omschrijving . '</p>
+							<h5 class="card-title">' . h($maatje->voornaam) . ' ' . h($maatje->tussenvoegsels) . ' ' . h($maatje->achternaam) .'</h5>
+							<h6 class="card-subtitle text-muted">' . h($maatje->functie) . '</h6>
+							<p class="card-text mt-2">' . h($maatje->omschrijving) . '</p>
 						</div>
 						<ul class="list-group m-1 p-0" style="list-style-type: none;">
 						    <li class="m-0 p-1"><i class="fa fa-envelope"></i><a href="mailto:' . $email . '">&nbsp&nbsp' . $email . '</a></li>

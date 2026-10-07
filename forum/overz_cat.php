@@ -25,7 +25,7 @@ if (isset($_SESSION['userid']))
 
 if (isset($_GET['id']) && is_numeric($_GET['id']))
 {
-	$_SESSION['id_cat'] = $_GET['id'];
+	$_SESSION['id_cat'] = (int)$_GET['id'];
 }
 else
 {
@@ -100,7 +100,7 @@ foreach($topicsColl->topicColl as $topic){
 	if ($laatste_post->id != NULL)
 	{
 		$user_lp = new User ('id', $laatste_post->id_user);
-		$user_lp_name = $user_lp->voornaam . ' ' . $user_lp->tussenvoegsels . ' ' . $user_lp->achternaam;
+		$user_lp_name = $user_lp->voornaam . ' ' . h($user_lp->tussenvoegsels) . ' ' . h($user_lp->achternaam);
 		$datum_lp2 = Tools::ConvertTS($laatste_post->datum);
 		$laatste_post_tekst = $laatste_post->getShortPost(20);	
 	} else
@@ -112,8 +112,8 @@ foreach($topicsColl->topicColl as $topic){
 
 	$html .= '	
 	<tr class="d-flex mx-0">
-		 <td class="col-4 mx-0 d-none d-md-block"><a href="overz_topic.php?id=' . $topic->id . '">' . $topic->onderwerp . '</a></span></td>
-		 <td class="col-5 mx-0 d-md-none"><a href="overz_topic.php?id=' . $topic->id . '">' . $topic->onderwerp . '</a></span></td>
+		 <td class="col-4 mx-0 d-none d-md-block"><a href="overz_topic.php?id=' . h($topic->id) . '">' . h($topic->onderwerp) . '</a></span></td>
+		 <td class="col-5 mx-0 d-md-none"><a href="overz_topic.php?id=' . h($topic->id) . '">' . h($topic->onderwerp) . '</a></span></td>
 		 <td class="col-1 text-center mx-0">' . $aantal . '</td>
 		 <td class="col-2 text-center mx-0 overflow-hidden d-none d-md-block">' . $datum_lp2 . '</td>
 		 <td class="col-4 text-left mx-0">' . $laatste_post_tekst . '</td>
@@ -182,7 +182,7 @@ foreach($topicsColl->topicColl as $topic){
 		</div>
         <div class="container">
             <div class="row mt-4">
-					<div class="col-md-11 px-0"><h2 class="bluefont">Categorie:&nbsp<?php echo $categorie->naam; ?></h2></div>
+					<div class="col-md-11 px-0"><h2 class="bluefont">Categorie:&nbsp<?php echo h($categorie->naam) ?></h2></div>
 				<div class="col-md-1">
 					<button type="button" class="btn btn-primary" ><a class="text-white" href="overz_forum.php">terug</a></button>
 	            </div>

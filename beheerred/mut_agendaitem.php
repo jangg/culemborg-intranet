@@ -25,7 +25,7 @@ if (isset($_SESSION['userid']))
 
 if (isset($_GET['id']))
 {
-	$_SESSION['agendaitem_id'] = $_GET['id'];
+	$_SESSION['agendaitem_id'] = (int)$_GET['id'];
 	/* Haal de agendaitem op */
 	$agendaitem = new Agendaitem ('id', $_SESSION['agendaitem_id']);
 	
@@ -173,37 +173,37 @@ $user_created = new User ('id', $agendaitem->id_user_created);
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Datum gemaakt</span>
 						</div>
-						<input id="datetime_created" type="text" name="datetime_created" class="form-control" value="<?php echo $agendaitem->datetime_created; ?>" disabled>
+						<input id="datetime_created" type="text" name="datetime_created" class="form-control" value="<?php echo h($agendaitem->datetime_created) ?>" disabled>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						<span class="input-group-text" style="width: 100%;">Datum gewijzigd</span>
 						</div>
-						<input id="datetime_modified" type="text" name="datetime_modified" class="form-control" value="<?php echo $agendaitem->datetime_modified; ?>" disabled>
+						<input id="datetime_modified" type="text" name="datetime_modified" class="form-control" value="<?php echo h($agendaitem->datetime_modified) ?>" disabled>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						<span class="input-group-text" style="width: 100%;">Laatst gewijzigd door</span>
 						</div>
-						<input id="user_created" type="text" name="user_created" class="form-control" value="<?php echo $user_created->username; ?>" disabled>
+						<input id="user_created" type="text" name="user_created" class="form-control" value="<?php echo h($user_created->username) ?>" disabled>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Datum start</span>
 						</div>
-						<input id="datum" type="text" name="datum" class="form-control" value="<?php echo $agendaitem->datum; ?>">
+						<input id="datum" type="text" name="datum" class="form-control" value="<?php echo h($agendaitem->datum) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Begin tijd</span>
 						</div>
-						<input id="begintijd" type="text" name="begintijd" class="form-control" value="<?php echo substr($agendaitem->begintijd, 0, 5); ?>">
+						<input id="begintijd" type="text" name="begintijd" class="form-control" value="<?php echo h(substr($agendaitem->begintijd, 0, 5)) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Eind tijd</span>
 						</div>
-						<input id="eindtijd" type="text" name="eindtijd" class="form-control" value="<?php echo substr($agendaitem->eindtijd, 0, 5); ?>">
+						<input id="eindtijd" type="text" name="eindtijd" class="form-control" value="<?php echo h(substr($agendaitem->eindtijd, 0, 5)) ?>">
 					</div>
 
 					<div class="input-group input-group-sm mb-1">
@@ -224,25 +224,25 @@ $user_created = new User ('id', $agendaitem->id_user_created);
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Titel</span>
 						</div>
-						<input id="titel" type="text" name="titel" class="form-control" value="<?php echo $agendaitem->titel; ?>">
+						<input id="titel" type="text" name="titel" class="form-control" value="<?php echo h($agendaitem->titel) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 100%;">
 							<span class=" input-group-text" style="width: 100%;">Omschrijving</span>
 						</div>
-						<textarea style="width: 100%;" type="text" name="omschrijving" class="form-control summernote" rows="8"><?php echo $agendaitem->omschrijving; ?></textarea>
+						<textarea style="width: 100%;" type="text" name="omschrijving" class="form-control summernote" rows="8"><?php echo h($agendaitem->omschrijving) ?></textarea>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Locatie</span>
 						</div>
-						<input id="locatie" type="text" name="locatie" class="form-control" value="<?php echo $agendaitem->locatie; ?>">
+						<input id="locatie" type="text" name="locatie" class="form-control" value="<?php echo h($agendaitem->locatie) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Organisator</span>
 						</div>
-						<input id="organisator" type="text" name="organisator" class="form-control" value="<?php echo $agendaitem->organisator; ?>">
+						<input id="organisator" type="text" name="organisator" class="form-control" value="<?php echo h($agendaitem->organisator) ?>">
 					</div>
 
 					<div class="input-group input-group-sm mb-2">
@@ -262,19 +262,19 @@ $user_created = new User ('id', $agendaitem->id_user_created);
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Contactpersoon</span>
 						</div>
-						<input id="freefld1" type="text" name="freefld1" class="form-control" value="<?php echo $agendaitem->freefld1; ?>">
+						<input id="freefld1" type="text" name="freefld1" class="form-control" value="<?php echo h($agendaitem->freefld1) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Vragen?</span>
 						</div>
-						<input id="freefld2" type="text" name="freefld2" class="form-control" value="<?php echo $agendaitem->freefld2; ?>">
+						<input id="freefld2" type="text" name="freefld2" class="form-control" value="<?php echo h($agendaitem->freefld2) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Vrij veld</span>
 						</div>
-						<input id="freefld3" type="text" name="freefld3" class="form-control" value="<?php echo $agendaitem->freefld3; ?>">
+						<input id="freefld3" type="text" name="freefld3" class="form-control" value="<?php echo h($agendaitem->freefld3) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -284,8 +284,8 @@ $user_created = new User ('id', $agendaitem->id_user_created);
 							<option value="">--</option>
 							<?php foreach ($files as $file): ?>
 							<?php if (is_file($directory . "/" . $file)): ?>
-							<option value="<?php echo $file; ?>" <?php if ($agendaitem->freefld4 == $file) {echo " selected";} ?>>
-							<?php echo $file; ?>
+							<option value="<?php echo h($file) ?>" <?php if ($agendaitem->freefld4 == $file) {echo " selected";} ?>>
+							<?php echo h($file) ?>
 							</option>
 							<?php endif; ?>
 							<?php endforeach; ?>

@@ -203,52 +203,52 @@ if ($wkz->date_geboorte != '')
 }
 
 $html =
-'<h1 style="">' . $wkz->voornaam . ' ' . $wkz->tussenvoegsels . ' ' . $wkz->achternaam . '</h1><br/>
+'<h1 style="">' . h($wkz->voornaam) . ' ' . h($wkz->tussenvoegsels) . ' ' . h($wkz->achternaam) . '</h1><br/>
 <h5>Printdatum: ' . $today . '</h5><br/><br/>
 <h4 style="border-top: 2px solid black;">Persoonsgegevens</h4>
 <table>
 <tr><td style="width: 30%;"></td><td style="width: 2%;"></td><td style="width: 73%;"></td></tr>
-<tr><td>Naam</td><td>:</td><td>' . $wkz->voornaam . ' ' . $wkz->tussenvoegsels . ' ' . $wkz->achternaam . '</td></tr>
-<tr><td>Roepnaam</td><td>:</td><td>' . $intakeform->roepnaam . '</td></tr>
-<tr><td>Adres</td><td>:</td><td>' . $wkz->straat . ' ' . $wkz->huisnummer . '</td></tr>
-<tr><td>Postcode</td><td>:</td><td>' . $wkz->postcode . '</td></tr>
-<tr><td>Woonplaats</td><td>:</td><td>' . $wkz->woonplaats . '</td></tr>
-<tr><td>Emailadres</td><td>:</td><td>' . $wkz->emailadres . '</td></tr>
-<tr><td>Telefoon</td><td>:</td><td>' . $wkz->telefoonnr . '</td></tr>
+<tr><td>Naam</td><td>:</td><td>' . h($wkz->voornaam) . ' ' . h($wkz->tussenvoegsels) . ' ' . h($wkz->achternaam) . '</td></tr>
+<tr><td>Roepnaam</td><td>:</td><td>' . h($intakeform->roepnaam) . '</td></tr>
+<tr><td>Adres</td><td>:</td><td>' . h($wkz->straat) . ' ' . h($wkz->huisnummer) . '</td></tr>
+<tr><td>Postcode</td><td>:</td><td>' . h($wkz->postcode) . '</td></tr>
+<tr><td>Woonplaats</td><td>:</td><td>' . h($wkz->woonplaats) . '</td></tr>
+<tr><td>Emailadres</td><td>:</td><td>' . h($wkz->emailadres) . '</td></tr>
+<tr><td>Telefoon</td><td>:</td><td>' . h($wkz->telefoonnr) . '</td></tr>
 <tr><td>Geboortedatum</td><td>:</td><td>' . $date_geboorte . '</td></tr>
-<tr><td>Geboorteplaats</td><td>:</td><td>' . $intakeform->gebplaats . '</td></tr>
-<tr><td>Geboorteland</td><td>:</td><td>' . $intakeform->gebland . '</td></tr>
-<tr><td>Nationaliteit</td><td>:</td><td>' . $intakeform->nationaliteit . '</td></tr>
-<tr><td>URL LinkedIn</td><td>:</td><td>' . $wkz->link_linkedin . '</td></tr><br/>
+<tr><td>Geboorteplaats</td><td>:</td><td>' . h($intakeform->gebplaats) . '</td></tr>
+<tr><td>Geboorteland</td><td>:</td><td>' . h($intakeform->gebland) . '</td></tr>
+<tr><td>Nationaliteit</td><td>:</td><td>' . h($intakeform->nationaliteit) . '</td></tr>
+<tr><td>URL LinkedIn</td><td>:</td><td>' . h($wkz->link_linkedin) . '</td></tr><br/>
 </table><br/><br/><br/>
 <h4 style="border-top: 2px solid black;">Aanmelding</h4>
 <table>
 <tr><td style="width: 30%;"></td><td style="width: 2%;"></td><td style="width: 73%;"></td></tr>
-<tr><td>Situatie</td><td>:</td><td>' . $wkz->situatie . '</td></tr>
-<tr><td>Opmerkingen</td><td>:</td><td>' . $wkz->opmerkingen . '</td></tr>
+<tr><td>Situatie</td><td>:</td><td>' . h($wkz->situatie) . '</td></tr>
+<tr><td>Opmerkingen</td><td>:</td><td>' . h($wkz->opmerkingen) . '</td></tr>
 <tr><td>U heeft zich aangemeld voor</td><td>:</td><td>' . chkchkbx($wkz->opties) . '</td></tr>
 </table><br/><br/><br/>
 <h4 style="border-top: 2px solid black;">Gezinssituatie</h4>
 <table>
 <tr><td style="width: 30%;"></td><td style="width: 2%;"></td><td style="width: 73%;"></td></tr>
 <tr><td>Relatie</td><td>:</td><td>' . chkrelatie($intakeform->relatie) . '</td></tr>
-<tr><td>Aantal volw/kinderen</td><td>:</td><td>' . $intakeform->volw_kind . '</td></tr>
-<tr><td>Opleiding/beroep partner (indien relevant)</td><td>:</td><td>' . $intakeform->partner_beroep . '</td></tr>
+<tr><td>Aantal volw/kinderen</td><td>:</td><td>' . h($intakeform->volw_kind) . '</td></tr>
+<tr><td>Opleiding/beroep partner (indien relevant)</td><td>:</td><td>' . h($intakeform->partner_beroep) . '</td></tr>
 </table><br/><br/><br/>
 <h4 style="border-top: 2px solid black;">Ondersteuning</h4>
 <table>
 <tr><td style="width: 30%;"></td><td style="width: 2%;"></td><td style="width: 73%;"></td></tr>
 <tr><td>Wie heeft de werkzoekende aangemeld?</td><td>:</td><td>' . chkaanmelding($intakeform->aanmelding) . '</td></tr>
-<tr><td>Hoe is werkzoekende bij ' . LOC_NAME . ' terechtgekomen?</td><td>:</td><td>' . $intakeform->bron . '</td></tr>
+<tr><td>Hoe is werkzoekende bij ' . LOC_NAME . ' terechtgekomen?</td><td>:</td><td>' . h($intakeform->bron) . '</td></tr>
 <tr><td>Huidige regeling</td><td>:</td><td>' . chkregeling($intakeform->regeling) . '</td></tr>
-<tr><td>Uitdagingen</td><td>:</td><td>' . $intakeform->uitdagingen . '</td></tr>
-<tr><td>Beperkingen</td><td>:</td><td>' . $intakeform->beperking . '</td></tr>
+<tr><td>Uitdagingen</td><td>:</td><td>' . h($intakeform->uitdagingen) . '</td></tr>
+<tr><td>Beperkingen</td><td>:</td><td>' . h($intakeform->beperking) . '</td></tr>
 <tr><td>Financiële situatie</td><td>:</td><td>' . chkfinsituatie($intakeform->finsituatie) . '</td></tr>
-<tr><td>Redenen voor hulpaanvraag</td><td>:</td><td>' . $intakeform->redenen . '</td></tr>
+<tr><td>Redenen voor hulpaanvraag</td><td>:</td><td>' . h($intakeform->redenen) . '</td></tr>
 <tr><td>Motivatie</td><td>:</td><td>' . chkmotivatie($intakeform->motivatie) . '</td></tr>
-<tr><td>In geval van een uitkering of bijstand: wordt voldaan aan de sollicitatie-eis van de uitkerende instantie?</td><td>:</td><td>' . $intakeform->eisen . '</td></tr>
-<tr><td>Andere netwerken en hulpverlening</td><td>:</td><td>' . $intakeform->netwerken . '</td></tr>
-<tr><td>Is andere hulp gewenst? Zo ja, welke?</td><td>:</td><td>' . $intakeform->andere_hulp . '</td></tr>
+<tr><td>In geval van een uitkering of bijstand: wordt voldaan aan de sollicitatie-eis van de uitkerende instantie?</td><td>:</td><td>' . h($intakeform->eisen) . '</td></tr>
+<tr><td>Andere netwerken en hulpverlening</td><td>:</td><td>' . h($intakeform->netwerken) . '</td></tr>
+<tr><td>Is andere hulp gewenst? Zo ja, welke?</td><td>:</td><td>' . h($intakeform->andere_hulp) . '</td></tr>
 </table><br/><br/><br/>
 <h4 style="border-top: 2px solid black;">Ervaring en opleiding</h4>
 <table>
@@ -256,25 +256,25 @@ $html =
 <tr><td>Recent CV aanwezig?</td><td>:</td><td>' . ($intakeform->CVind == 'j'?'Ja':'Nee') . '</td></tr>
 <tr><td>Hoogst genoten opleiding</td><td>:</td><td>' . chkopleiding($wkz->opleiding) . '</td></tr>
 <tr><td>Diploma behaald</td><td>:</td><td>' . ($intakeform->diploma == 'j'?'Ja':'Nee'). '</td></tr>
-<tr><td>Tijd en middelen voor studie?</td><td>:</td><td>' . $intakeform->studie . '</td></tr>
-<tr><td>Werkervaring</td><td>:</td><td>' . $intakeform->werkervaring . '</td></tr>
+<tr><td>Tijd en middelen voor studie?</td><td>:</td><td>' . h($intakeform->studie) . '</td></tr>
+<tr><td>Werkervaring</td><td>:</td><td>' . h($intakeform->werkervaring) . '</td></tr>
 
 </table><br/><br/><br/>
 <h4 style="border-top: 2px solid black;">Eisen en wensen voor nieuw werk</h4>
 <table>
 <tr><td style="width: 30%;"></td><td style="width: 2%;"></td><td style="width: 73%;"></td></tr>
-<tr><td>Wat voor werk is gewenst?</td><td>:</td><td>' . $intakeform->werk_gewenst . '</td></tr>
-<tr><td>Zijn er beperkingen/voorwaarden?</td><td>:</td><td>' . $intakeform->voorwaarden . '</td></tr>
+<tr><td>Wat voor werk is gewenst?</td><td>:</td><td>' . h($intakeform->werk_gewenst) . '</td></tr>
+<tr><td>Zijn er beperkingen/voorwaarden?</td><td>:</td><td>' . h($intakeform->voorwaarden) . '</td></tr>
 <tr><td>Spreekt Nederlands ...</td><td>:</td><td>' . chktaalbeh($intakeform->taalbeh) . '</td></tr>
 <tr><td>Schrijft Nederlands ...</td><td>:</td><td>' . chktaalbeh($intakeform->taalbeh_schr) . '</td></tr>
-<tr><td>Maximale reistijd</td><td>:</td><td>' . $intakeform->reistijd . '</td></tr>
-<tr><td>Beschikbaar vervoer</td><td>:</td><td>' . $intakeform->vervoer . '</td></tr>
-<tr><td>Verdere bijzonderheden</td><td>:</td><td>' . $intakeform->werkbijzh . '</td></tr>
+<tr><td>Maximale reistijd</td><td>:</td><td>' . h($intakeform->reistijd) . '</td></tr>
+<tr><td>Beschikbaar vervoer</td><td>:</td><td>' . h($intakeform->vervoer) . '</td></tr>
+<tr><td>Verdere bijzonderheden</td><td>:</td><td>' . h($intakeform->werkbijzh) . '</td></tr>
 </table><br/><br/><br/>
 <h4 style="border-top: 2px solid black;">Overige informatie</h4>
 <table>
 <tr><td style="width: 30%;"></td><td style="width: 2%;"></td><td style="width: 73%;"></td></tr>
-<tr><td>Overige opmerkingen</td><td>:</td><td>' . $intakeform->overige_opm . '</td></tr>
+<tr><td>Overige opmerkingen</td><td>:</td><td>' . h($intakeform->overige_opm) . '</td></tr>
 <tr><td>Besproken Missie & Visie ' . LOC_NAME . '</td><td>:</td><td>' . ($intakeform->besprmis == 'j'?'Ja':'Nee') . '</td></tr>
 <tr><td>Besproken taken maatje</td><td>:</td><td>' . ($intakeform->besprtkn == 'j'?'Ja':'Nee') . '</td></tr>
 <tr><td>Besproken verantwoordelijkheden werkzoekende</td><td>:</td><td>' . ($intakeform->besprvwk == 'j'?'Ja':'Nee') . '</td></tr>
@@ -286,10 +286,10 @@ $html =
 <h4 style="border-top: 2px solid black;">Akkoord en ondertekening</h4>
 <table>
 <tr><td style="width: 30%;"></td><td style="width: 2%;"></td><td style="width: 73%;"></td></tr>
-<tr><td>Datum</td><td>:</td><td>' . $intakeform->akkoord_datum . '</td></tr><br/>
-<tr><td>Plaats</td><td>:</td><td>' . $intakeform->akkoord_plaats . '</td></tr><br/>
-<tr><td>Naam</td><td>:</td><td>' . $wkz->voornaam . ' ' . $wkz->tussenvoegsels . ' ' . $wkz->achternaam . '</td></tr><br/>
-<tr><td>Ondertekening</td><td>:</td><td>' . $intakeform->akkoord_handtek . '</td></tr><br/><br/><br/>
+<tr><td>Datum</td><td>:</td><td>' . h($intakeform->akkoord_datum) . '</td></tr><br/>
+<tr><td>Plaats</td><td>:</td><td>' . h($intakeform->akkoord_plaats) . '</td></tr><br/>
+<tr><td>Naam</td><td>:</td><td>' . h($wkz->voornaam) . ' ' . h($wkz->tussenvoegsels) . ' ' . h($wkz->achternaam) . '</td></tr><br/>
+<tr><td>Ondertekening</td><td>:</td><td>' . h($intakeform->akkoord_handtek) . '</td></tr><br/><br/><br/>
 <tr><td>Privacy verklaring<br/></td><td>:</td><td>
 Door ondertekening gaat u akkoord met de inhoud én met de opslag en het gebruik van bovenstaande gegevens en de tijdens het begeleidingstraject verzamelde gegevens.<br/>
 ' . LOC_NAME . ' verplicht zich om zorgvuldig om te gaan met alle gegevens die we van u ontvangen. We bewaren die gegevens tot maximaal 6 maanden na afronding van het traject; daarna zullen de gegevens worden verwijderd.

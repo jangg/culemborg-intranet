@@ -28,7 +28,7 @@ if (isset($_SESSION['userid']))
 
 if (isset($_GET['id']))
 {
-	$_SESSION['jobgroup_id'] = $_GET['id'];
+	$_SESSION['jobgroup_id'] = (int)$_GET['id'];
 	/* Haal de jobgroup op */
 	$jgp = new Jobgroup ('id', $_SESSION['jobgroup_id']);
 	/* En haal de bijbehorende jobgroupsessies op */
@@ -66,11 +66,11 @@ foreach ($jgsessieColl->jgsessieColl as $jgsessie)
 		<td>' . $i . '</td>
 		<td>' . Tools::ConvertTS2($jgsessie->datetime_start, 'weekdag') . ' ' . Tools::ConvertTS2($jgsessie->datetime_start, 'datum') . '</td>
 		<td>' . Tools::ConvertTS2($jgsessie->datetime_start, 'tijd') . ' - ' . Tools::ConvertTS2($jgsessie->datetime_end, 'tijd') . '</td>
-		<td>' . $jgsessie->titel . '</td>
+		<td>' . h($jgsessie->titel) . '</td>
 		<td>' . $locatie . '</td>
 		<td>
-			<button class="mod"' . knop_uit('was_wijzigen') . ' data-idjs='. $jgsessie->id . '><i class="fas fa-edit ifont" /></i></button>
-			<button class="del"' . knop_uit('was_wijzigen') . ' data-idjs='. $jgsessie->id . '><i class="fa fa-trash-alt ifont"></i></button>
+			<button class="mod"' . knop_uit('was_wijzigen') . ' data-idjs='. h($jgsessie->id) . '><i class="fas fa-edit ifont" /></i></button>
+			<button class="del"' . knop_uit('was_wijzigen') . ' data-idjs='. h($jgsessie->id) . '><i class="fa fa-trash-alt ifont"></i></button>
 		</td>
 	</tr>';
 }
@@ -93,14 +93,14 @@ foreach ($wkzColl->werkzoekendeColl as $wkz)
 	$wkzHTML .= '
 	<tr>
 		<td>' . $i . '</td>
-		<td>' . $wkz->achternaam . '</td>
-		<td>' . $wkz->voornaam . ' ' . $wkz->tussenvoegsels . '</td>
-		<td>' . $wkz->emailadres . '</td>
-		<td>' . $wkz->telefoonnr . '</td>
-		<td>' . $wkz->status . '</td>
+		<td>' . h($wkz->achternaam) . '</td>
+		<td>' . h($wkz->voornaam) . ' ' . h($wkz->tussenvoegsels) . '</td>
+		<td>' . h($wkz->emailadres) . '</td>
+		<td>' . h($wkz->telefoonnr) . '</td>
+		<td>' . h($wkz->status) . '</td>
 		<td>
-			<button class="wkzmut" data-idwkz=' . $wkz->id . ' data-idjg=' . $jgp->id . '><i class="fas fa-edit ifont" /></i></button>
-			<button class="wkzdel"' . knop_uit('was_wijzigen') . ' data-idwkz=' . $wkz->id . '><i class="fa fa-trash-alt ifont"></i></button>
+			<button class="wkzmut" data-idwkz=' . h($wkz->id) . ' data-idjg=' . h($jgp->id) . '><i class="fas fa-edit ifont" /></i></button>
+			<button class="wkzdel"' . knop_uit('was_wijzigen') . ' data-idwkz=' . h($wkz->id) . '><i class="fa fa-trash-alt ifont"></i></button>
 		</td>
 	</tr> ';
 }
@@ -260,13 +260,13 @@ if ($wkzHTML == '')
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Titel</span>
 						</div>
-						<input id="jg-titel" type="text" name="titel" class="form-control" value="<?php echo $jgp->titel ?>">
+						<input id="jg-titel" type="text" name="titel" class="form-control" value="<?php echo h($jgp->titel) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Omschrijving</span>
 						</div>
-						<textarea type="text" name="omschrijving" class="form-control" rows="6"><?php echo $jgp->omschrijving; ?></textarea>
+						<textarea type="text" name="omschrijving" class="form-control" rows="6"><?php echo h($jgp->omschrijving) ?></textarea>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -334,36 +334,36 @@ if ($wkzHTML == '')
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Aantal sessies</span>
 						</div>
-						<input type="text" name="nbrSessies" class="form-control" value="<?php echo $jgp->nbrSessies(); ?>" disabled>
+						<input type="text" name="nbrSessies" class="form-control" value="<?php echo h($jgp->nbrSessies()) ?>" disabled>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Aantal plaatsen</span>
 						</div>
-						<input type="text" name="nbrPlaatsen" class="form-control" value="<?php echo $jgp->nbrPlaatsen; ?>">
+						<input type="text" name="nbrPlaatsen" class="form-control" value="<?php echo h($jgp->nbrPlaatsen) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Jobgroepleider 1</span>
 						</div>
-						<input type="text" name="jgleider1" class="form-control" value="<?php echo $jgp->jgleider1; ?>">
+						<input type="text" name="jgleider1" class="form-control" value="<?php echo h($jgp->jgleider1) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Jobgroepleider 2</span>
 						</div>
-						<input type="text" name="jgleider2" class="form-control" value="<?php echo $jgp->jgleider2; ?>">
+						<input type="text" name="jgleider2" class="form-control" value="<?php echo h($jgp->jgleider2) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Opmerkingen</span>
 						</div>
-						<textarea type="text" name="opmerkingen" class="form-control" rows="6"><?php echo $jgp->opmerkingen; ?></textarea>
+						<textarea type="text" name="opmerkingen" class="form-control" rows="6"><?php echo h($jgp->opmerkingen) ?></textarea>
 					</div>
 					<div class="forms-group mb-1">
 						<button<?= knop_uit('was_wijzigen') ?> name="updateJgBut" value="wijzig" type="submit" class="btn btn-primary btn-width btn-sm">Wijzig</button>
 						<button name="backJgBut" value="back" type="submit" class="btn btn-secondary btn-width btn-sm">Terug</button>
-						<button<?= knop_uit('was_wijzigen') ?> name="deleteJgBut" value="delete" type="submit" class="btn btn-danger btn-width btn-sm" style="float: right;" data-id="<?= $jgp->id ?>">Delete</button>
+						<button<?= knop_uit('was_wijzigen') ?> name="deleteJgBut" value="delete" type="submit" class="btn btn-danger btn-width btn-sm" style="float: right;" data-id="<?= h($jgp->id) ?>">Delete</button>
 					</div>
 					</form>
 				</div>
@@ -398,7 +398,7 @@ if ($wkzHTML == '')
 
 					<!-- Hieronder de code voor de jgsessie mutaties -->
 					<div id="sessieData" style="display: none;">
-						<form method="POST" action="proces_jg.php?id=<?= $_SESSION['jobgroup_id'] ?>&idjs=##idjs##" id="formjs" novalidate>
+						<form method="POST" action="proces_jg.php?id=<?= h($_SESSION['jobgroup_id']) ?>&idjs=##idjs##" id="formjs" novalidate>
 						<div class="header rounded text-white p-1 m-1 text-center"  style="background-color: #304280;">
 							<h4 class="mx-auto">sessie gegevens</h1>
 						</div>

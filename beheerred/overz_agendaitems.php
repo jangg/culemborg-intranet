@@ -61,15 +61,15 @@ foreach($agendaitemColl->agendaitemColl as $agendaitem)
 	} else $trstyle = '';
 	$html .= '		
 	<tr style="font-size: 0.9em;' . $trstyle . '">
-		<td style="text-align: center;" class="p-0"><a href="mut_agendaitem.php?id=' . $agendaitem->id . '"><i class="fas fa-newspaper"></i></i></a></td>
-		<td class="p-0">' . $agendaitem->datetime_created		. '</td>
-		<td class="p-0">' . $agendaitem->datetime_modified	. '</td>
-		<td class="p-0 text-center">' . $user_created->username	. '</td>
-		<td class="p-0 text-left">' . strip_tags($agendaitem->titel)		. '</td>
-		<td class="p-0">' . $agendaitem->datum	. '</td>
+		<td style="text-align: center;" class="p-0"><a href="mut_agendaitem.php?id=' . h($agendaitem->id) . '"><i class="fas fa-newspaper"></i></i></a></td>
+		<td class="p-0">' . h($agendaitem->datetime_created)		. '</td>
+		<td class="p-0">' . h($agendaitem->datetime_modified)	. '</td>
+		<td class="p-0 text-center">' . h($user_created->username)	. '</td>
+		<td class="p-0 text-left">' . h(strip_tags($agendaitem->titel)) . '</td>
+		<td class="p-0">' . h($agendaitem->datum)	. '</td>
 		<td class="p-0">' . $publind_int 		. '</td>
 		<td class="p-0">' . $publind_ext		. '</td>
-		<td style="text-align: center;" class="p-0"><a href="overz_agendaitems.php?id=' . $agendaitem->id . '&del=j"' . ' onclick="return confirm(\'Weet je zeker dat je dit agenda item wilt verwijderen?\');"><i class="fa-regular fa-trash-can"></i></a></td>
+		<td style="text-align: center;" class="p-0"><a href="overz_agendaitems.php?id=' . h($agendaitem->id) . '&del=j"' . ' onclick="return confirm(\'Weet je zeker dat je dit agenda item wilt verwijderen?\');"><i class="fa-regular fa-trash-can"></i></a></td>
 		
 		</tr>';
 }

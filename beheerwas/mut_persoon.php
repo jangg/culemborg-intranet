@@ -55,7 +55,7 @@ function getAllPs()
 
   $sql =
     "SELECT processtap.* FROM processtap WHERE processtap.id_werkzkd = " .
-    $_SESSION["werkzkd_id"] .
+    (int)$_SESSION["werkzkd_id"] .
     ' AND processtap.delind = "n" ORDER BY processtap.dt_stap DESC;';
   $psList = [];
   global $connection;
@@ -89,24 +89,24 @@ function getAllPs()
       Tools::ConvertTS($ps->dt_stap) .
       '</div>
 		<div class="" style="font-size: .8em; display: inline-block; padding: 0px 10px; width: 10%; vertical-align: top;">' .
-      $user->username .
+      h($user->username) .
       '</div>
 		<div class="" style="font-size: .8em; display: inline-block; padding: 0px 10px; width: 50%; vertical-align: top;">' .
-      $ps->wzstatus .
+      h($ps->wzstatus) .
       " - " .
       (isset($statusArray[$ps->wzstatus])
         ? $statusArray[$ps->wzstatus]
         : "Verandering") .
       '</div>
 		<div class="" style="font-size: .8em; display: inline-block; padding: 0px 10px; float: right; vertical-align: top;"><button class="psdel"' . knop_uit('was_wijzigen') . ' data-idps=' .
-      $ps->id .
+      h($ps->id) .
       '><i class="fa fa-trash-alt ifont"></i></button></div>
 		</div>';
     if ($ps->toelichting != "") {
       $ps_html .=
         '<div class="" style="background-color: #e8eeea; color: #757775;">
 				<div class="" style="font-size: .8em; display: inline-block; padding: 0px 10px; white-space: pre-line;">' .
-        $ps->toelichting .
+        h($ps->toelichting) .
         '</div>
 			</div>';
     }
@@ -120,7 +120,7 @@ function getAllAant()
   global $nbrAant;
   $sql =
     "SELECT aantekening.* FROM aantekening WHERE aantekening.id_werkzkd = " .
-    $_SESSION["werkzkd_id"] .
+    (int)$_SESSION["werkzkd_id"] .
     ' AND aantekening.delind = "n" ORDER BY aantekening.datetime_created DESC;';
   $aantList = [];
   global $connection;
@@ -151,7 +151,7 @@ function getAllAant()
       Tools::ConvertTS($aant->datetime_created) .
       '</div>
 			<div class="input-group-text" style="font-size: .8em; display: inline-block;">' .
-      $user->username .
+      h($user->username) .
       "</div>";
     $aant_html .=
       '<div class="input-group input-group-sm mb-1">
@@ -159,7 +159,7 @@ function getAllAant()
 				<span class="input-group-text" style="width: 100%;">Aantekening</span>
 				</div>
 				<textarea type="textarea" rows="7" class="form-control" disabled>' .
-      $aant->tekst .
+      h($aant->tekst) .
       '</textarea>
 			</div></div>';
   }
@@ -185,7 +185,7 @@ if (isset($_SESSION["userid"])) {
 }
 
 if (isset($_GET["id"])) {
-  $_SESSION["werkzkd_id"] = $_GET["id"];
+  $_SESSION["werkzkd_id"] = (int)$_GET["id"];   // (int): voorkomt SQL-injectie in getAllPs()/getAllAant()
 } else {
   if (!isset($_SESSION["werkzkd_id"])) {
     $_SESSION["werkzkd_id"] = "15";
@@ -363,11 +363,11 @@ foreach ($maatjesLijst as $maatje) {
   }
   $maatjesListHTML .=
     '<option value="' .
-    $maatje[0] .
+    h($maatje[0]) .
     '" ' .
     $sel .
     ">" .
-    $maatje[1] .
+    h($maatje[1]) .
     "</option>";
 }
 
@@ -386,11 +386,11 @@ foreach ($jobgroupLijst as $jobgroup) {
     }
     $jobgroupListHTML .=
       '<option value="' .
-      $jobgroup->id .
+      h($jobgroup->id) .
       '" ' .
       $sel .
       ">" .
-      $jobgroup->titel .
+      h($jobgroup->titel) .
       "</option>";
   }
 }
@@ -484,7 +484,7 @@ if ($wkz->id_user_modified != "") {
 			</div>
 			<div class="row rounded text-center text-white pb-2 mb-2">
 				<div class="col-sm-12">
-					<h4 class="mx-auto"><?php echo $wkz->voornaam . " " . $wkz->tussenvoegsels . " " . $wkz->achternaam; ?></h4>
+					<h4 class="mx-auto"><?php echo h($wkz->voornaam . " " . h($wkz->tussenvoegsels) . " " . $wkz->achternaam) ?></h4>
 				</div>
 			</div>
 		</div>
@@ -518,7 +518,7 @@ if ($wkz->id_user_modified != "") {
 							<?php if ($wkz->picfile == "") {
          echo "";
        } else {
-         echo $wkz->picfile;
+         echo h($wkz->picfile);
        } ?>"
 							style="max-width: 160px;" alt=""/>
 					<div class="input-group input-group-sm mb-1">
@@ -529,11 +529,11 @@ if ($wkz->id_user_modified != "") {
 							<option value="">--</option>
 							<?php foreach ($files as $file): ?>
 								<?php if (is_file($directory . "/" . $file)): ?>
-									<option value="<?php echo $file; ?>" 
+									<option value="<?php echo h($file) ?>" 
 									<?php if ($wkz->picfile == $file) {
            echo " selected";
          } ?>>
-									<?php echo $file; ?>
+									<?php echo h($file) ?>
 									</option>
 								<?php endif; ?>
 							<?php endforeach; ?>
@@ -543,19 +543,19 @@ if ($wkz->id_user_modified != "") {
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text text-left text-wrap" style="width: 100%;">Voornaam</span>
 						</div>
-						<input type="text" name="voornaam" class="form-control" value="<?php echo $wkz->voornaam; ?>"/>
+						<input type="text" name="voornaam" class="form-control" value="<?php echo h($wkz->voornaam) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Tussenvoegsels</span>
 						</div>
-						<input type="text" name="tussenvoegsels" class="form-control" value="<?php echo $wkz->tussenvoegsels; ?>"/>
+						<input type="text" name="tussenvoegsels" class="form-control" value="<?php echo h($wkz->tussenvoegsels) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Achternaam</span>
 						</div>
-						<input type="text" name="achternaam" class="form-control" value="<?php echo $wkz->achternaam; ?>" required/>
+						<input type="text" name="achternaam" class="form-control" value="<?php echo h($wkz->achternaam) ?>" required/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -580,83 +580,83 @@ if ($wkz->id_user_modified != "") {
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Id person</span>
 						</div>
-						<input type="text" name="id_person" class="form-control" disabled value="<?php echo $wkz->id_person; ?>"/>
+						<input type="text" name="id_person" class="form-control" disabled value="<?php echo h($wkz->id_person) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Datum/tijd nieuw</span>
 						</div>
-						<input type="text" name="datetime_created" class="form-control ps-date" disabled value="<?php echo Tools::ConvertTS(
+						<input type="text" name="datetime_created" class="form-control ps-date" disabled value="<?php echo h(Tools::ConvertTS(
         $wkz->datetime_created
-      ); ?>"/>
+      )) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Datum/tijd gewijzigd</span>
 						</div>
-						<input type="text" name="datetime_modified" class="form-control" disabled value="<?php echo Tools::ConvertTS(
+						<input type="text" name="datetime_modified" class="form-control" disabled value="<?php echo h(Tools::ConvertTS(
         $wkz->datetime_modified
-      ); ?>"/>
+      )) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Gewijzigd door</span>
 						</div>
-						<input type="text" name="id_user_modified" class="form-control" disabled value="<?php echo $user_modified->username; ?>"/>
+						<input type="text" name="id_user_modified" class="form-control" disabled value="<?php echo h($user_modified->username) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Emailadres</span>
 						</div>
-						<input type="email" name="emailadres" class="form-control" value="<?php echo $wkz->emailadres; ?>"/>
+						<input type="email" name="emailadres" class="form-control" value="<?php echo h($wkz->emailadres) ?>"/>
 						<?php if ($wkz->emailadres != ""): ?>
-							<a href="mailto: <?php echo $wkz->emailadres; ?>" target="_blank"><i class="fas fa-envelope" style="font-size: 2em;"></i></a>
+							<a href="mailto: <?php echo h($wkz->emailadres) ?>" target="_blank"><i class="fas fa-envelope" style="font-size: 2em;"></i></a>
 						<?php endif; ?>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Telefoonnummer</span>
 						</div>
-						<input type="text" name="telefoonnr" class="form-control" value="<?php echo $wkz->telefoonnr; ?>"/>
+						<input type="text" name="telefoonnr" class="form-control" value="<?php echo h($wkz->telefoonnr) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">URL LinkedIn</span>
 						</div>
-						<input type="text" name="link_linkedin" class="form-control" value="<?php echo $wkz->link_linkedin; ?>"/>
+						<input type="text" name="link_linkedin" class="form-control" value="<?php echo h($wkz->link_linkedin) ?>"/>
 						<?php if ($wkz->link_linkedin != ""): ?>
-							<a href="<?php echo $wkz->link_linkedin; ?>" target="_blank"><i class="fab fa-linkedin" style="font-size: 2em;"></i></a>
+							<a href="<?php echo h($wkz->link_linkedin) ?>" target="_blank"><i class="fab fa-linkedin" style="font-size: 2em;"></i></a>
 						<?php endif; ?>
 					</div>					
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Straat</span>
 						</div>
-						<input type="text" name="straat" class="form-control" value="<?php echo $wkz->straat; ?>"/>
+						<input type="text" name="straat" class="form-control" value="<?php echo h($wkz->straat) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Huisnummer</span>
 						</div>
-						<input type="text" name="huisnummer" class="form-control" value="<?php echo $wkz->huisnummer; ?>"/>
+						<input type="text" name="huisnummer" class="form-control" value="<?php echo h($wkz->huisnummer) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Postcode</span>
 						</div>
-						<input type="text" name="postcode" class="form-control" value="<?php echo $wkz->postcode; ?>"/>
+						<input type="text" name="postcode" class="form-control" value="<?php echo h($wkz->postcode) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Woonplaats</span>
 						</div>
-						<input type="text" name="woonplaats" class="form-control" value="<?php echo $wkz->woonplaats; ?>"/>
+						<input type="text" name="woonplaats" class="form-control" value="<?php echo h($wkz->woonplaats) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Geboortedatum</span>
 						</div>
-						<input type="text" name="date_geboorte" id="date_geboorte" class="form-control" value="<?= $wkz->date_geboorte ?>"></p>
+						<input type="text" name="date_geboorte" id="date_geboorte" class="form-control" value="<?= h($wkz->date_geboorte) ?>"></p>
 						<!-- <input type="text" name="date_geboorte" id="date_geboorte" class="form-control" value="<?php
 // error_log ($wkz->date_geboorte);
 // echo $wkz->date_geboorte;
@@ -680,35 +680,35 @@ if ($wkz->id_user_modified != "") {
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text text-left text-wrap" style="width: 100%;">Id werkzoekende</span>
 						</div>
-						<input type="text" name="id" class="form-control" disabled value="<?php echo $wkz->id; ?>"/>
+						<input type="text" name="id" class="form-control" disabled value="<?php echo h($wkz->id) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Status</span>
 						</div>
-						<input type="text" name="wzstatus" class="form-control" disabled value="<?php echo $wkz->status .
+						<input type="text" name="wzstatus" class="form-control" disabled value="<?php echo h($wkz->status .
         " - " .
         (isset($statusArray[$wkz->status])
           ? $statusArray[$wkz->status]
-          : "onbekend"); ?>"/>
+          : "onbekend")) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Datum aanmelding</span>
 						</div>
-						<input type="text" name="date_aanmelding" class="form-control date" value="<?= $wkz->date_aanmelding ?>"/>
+						<input type="text" name="date_aanmelding" class="form-control date" value="<?= h($wkz->date_aanmelding) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Situatie bij aanmelding</span>
 						</div>
-						<textarea type="textarea" name="situatie" rows="5" class="form-control" value="" disabled><?php echo $wkz->situatie; ?></textarea>
+						<textarea type="textarea" name="situatie" rows="5" class="form-control" value="" disabled><?php echo h($wkz->situatie) ?></textarea>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Opmerkingen bij aanmelding</span>
 						</div>
-						<textarea type="textarea" name="opmerkingen" rows="5" class="form-control" value="" disabled><?php echo $wkz->opmerkingen; ?></textarea>
+						<textarea type="textarea" name="opmerkingen" rows="5" class="form-control" value="" disabled><?php echo h($wkz->opmerkingen) ?></textarea>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -796,25 +796,25 @@ if ($wkz->id_user_modified != "") {
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Instroomtrede</span>
 						</div>
-						<input type="text" name="instroomtrede" class="form-control" value="<?php echo $wkz->instroomtrede; ?>"/>
+						<input type="text" name="instroomtrede" class="form-control" value="<?php echo h($wkz->instroomtrede) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Instroomscore</span>
 						</div>
-						<input type="text" name="instroomscore" class="form-control"  value="<?php echo $wkz->instroomscore; ?>"/>
+						<input type="text" name="instroomscore" class="form-control"  value="<?php echo h($wkz->instroomscore) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Uitstroomscore</span>
 						</div>
-						<input type="text" name="uitstroomscore" class="form-control" value="<?php echo $wkz->uitstroomscore; ?>"/>
+						<input type="text" name="uitstroomscore" class="form-control" value="<?php echo h($wkz->uitstroomscore) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Soort werk</span>
 						</div>
-						<input type="text" name="soortwerk" class="form-control" value="<?php echo $wkz->soortwerk; ?>"/>
+						<input type="text" name="soortwerk" class="form-control" value="<?php echo h($wkz->soortwerk) ?>"/>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -836,13 +836,13 @@ if ($wkz->id_user_modified != "") {
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Toelichting</span>
 						</div>
-						<textarea type="textarea" name="wztoelichting" rows="5" class="form-control" value=""><?php echo $wkz->toelichting; ?></textarea>
+						<textarea type="textarea" name="wztoelichting" rows="5" class="form-control" value=""><?php echo h($wkz->toelichting) ?></textarea>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text text-left text-wrap" style="width: 100%;">Datum uitstroom</span>
 						</div>
-						<input type="text" name="date_uitstroom" class="form-control date" value="<?= $wkz->date_uitstroom ?>"/>
+						<input type="text" name="date_uitstroom" class="form-control date" value="<?= h($wkz->date_uitstroom) ?>"/>
 					</div>
 					<div class="forms-group mb-1">
 						<button<?= knop_uit('was_wijzigen') ?> name="updateWzBut" value="wijzig" type="submit" class="btn btn-primary btn-width btn-sm">Bewaar</button>

@@ -22,7 +22,7 @@ if (isset($_SESSION["userid"])) {
 }
 
 if (isset($_GET["id"])) {
-  $_SESSION["newsitem_id"] = $_GET["id"];
+  $_SESSION["newsitem_id"] = (int)$_GET["id"];
   /* Haal de newsitem op */
   $newsitem = new Newsitem("id", $_SESSION["newsitem_id"]);
 } else {
@@ -72,32 +72,32 @@ $user_created = new User("id", $newsitem->id_user_created);
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Datum gemaakt</span>
 						</div>
-						<input id="datetime_created" type="text" name="datetime_created" class="form-control" value="<?php echo $newsitem->datetime_created; ?>" disabled>
+						<input id="datetime_created" type="text" name="datetime_created" class="form-control" value="<?php echo h($newsitem->datetime_created) ?>" disabled>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						<span class="input-group-text" style="width: 100%;">Datum gewijzigd</span>
 						</div>
-						<input id="datetime_modified" type="text" name="datetime_modified" class="form-control" value="<?php echo $newsitem->datetime_modified; ?>" disabled>
+						<input id="datetime_modified" type="text" name="datetime_modified" class="form-control" value="<?php echo h($newsitem->datetime_modified) ?>" disabled>
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						<span class="input-group-text" style="width: 100%;">Laatst gewijzigd door</span>
 						</div>
-						<input id="user_created" type="text" name="user_created" class="form-control" value="<?php echo $user_created->username; ?>" disabled>
+						<input id="user_created" type="text" name="user_created" class="form-control" value="<?php echo h($user_created->username) ?>" disabled>
 					</div>
 
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Titel</span>
 						</div>
-						<input id="jg-titel" type="text" name="titel" class="form-control" value="<?php echo $newsitem->titel; ?>">
+						<input id="jg-titel" type="text" name="titel" class="form-control" value="<?php echo h($newsitem->titel) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class=" input-group-text" style="width: 100%;">Subtitel</span>
 						</div>
-						<textarea type="text" name="subtitel" class="form-control" rows="3"><?php echo $newsitem->subtitel; ?></textarea>
+						<textarea type="text" name="subtitel" class="form-control" rows="3"><?php echo h($newsitem->subtitel) ?></textarea>
 					</div>
 					<div class="input-group input-group-sm mb-1" hidden>
 						<div class="input-group-prepend" style="width: 100%;">
@@ -109,7 +109,7 @@ $user_created = new User("id", $newsitem->id_user_created);
 						<div class="input-group-prepend" style="width: 100%;">
 							<span class=" input-group-text" style="width: 100%;">Tekst</span>
 						</div>
-						<textarea type="text" name="tekst_kort" class="form-control summernote" rows="14"><?php echo $newsitem->tekst_kort; ?></textarea>
+						<textarea type="text" name="tekst_kort" class="form-control summernote" rows="14"><?php echo h($newsitem->tekst_kort) ?></textarea>
 					</div>
 					<div class="input-group input-group-sm mb-1" hidden>
 						<div class="input-group-prepend" style="width: 100%;">
@@ -121,13 +121,13 @@ $user_created = new User("id", $newsitem->id_user_created);
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Button tekst</span>
 						</div>
-						<input id="tekst_knop" type="text" name="tekst_knop" class="form-control" value="<?php echo $newsitem->tekst_knop; ?>">
+						<input id="tekst_knop" type="text" name="tekst_knop" class="form-control" value="<?php echo h($newsitem->tekst_knop) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Button link</span>
 						</div>
-						<input id="link_knop" type="text" name="link_knop" class="form-control" value="<?php echo $newsitem->link_knop; ?>">
+						<input id="link_knop" type="text" name="link_knop" class="form-control" value="<?php echo h($newsitem->link_knop) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-2">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -141,7 +141,7 @@ $user_created = new User("id", $newsitem->id_user_created);
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Datum interne publicatie</span>
 						</div>
-						<input id="datetime_pub_intern" type="text" name="datetime_pub_intern" class="form-control" value="<?php echo $newsitem->datetime_pub_intern; ?>">
+						<input id="datetime_pub_intern" type="text" name="datetime_pub_intern" class="form-control" value="<?php echo h($newsitem->datetime_pub_intern) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-2">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -155,7 +155,7 @@ $user_created = new User("id", $newsitem->id_user_created);
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Datum externe publicatie</span>
 						</div>
-						<input id="datetime_pub_extern" type="text" name="datetime_pub_extern" class="form-control" value="<?php echo $newsitem->datetime_pub_extern; ?>">
+						<input id="datetime_pub_extern" type="text" name="datetime_pub_extern" class="form-control" value="<?php echo h($newsitem->datetime_pub_extern) ?>">
 					</div>
 					<div class="input-group input-group-sm mb-1">
 						<div class="input-group-prepend" style="width: 30%;">
@@ -165,8 +165,8 @@ $user_created = new User("id", $newsitem->id_user_created);
 							<option value="">--</option>
 							<?php foreach ($files as $file): ?>
 							<?php if (is_file($directory . "/" . $file)): ?>
-							<option value="<?php echo $file; ?>" <?php if ($newsitem->picfile1 == $file) {echo " selected";} ?>>
-							<?php echo $file; ?>
+							<option value="<?php echo h($file) ?>" <?php if ($newsitem->picfile1 == $file) {echo " selected";} ?>>
+							<?php echo h($file) ?>
 							</option>
 							<?php endif; ?>
 							<?php endforeach; ?>
@@ -180,8 +180,8 @@ $user_created = new User("id", $newsitem->id_user_created);
 							<option value="">--</option>
 							<?php foreach ($files as $file): ?>
 							<?php if (is_file($directory . "/" . $file)): ?>
-							<option value="<?php echo $file; ?>" <?php if ($newsitem->picfile2 == $file) {echo " selected";} ?>>
-							<?php echo $file; ?>
+							<option value="<?php echo h($file) ?>" <?php if ($newsitem->picfile2 == $file) {echo " selected";} ?>>
+							<?php echo h($file) ?>
 							</option>
 							<?php endif; ?>
 							<?php endforeach; ?>
@@ -195,8 +195,8 @@ $user_created = new User("id", $newsitem->id_user_created);
 							<option value="">--</option>
 							<?php foreach ($files as $file): ?>
 							<?php if (is_file($directory . "/" . $file)): ?>
-							<option value="<?php echo $file; ?>" <?php if ($newsitem->picfile3 == $file) {echo " selected";} ?>>
-							<?php echo $file; ?>
+							<option value="<?php echo h($file) ?>" <?php if ($newsitem->picfile3 == $file) {echo " selected";} ?>>
+							<?php echo h($file) ?>
 							</option>
 							<?php endif; ?>
 							<?php endforeach; ?>
@@ -206,7 +206,7 @@ $user_created = new User("id", $newsitem->id_user_created);
 						<div class="input-group-prepend" style="width: 30%;">
 						  <span class="input-group-text" style="width: 100%;">Image filenaam 4</span>
 						</div>
-						<input id="picfile4" type="text" name="picfile4" class="form-control" value="<?php echo $newsitem->picfile4; ?>">
+						<input id="picfile4" type="text" name="picfile4" class="form-control" value="<?php echo h($newsitem->picfile4) ?>">
 					</div>
 					<!-- <div class="input-group input-group-sm mb-2">
 						<!-- <div class="input-group-prepend" style="width: 30%;">

@@ -113,6 +113,18 @@ function require_recht(string $recht): void
 	}
 }
 
+function h($waarde): string
+{
+	// h() = "html-veilig maken". Gebruik dit voor ELKE waarde uit de database of
+	// uit een formulier die in de HTML komt, bijvoorbeeld:  echo h($wkz->voornaam);
+	// htmlspecialchars() zet < > & " ' om in &lt; &gt; &amp; &quot; &#039;, zodat de
+	// browser ze als tekst toont en niet als HTML of JavaScript uitvoert.
+	// ENT_SUBSTITUTE: ongeldige tekens (bijv. latin1 in een utf8-pagina) worden
+	// vervangen in plaats van dat de hele tekst leeg wordt.
+	// (string)($waarde ?? ''): NULL en getallen worden netjes tekst.
+	return htmlspecialchars((string)($waarde ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
 function knop_uit(string $recht): string
 {
 	// Voor knoppen die iets wijzigen, bijvoorbeeld in HTML:
