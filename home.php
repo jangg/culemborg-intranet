@@ -79,7 +79,7 @@ function getMsgs ($number, $naam)
 		} else
 			$margin = 0;
 		$newsitemHTML[$n] = '
-					<h3 class="bluefont">' . h($newsitem->titel) . '</h3>
+					<h3 class="bluefont">' . Tools::veiligeHtml($newsitem->titel) . '</h3>
 					<h5 class="bluefont">' . Tools::nlDatumLang($datum) . '</h5>'
 					;
 		
@@ -91,7 +91,7 @@ function getMsgs ($number, $naam)
 		}
 		
 		$newsitemHTML[$n] .=
-					$newsitem->tekst_kort;
+					Tools::opmaakHtml($newsitem->tekst_kort);	// HTML uit Summernote, gefilterd
 					
 		if ($newsitem->tekst_knop <> '' && $newsitem->link_knop <> '')
 		{

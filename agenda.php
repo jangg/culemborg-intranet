@@ -110,11 +110,11 @@ foreach ($agenda as $agendaitem)
 		. $datum->format("j") . ' <span style="font-size: .4em;">' . Tools::nlMaand($datum) . '</span>' .
 		'</h1></div></div><div class="col-6 pb-1"><h5>'
 		. $wksp
-		. $agendaitem->titel . '</h5>' 
-		. nl2br($agendaitem->omschrijving);
+		. Tools::veiligeHtml($agendaitem->titel) . '</h5>' 
+		. Tools::opmaakHtml(nl2br((string)$agendaitem->omschrijving));	// oude items: gewone tekst met enters; nieuwe: HTML uit Summernote
 		
 		if ($agendaitem->freefld3 != '') {
-			$agenda_html .= '<br/><strong>' . nl2br($agendaitem->freefld3) . '</strong>';
+			$agenda_html .= '<br/><strong>' . Tools::veiligeHtml(nl2br((string)$agendaitem->freefld3)) . '</strong>';
 		}
 		
 		$agenda_html .=
