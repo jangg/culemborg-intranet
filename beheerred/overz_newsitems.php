@@ -25,9 +25,9 @@ if (isset($_SESSION['userid']))
 /********************************
 newsitem verwijderen (delind wordt j)
 ********************************* */
-if (isset($_GET['del']) && $_GET['del'] == 'j') 
+if (isset($_POST['del_id']))   // okt 2026: verwijderen via POST (was ?del=j)
 {
-	$item = new Newsitem ('id', $_GET['id']);
+	$item = new Newsitem ('id', (int)$_POST['del_id']);
 	// error_log($item);
 	
 	if ($item->delind != 'j') 
@@ -61,7 +61,7 @@ foreach($newsitemColl->newsitemColl as $newsitem)
 		<td class="p-0 text-center">' . substr($newsitem->datetime_pub_intern, 0, 10) . '</td>
 		<td class="p-0 text-center">' . h($newsitem->pubind_extern)		. '</td>
 		<td class="p-0 text-center">' . substr($newsitem->datetime_pub_extern, 0, 10) . '</td>
-		<td style="text-align: center;" class="p-0"><a href="overz_newsitems.php?id=' . h($newsitem->id) . '&del=j"' . ' onclick="return confirm(\'Weet je zeker dat je dit bericht wilt verwijderen?\');"><i class="fa-regular fa-trash-can"></i></a></td>
+		<td style="text-align: center;" class="p-0">' . verwijderknop('overz_newsitems.php', ['del_id' => $newsitem->id], 'Weet je zeker dat je dit bericht wilt verwijderen?') . '</td>
 		</tr>';
 }
 ?>

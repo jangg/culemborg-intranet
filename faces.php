@@ -75,7 +75,7 @@ $fotopath = 'fotoos_person/';
 					<label for="sel1" class="col-form-label">Toon&nbsp&nbsp</label>
 				</div>
 				<div class="col-md-2 p-0">
-					<form method="POST" action="faces.php" novalidate>
+					<form method="POST" action="faces.php" novalidate><?= csrf_veld() ?>
 					<select name="selection" class="form-control" id="sel1" onchange="this.form.submit()">
 						<option value="mtj" <?php if($selection == 'mtj') echo 'selected'; ?>>maatjes</option>
 						<option value="ext" <?php if($selection == 'ext') echo 'selected'; ?>>externen</option>

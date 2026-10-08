@@ -64,7 +64,7 @@ $user_created = new User("id", $newsitem->id_user_created);
         <div class="container" style="padding-bottom: 10px;">
 			<div class="row">
 				<div class="col-12 bg-light mt-2 pt-2">
-					<form method="POST" action="proces_newsitem.php" enctype="multipart/form-data" novalidate>
+					<form method="POST" action="proces_newsitem.php" enctype="multipart/form-data" novalidate><?= csrf_veld() ?>
 					<div class="row header rounded text-white p-1 m-1"  style="background-color: #304280;">
 						<h4 class="mx-auto">nieuwsbericht gegevens</h1>
 					</div>

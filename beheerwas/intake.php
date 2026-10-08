@@ -231,7 +231,7 @@ foreach ($intakerLijst as $intaker)
 <!--1---------------------------------------------------------------------------------------------->			
 			<div id="personalia" class="container tab-pane fade show active" role="tabpanel" aria-labelledby="personalia-tab"><br>
 				<h3>Basisinformatie</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#personalia" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#personalia" id="postwz" novalidate><?= csrf_veld() ?>
 					<div class="input-group input-group-sm mb-2">
 						<div class="input-group-prepend" style="width: 30%;">
 							<span class="input-group-text text-left text-wrap" style="width: 100%;">Voornaam</span>
@@ -354,7 +354,7 @@ foreach ($intakerLijst as $intaker)
 			
 			<div id="aanmelding" class="container tab-pane fade" role="tabpanel" aria-labelledby="aanmelding-tab"><br>
 				<h3>Aanmelding</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#aanmelding" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#aanmelding" id="postwz" novalidate><?= csrf_veld() ?>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Situatie</span>
@@ -413,7 +413,7 @@ foreach ($intakerLijst as $intaker)
 			<div id="gezin" class="container tab-pane fade" role="tabpanel" aria-labelledby="gezin-tab" hidden><br>
 			
 				<h3>Gezin</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#gezin" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#gezin" id="postwz" novalidate><?= csrf_veld() ?>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Echtelijke staat</span>
@@ -449,7 +449,7 @@ foreach ($intakerLijst as $intaker)
 
 			<div id="ondersteuning" class="container tab-pane fade" role="tabpanel" aria-labelledby="ondersteuning-tab"><br>
 				<h3>Ondersteuning</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#ondersteuning" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#ondersteuning" id="postwz" novalidate><?= csrf_veld() ?>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text text-left text-wrap" style="width: 100%;">Wie heeft de werkzoekende aangemeld?</span>
@@ -570,7 +570,7 @@ foreach ($intakerLijst as $intaker)
 			
 			<div id="ervaring" class="container tab-pane fade" role="tabpanel" aria-labelledby="ervaring-tab"><br>
 				<h3>Ervaring en opleiding</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#ervaring" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#ervaring" id="postwz" novalidate><?= csrf_veld() ?>
 				<div class="input-group input-group-sm mb-2">
 				  	<div class="input-group-prepend" style="width: 30%;">
 					  <span class="input-group-text text-left text-wrap" style="width: 100%;">Recent CV aanwezig? (Alleen nodig als er geen goed LinkedIn profiel is)</span>
@@ -634,7 +634,7 @@ foreach ($intakerLijst as $intaker)
 			
 			<div id="nieuw_werk" class="container tab-pane fade" role="tabpanel" aria-labelledby="nieuw_werk-tab"><br>
 				<h3>Eisen en wensen voor nieuw werk</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#nieuw_werk" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#nieuw_werk" id="postwz" novalidate><?= csrf_veld() ?>
 				<div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 					  <span class="input-group-text text-left text-wrap" style="width: 100%;">In welke richting wil de werkzoekende betaald werk vinden?</span>
@@ -714,7 +714,7 @@ foreach ($intakerLijst as $intaker)
 			
 			<div id="overig" class="container tab-pane fade" role="tabpanel" aria-labelledby="overig-tab"><br>
 				<h3>Overige informatie</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#overig" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#overig" id="postwz" novalidate><?= csrf_veld() ?>
 				<div class="input-group input-group-sm mb-2">
 					  <div class="input-group-prepend" style="width: 30%;">
 					  <span class="input-group-text text-left text-wrap" style="width: 100%;">Intake afgenomen door</span>
@@ -782,7 +782,7 @@ foreach ($intakerLijst as $intaker)
 			
 			<div id="akkoord" class="container tab-pane fade" role="tabpanel" aria-labelledby="akkoord-tab"><br>
 				<h3>Akkoord</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#akkoord" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#akkoord" id="postwz" novalidate><?= csrf_veld() ?>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class=" input-group-text" style="width: 100%;">Datum</span>
@@ -820,7 +820,7 @@ foreach ($intakerLijst as $intaker)
 	
 			<div id="advies" class="container tab-pane fade" role="tabpanel" aria-labelledby="advies-tab"><br>
 				<h3>Advies</h3>
-				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#advies" id="postwz" novalidate>
+				<form method="POST" action="proces_intake.php?id=<?php echo h($wkz->id)?>#advies" id="postwz" novalidate><?= csrf_veld() ?>
 				<div class="input-group input-group-sm mb-2">
 					<div class="input-group-prepend" style="width: 30%;">
 						<span class="input-group-text text-left text-wrap" style="width: 100%;">Advies deelname jobgroep</span>

@@ -109,7 +109,7 @@ if (isset($_POST['updateMtBut']) && $_POST['updateMtBut'] == 'wijzig') {
 		</div>
 
 		<div class="container" style="padding-bottom: 80px;">
-			<form method="POST" action="mut_tickertext.php" id="tickermt" novalidate>
+			<form method="POST" action="mut_tickertext.php" id="tickermt" novalidate><?= csrf_veld() ?>
 				<div class="row">
 					<div class="col-md-12 bg-light mt-2 pt-2">
 

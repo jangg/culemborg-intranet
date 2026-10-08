@@ -212,7 +212,7 @@ foreach($topicsColl->topicColl as $topic){
 		</div>
 		<div id="nw_subject" name="nw_subject" class="container py-3 rounded" style="margin-bottom: 160px; border-style: solid; border-color: #304280; border-width: 2px; display: none;">
 			<div class="text-center text-dark"><h3>Nieuw onderwerp maken</h3></div> 
-			<form method="POST" action="overz_cat.php" id="topic" novalidate>
+			<form method="POST" action="overz_cat.php" id="topic" novalidate><?= csrf_veld() ?>
 			<div class="form-group">
 				<label for="subject" class="text-dark">Onderwerp:</label>
 				<input type="text" class="form-control" id="topic" name="onderwerp">

@@ -25,9 +25,9 @@ if (isset($_SESSION['userid']))
 /********************************
 agendaitem verwijderen (delind wordt j)
 ********************************* */
-if (isset($_GET['del']) && $_GET['del'] == 'j') 
+if (isset($_POST['del_id']))   // okt 2026: verwijderen via POST (was ?del=j)
 {
-	$item = new Agendaitem ('id', $_GET['id']);
+	$item = new Agendaitem ('id', (int)$_POST['del_id']);
 	// error_log($item);
 	
 	if ($item->delind != 'j') 
@@ -69,7 +69,7 @@ foreach($agendaitemColl->agendaitemColl as $agendaitem)
 		<td class="p-0">' . h($agendaitem->datum)	. '</td>
 		<td class="p-0">' . $publind_int 		. '</td>
 		<td class="p-0">' . $publind_ext		. '</td>
-		<td style="text-align: center;" class="p-0"><a href="overz_agendaitems.php?id=' . h($agendaitem->id) . '&del=j"' . ' onclick="return confirm(\'Weet je zeker dat je dit agenda item wilt verwijderen?\');"><i class="fa-regular fa-trash-can"></i></a></td>
+		<td style="text-align: center;" class="p-0">' . verwijderknop('overz_agendaitems.php', ['del_id' => $agendaitem->id], 'Weet je zeker dat je dit agenda item wilt verwijderen?') . '</td>
 		
 		</tr>';
 }

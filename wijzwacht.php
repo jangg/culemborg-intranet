@@ -77,7 +77,7 @@ function veldstijl (int $error, int $veld): string
 					<?php if ($melding != ''): ?>
 						<div class="alert alert-danger"><?= htmlspecialchars($melding, ENT_QUOTES, 'UTF-8') ?></div>
 					<?php endif; ?>
-				<form role="form" method="POST" action="wijzwacht.php">
+				<form role="form" method="POST" action="wijzwacht.php"><?= csrf_veld() ?>
 					<div class="form-group">
 						<label for="ww1">Huidig wachtwoord</label>
 						<input name="ww1" type="password" class="form-control" id="ww1" autocomplete="current-password"<?= veldstijl($error, 1) ?>>

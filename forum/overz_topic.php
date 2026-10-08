@@ -181,7 +181,7 @@ foreach ($postsColl->postColl as $post) {
 		</div>
 		<div id="nw_bericht" name="nw_bericht" class="container py-3 rounded" style="margin-bottom: 160px; border-style: solid; border-color: #304280; border-width: 2px; display: none;">
 			<div class="text-center text-dark"><h3>Nieuw bericht maken</h3></div> 
-			<form method="POST" action="overz_topic.php" id="post" novalidate>
+			<form method="POST" action="overz_topic.php" id="post" novalidate><?= csrf_veld() ?>
 			<div class="form-group">
 				<label for="comment" class="text-dark">Bericht:</label>
 				<textarea id="summernote" name="tekst" type="text" class="form-control"></textarea>

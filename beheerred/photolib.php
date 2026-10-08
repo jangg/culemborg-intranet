@@ -79,16 +79,16 @@ if (!is_dir($thumbDir)) mkdir($thumbDir, 0777, true);
 $resultmessage = '';
 
 // Verwijderen
-if (isset($_GET['delete'])) 
+if (isset($_POST['delete']))   // okt 2026: verwijderen via POST (was ?delete=)
 {
-	$file = basename($_GET['delete']); // alleen bestandsnaam
+	$file = basename((string)$_POST['delete']); // alleen bestandsnaam
 	$target = $uploadDir . $file;
 	$thumbTarget = $thumbDir . $file;
 
 	if (file_exists($target)) unlink($target);
 	if (file_exists($thumbTarget)) unlink($thumbTarget);
 
-	$resultmessage = "✔ Bestand '$file' verwijderd.";
+	$resultmessage = "✔ Bestand '" . h($file) . "' verwijderd.";
 }
 
 // Upload verwerken
@@ -256,7 +256,7 @@ function createThumbnail($src, $dest, $w, $h)
 
 				<div class="col-md-6 p-0">
 					<div class="form-group text-right">
-						<form method="post" enctype="multipart/form-data" style="display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+						<form method="post" enctype="multipart/form-data" style="display: flex; align-items: center; justify-content: flex-end; gap: 10px;"><?= csrf_veld() ?>
 						Upload een afbeelding
 						<input type="file" name="foto" required>
 						<button type="submit" class="btn btn-primary mx-3" style="width: 120px;">Upload</button>
@@ -287,10 +287,9 @@ function createThumbnail($src, $dest, $w, $h)
 								<a href='../$directory/$file' target='_blank'>
 									<img src='../$directory/thumbs/$file' style='max-width: " . $thumbnailwidth . "px; height:auto; display:block; margin:0 auto; background-color: white;'>
 								</a>
-								<div style='margin-top:5px; font-size:14px; word-wrap:break-word;'>$file</div>
-								<a href='?delete=$file&q=$q' onclick=\"return confirm('Weet je zeker dat je $file wilt verwijderen?');\">
-									<i class='fa-regular fa-trash-can'></i>
-								</a>
+								<div style='margin-top:5px; font-size:14px; word-wrap:break-word;'>" . h($file) . "</div>
+								" . verwijderknop('?q=' . $q, ['delete' => $file], "Weet je zeker dat je $file wilt verwijderen?") . "
+
 							  </div>";							
 						}
 					?>

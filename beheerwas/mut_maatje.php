@@ -203,7 +203,7 @@ if (isset($_POST["updateMtBut"]) && $_POST["updateMtBut"] == "wijzig") {
 		</div>
 	</div>
 	<div class="container-fluid" style="padding-bottom: 80px;">
-		<form method="POST" action="mut_maatje.php" id="postmt" novalidate>
+		<form method="POST" action="mut_maatje.php" id="postmt" novalidate><?= csrf_veld() ?>
 			<div class="row">
 				<div class="col-md-6 bg-light mt-2 pt-2">
 

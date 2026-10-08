@@ -84,13 +84,13 @@ if (isset($_POST['wijzigen']))
 						Via die link stel je zelf een nieuw wachtwoord in. De link is 1 uur geldig.
 					</div>
 					<p>Zie je geen e-mail? Kijk dan ook in je map met spam of ongewenste e-mail.</p>
-					<form method="POST" action="vergeten.php">
+					<form method="POST" action="vergeten.php"><?= csrf_veld() ?>
 						<button name="terug" type="submit" class="btn btn-primary">Terug naar inloggen</button>
 					</form>
 				<?php else: ?>
 					<p>Vul je e-mailadres in. Je krijgt dan een e-mail met je gebruikersnaam en een link waarmee je zelf een nieuw wachtwoord instelt.
 						Tot je dat gedaan hebt, blijft je huidige wachtwoord gewoon werken.</p>
-					<form role="form" method="POST" action="vergeten.php">
+					<form role="form" method="POST" action="vergeten.php"><?= csrf_veld() ?>
 						<div class="form-group">
 							<label for="email">E-mailadres</label>
 							<input name="email" type="email" class="form-control" id="email" required autocomplete="email" value="<?= htmlspecialchars($emailadres, ENT_QUOTES, 'UTF-8') ?>">

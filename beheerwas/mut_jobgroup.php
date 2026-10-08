@@ -252,7 +252,7 @@ if ($wkzHTML == '')
         <div class="container" style="padding-bottom: 10px;">
 			<div class="row">
 				<div class="col-12 bg-light mt-2 pt-2">
-					<form method="POST" action="proces_jg.php" id="postmt" novalidate>
+					<form method="POST" action="proces_jg.php" id="postmt" novalidate><?= csrf_veld() ?>
 					<div class="row header rounded text-white p-1 m-1"  style="background-color: #304280;">
 						<h4 class="mx-auto">jobgroep gegevens</h1>
 					</div>
@@ -398,7 +398,7 @@ if ($wkzHTML == '')
 
 					<!-- Hieronder de code voor de jgsessie mutaties -->
 					<div id="sessieData" style="display: none;">
-						<form method="POST" action="proces_jg.php?id=<?= h($_SESSION['jobgroup_id']) ?>&idjs=##idjs##" id="formjs" novalidate>
+						<form method="POST" action="proces_jg.php?id=<?= h($_SESSION['jobgroup_id']) ?>&idjs=##idjs##" id="formjs" novalidate><?= csrf_veld() ?>
 						<div class="header rounded text-white p-1 m-1 text-center"  style="background-color: #304280;">
 							<h4 class="mx-auto">sessie gegevens</h1>
 						</div>

@@ -78,7 +78,7 @@ else $foutidpw = FALSE;
 					<?php if (isset($_GET['gewijzigd'])): ?>
 						<div class="alert alert-success">Je wachtwoord is gewijzigd. Je kunt nu inloggen met je nieuwe wachtwoord.</div>
 					<?php endif; ?>
-				<form role="form" method="POST" action="index.php">
+				<form role="form" method="POST" action="index.php"><?= csrf_veld() ?>
 					<div class="form-groups">
 						<label for="username">Gebruikersnaam</label>
 						<input name="username" type="text" class="form-control  <?php if ($foutidpw) echo 'border-danger'; else echo '';?>" id="username" size="35">

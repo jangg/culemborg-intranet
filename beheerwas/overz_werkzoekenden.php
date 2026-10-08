@@ -19,9 +19,9 @@ $curr_user = isset($_SESSION["userid"])
 	: new User();
 
 // ── Werkzoekende soft-delete (delind = 'j') ──────────────────────────────────
-if (filter_input(INPUT_GET, 'del') === 'j') {
+if (isset($_POST['del_id'])) {   // okt 2026: verwijderen via POST (was ?del=j)
 	require_recht('was_wijzigen');
-	$del_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+	$del_id = filter_input(INPUT_POST, 'del_id', FILTER_VALIDATE_INT);
 	if ($del_id !== false && $del_id > 0) {
 		$item = new Werkzoekende('id', $del_id);
 		if ($item->delind !== 'j') {
@@ -102,9 +102,7 @@ foreach ($wzColl->werkzoekendeColl as $werkzoekende) {
 
 	// Verwijderactie met bevestiging (alleen tonen met het recht was_wijzigen)
 	if (heeft_recht('was_wijzigen')) {
-		$acties .= '<a href="overz_werkzoekenden.php?id=' . $wzId . '&amp;del=j"'
-				 . ' onclick="return confirm(\'Weet je zeker dat je deze werkzoekende wilt verwijderen?\');">'
-				 . '<i class="fa-regular fa-trash-can"></i></a>&nbsp;&nbsp;&nbsp;';
+		$acties .= verwijderknop('overz_werkzoekenden.php', ['del_id' => $wzId], 'Weet je zeker dat je deze werkzoekende wilt verwijderen?') . '&nbsp;&nbsp;&nbsp;';
 	}
 
 	// ── Maatje-naam (trim om dubbele spaties bij leeg tussenvoegsels te vermijden) ──
@@ -217,7 +215,7 @@ foreach ($wzColl->werkzoekendeColl as $werkzoekende) {
 						<!-- Selectie rechts -->
 						<div class="d-flex align-items-center gap-2">
 							<label for="sel1" class="mb-0">Toon</label>
-							<form method="POST" action="overz_werkzoekenden.php" class="mb-0">
+							<form method="POST" action="overz_werkzoekenden.php" class="mb-0"><?= csrf_veld() ?>
 								<select name="selection" class="form-control" id="sel1"
 										style="min-width:170px"
 										onchange="this.form.submit()">

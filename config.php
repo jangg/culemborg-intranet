@@ -8,6 +8,10 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 	ini_set('session.cookie_secure', '1');
 }
 
+// SameSite=Lax: de browser stuurt de sessie-cookie niet mee met POST-verzoeken
+// die vanaf een ándere website komen. Extra slot op de deur tegen CSRF (zie onder).
+ini_set('session.cookie_samesite', 'Lax');
+
 if (session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
@@ -140,6 +144,52 @@ function knop_uit(string $recht): string
 	return heeft_recht($recht) ? '' : ' disabled';
 }
 
+/* ------------------------------------------------------------------
+ * CSRF-bescherming (okt 2026)
+ *
+ * CSRF = een andere website laat jouw browser een formulier naar het
+ * intranet sturen. De browser stuurt dan je sessie-cookie mee, dus het
+ * intranet denkt dat jij het bent. Bescherming: elk formulier bevat een
+ * geheim token dat alleen het intranet zelf kent (het staat in de sessie).
+ * Een andere website kan dat token niet lezen en dus niet meesturen.
+ *
+ * csrf_token()  het token van deze sessie (wordt de eerste keer gemaakt)
+ * csrf_veld()   het verborgen invoerveld; in elk formulier met method="POST":
+ *                   echo csrf_veld();
+ * Bij AJAX stuurt jQuery het token mee in de kop "X-CSRF-Token"
+ * (zie includes/head.php).
+ * De controle zelf staat onderaan dit bestand en gebeurt bij ELKE POST
+ * automatisch, zodat je hem nergens kunt vergeten.
+ * ------------------------------------------------------------------ */
+function csrf_token(): string
+{
+	if (empty($_SESSION['csrf_token'])) {
+		$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+	}
+	return $_SESSION['csrf_token'];
+}
+
+function csrf_veld(): string
+{
+	return '<input type="hidden" name="csrf_token" value="' . h(csrf_token()) . '">';
+}
+
+function verwijderknop(string $actie, array $velden, string $vraag): string
+{
+	// Een prullenbak-knop als klein POST-formulier, in plaats van een link als
+	// "?del=j". Een link (GET) kan door een andere website worden "aangeklikt",
+	// bijvoorbeeld via <img src="...?del=j">, en kan geen CSRF-token meesturen.
+	// json_encode() maakt van $vraag een geldige JavaScript-tekst (met aanhalingstekens);
+	// h() maakt die daarna veilig voor in het HTML-attribuut onsubmit="...".
+	$html = '<form method="POST" action="' . h($actie) . '" style="display: inline;"'
+		  . ' onsubmit="return confirm(' . h(json_encode($vraag)) . ');">' . csrf_veld();
+	foreach ($velden as $naam => $waarde) {
+		$html .= '<input type="hidden" name="' . h($naam) . '" value="' . h($waarde) . '">';
+	}
+	return $html . '<button type="submit" class="btn btn-link p-0 m-0 align-baseline" title="Verwijderen">'
+		 . '<i class="fa-regular fa-trash-can"></i></button></form>';
+}
+
 function require_cli_or_admin(): void
 {
 	// Een webverzoek heeft altijd een REQUEST_METHOD (GET, POST, ...).
@@ -152,4 +202,22 @@ function require_cli_or_admin(): void
 	require_recht('beheerder');
 }
 
-?>
+/* ------------------------------------------------------------------
+ * Automatische CSRF-controle bij elk POST-verzoek.
+ * Het token komt uit het formulier ($_POST['csrf_token']) of, bij AJAX,
+ * uit de kop X-CSRF-Token (PHP maakt daar $_SERVER['HTTP_X_CSRF_TOKEN'] van).
+ * hash_equals() vergelijkt in constante tijd (zie ook verifyPassword()).
+ * Cronjobs (command line) hebben geen POST en vallen er dus buiten.
+ * ------------------------------------------------------------------ */
+if (PHP_SAPI !== 'cli' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+	$meegestuurd = $_POST['csrf_token'] ?? ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '');
+	if (empty($_SESSION['csrf_token']) || !is_string($meegestuurd)
+		|| !hash_equals($_SESSION['csrf_token'], $meegestuurd)) {
+		http_response_code(403);
+		exit('<!DOCTYPE html><html lang="nl"><head><meta charset="utf-8"><title>Formulier verlopen</title></head>'
+			. '<body style="font-family: sans-serif; margin: 3em;"><h2>Het formulier kon niet worden verwerkt</h2>'
+			. '<p>Waarschijnlijk was de pagina te lang open of is je sessie verlopen '
+			. '(of was een bijlage te groot). Er is niets opgeslagen.</p>'
+			. '<p><a href="javascript:history.back()">Ga terug</a>, laad de pagina opnieuw en probeer het nog eens.</p></body></html>');
+	}
+}

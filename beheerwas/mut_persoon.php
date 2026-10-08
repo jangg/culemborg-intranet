@@ -505,7 +505,7 @@ if ($wkz->id_user_modified != "") {
         <div class="container-fluid" style="padding-bottom: 80px;">	
 			<div class="row">
 				<div class="col-lg-4 mt-2 pt-2" style="background-color: #a5cad8;">
-					<form method="POST" action="mut_persoon.php" id="postwz" novalidate>
+					<form method="POST" action="mut_persoon.php" id="postwz" novalidate><?= csrf_veld() ?>
 						
 					<?php
      // Map met bestanden (pas eventueel aan)
@@ -861,7 +861,7 @@ if ($wkz->id_user_modified != "") {
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane container mx-0 px-0 mt-2" id="aantek">
-							<form method="POST" action="mut_persoon.php" id="postaant" novalidate>
+							<form method="POST" action="mut_persoon.php" id="postaant" novalidate><?= csrf_veld() ?>
 							<div class="input-group input-group-sm mb-1">							
 								<div class="input-group-prepend" style="width: 30%;">
 									<span class="input-group-text text-left text-wrap" style="width: 100%;">Aantekening</span>
@@ -876,7 +876,7 @@ if ($wkz->id_user_modified != "") {
 							<?php echo $htmlAant; ?>
 						</div>
 						<div class="tab-pane container mx-0 px-0 mt-2 active" id="statusreg">
-							<form method="POST" action="mut_persoon.php" id="postps" novalidate>
+							<form method="POST" action="mut_persoon.php" id="postps" novalidate><?= csrf_veld() ?>
 							<div class="input-group input-group-sm mb-1">							
 								<div class="input-group-prepend" style="width: 30%;">
 									<span class=" input-group-text text-left text-wrap" style="width: 100%;">Status</span>

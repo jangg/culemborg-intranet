@@ -84,7 +84,7 @@ function veldstijl (int $error, int $veld): string
 					<?php if ($melding != ''): ?>
 						<div class="alert alert-danger"><?= htmlspecialchars($melding, ENT_QUOTES, 'UTF-8') ?></div>
 					<?php endif; ?>
-					<form role="form" method="POST" action="reset.php">
+					<form role="form" method="POST" action="reset.php"><?= csrf_veld() ?>
 						<input type="hidden" name="token" value="<?= htmlspecialchars($token, ENT_QUOTES, 'UTF-8') ?>">
 						<div class="form-group">
 							<label for="ww2">Nieuw wachtwoord</label>

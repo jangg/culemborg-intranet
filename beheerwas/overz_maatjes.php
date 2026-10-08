@@ -25,10 +25,10 @@ if (isset($_SESSION['userid']))
 /********************************
 maatje verwijderen (delind wordt j)
 ********************************* */
-if (isset($_GET['del']) && $_GET['del'] == 'j') 
+if (isset($_POST['del_id']))   // okt 2026: verwijderen via POST (was ?del=j)
 {
 	require_recht('maatjes_wijzigen');
-	$item = new Maatje ('id', $_GET['id']);
+	$item = new Maatje ('id', (int)$_POST['del_id']);
 	// error_log($item);
 	if ($item->delind != 'j') 
 	{
@@ -122,7 +122,7 @@ foreach($maatjeColl->maatjeColl as $maatje)
 		<td class="text-left p-0">' . h($maatje->telefoonnr) . '</td>
 		<td';
 		if (heeft_recht('maatjes_wijzigen'))
-			$html .= ' class="text-center p-0"><a href="overz_maatjes.php?id=' . h($maatje->id) . '&del=j"' . ' onclick="return confirm(\'Weet je zeker dat je dit maatje wilt verwijderen?\');"><i class="fa-regular fa-trash-can" style="font-size: 14px;"></i></a>';
+			$html .= ' class="text-center p-0">' . verwijderknop('overz_maatjes.php', ['del_id' => $maatje->id], 'Weet je zeker dat je dit maatje wilt verwijderen?') . '';
 		$html .= '</td>
 		</tr>
 	</tr>';
@@ -190,7 +190,7 @@ foreach($maatjeColl->maatjeColl as $maatje)
 				<div class="d-flex align-items-center gap-2">
 				  <label for="sel1" class="mb-0">Toon</label>
 		
-				  <form method="POST" action="overz_maatjes.php" class="mb-0">
+				  <form method="POST" action="overz_maatjes.php" class="mb-0"><?= csrf_veld() ?>
 					<select name="selection" class="form-control" id="sel1"
 							style="min-width:170px"
 							onchange="this.form.submit()">
