@@ -78,7 +78,7 @@ class Maatje_coll extends Person_coll {
 					// $item->datum = strval($date->format('-m-d') + 1) . substr($maatje->date_geboorte, 4,6);
 				else
 					$item->datum = '2026' . substr($maatje->date_geboorte, 4,6);
-				$item->titel = '<p style="color: #8d2e34"><img src="img_fixed/party-popper_1f389.png" width="10%"/>' . $maatje->voornaam . ' ' . $maatje->tussenvoegsels . ' ' . $maatje->achternaam . ' is jarig vandaag. Hoera!';
+				$item->titel = '<p style="color: #8d2e34"><img src="img_fixed/party-popper_1f389.png" width="10%"/>' . htmlspecialchars(trim($maatje->voornaam . ' ' . $maatje->tussenvoegsels . ' ' . $maatje->achternaam), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false) . ' is jarig vandaag. Hoera!';
 				$item->titel .= '<img src="img_fixed/fireworks_1f386.png" width="10%"/></p>';
 				$item->begintijd = '';
 				$item->eindtijd = '';

@@ -110,7 +110,7 @@ foreach ($agenda as $agendaitem)
 		. $datum->format("j") . ' <span style="font-size: .4em;">' . Tools::nlMaand($datum) . '</span>' .
 		'</h1></div></div><div class="col-6 pb-1"><h5>'
 		. $wksp
-		. Tools::veiligeHtml($agendaitem->titel) . '</h5>' 
+		. Tools::opmaakHtml($agendaitem->titel) . '</h5>' 	// opmaakHtml: verjaardagen hebben <p> en plaatjes in de titel
 		. Tools::opmaakHtml(nl2br((string)$agendaitem->omschrijving));	// oude items: gewone tekst met enters; nieuwe: HTML uit Summernote
 		
 		if ($agendaitem->freefld3 != '') {
