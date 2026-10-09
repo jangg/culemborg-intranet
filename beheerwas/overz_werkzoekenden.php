@@ -148,9 +148,9 @@ foreach ($wzColl->werkzoekendeColl as $werkzoekende) {
 		<td class="text-left p-0">'   . $esc($werkzoekende->link_linkedin) . '</td>
 		<td class="text-center p-0">' . $esc($werkzoekende->date_aanmelding) . '</td>
 		<td class="text-center p-0">' . $esc($werkzoekende->date_uitstroom) . '</td>
-		<td class="text-center p-0">' . $esc(substr($werkzoekende->datetime_created, 0, 10)) . '</td>
-		<td class="text-center p-0">' . $esc(substr($werkzoekende->datetime_modified, 0, 10)) . '</td>
-		<td class="text-center p-0">' . $esc(substr($user_modified->username, 0, 20)) . '</td>
+		<td class="text-center p-0">' . $esc(substr($werkzoekende->datetime_created ?? '', 0, 10)) . '</td>
+		<td class="text-center p-0">' . $esc(substr($werkzoekende->datetime_modified ?? '', 0, 10)) . '</td>
+		<td class="text-center p-0">' . $esc(substr($user_modified->username ?? '', 0, 20)) . '</td>
 		<td class="text-left p-0">'   . $esc($werkzoekende->telefoonnr) . '</td>
 		<td class="text-left p-0">'   . $esc($maatje) . '</td>
 		<td class="text-left p-0">'   . $esc($jobgroup) . '</td>

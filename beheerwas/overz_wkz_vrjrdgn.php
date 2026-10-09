@@ -41,7 +41,7 @@ foreach($wzColl->werkzoekendeColl as $werkzoekende)
 		<tr style="font-size: 0.9em;">
 			<td class="p-0 px-2 text-left">' . h($werkzoekende->achternaam) . ', ' . h($werkzoekende->voornaam) . ' ' . h($werkzoekende->tussenvoegsels) . '</td>
 			<td class="p-0 px-2 text-left">' . h($werkzoekende->emailadres) . '</td>
-			<td class="p-0 px-2 text-left"><span style="display: none;">' . substr($werkzoekende->date_geboorte, 5) . '</span>' . Tools::convertTS2($werkzoekende->date_geboorte, 'verjaardag') . '</td>
+			<td class="p-0 px-2 text-left"><span style="display: none;">' . substr($werkzoekende->date_geboorte ?? '', 5) . '</span>' . Tools::convertTS2($werkzoekende->date_geboorte, 'verjaardag') . '</td>
 		</tr>';
 	}
 }

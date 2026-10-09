@@ -58,9 +58,9 @@ foreach($newsitemColl->newsitemColl as $newsitem)
 		<td class="p-0 text-center">' . h($user_created->username)	. '</td>
 		<td class="p-0 text-left">' . h($newsitem->titel)				. '</td>
 		<td class="p-0 text-center">' . h($newsitem->pubind_intern)		. '</td>
-		<td class="p-0 text-center">' . substr($newsitem->datetime_pub_intern, 0, 10) . '</td>
+		<td class="p-0 text-center">' . substr($newsitem->datetime_pub_intern ?? '', 0, 10) . '</td>
 		<td class="p-0 text-center">' . h($newsitem->pubind_extern)		. '</td>
-		<td class="p-0 text-center">' . substr($newsitem->datetime_pub_extern, 0, 10) . '</td>
+		<td class="p-0 text-center">' . substr($newsitem->datetime_pub_extern ?? '', 0, 10) . '</td>
 		<td style="text-align: center;" class="p-0">' . verwijderknop('overz_newsitems.php', ['del_id' => $newsitem->id], 'Weet je zeker dat je dit bericht wilt verwijderen?') . '</td>
 		</tr>';
 }
