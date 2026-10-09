@@ -47,9 +47,8 @@ openDB();
 /* ------------------------------------------------------------------
  * Toegangscontrole
  *
- * Welk beheerind-niveau welk recht geeft, verschilt per site. Dat staat
- * daarom niet hier, maar in includes/rechten.php (één bestand per site).
- * Dit bestand (config.php) is in beide sites gelijk.
+ * Welk beheerind-niveau welk recht geeft, staat in includes/rechten.php.
+ * Dat bestand en dit bestand (config.php) zijn in beide sites gelijk.
  *
  * require_login()
  *   Niet ingelogd? Dan naar het inlogscherm en stoppen.

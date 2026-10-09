@@ -310,8 +310,8 @@ class User extends Person
 	{
 		/*
 		beheerind:
-			De betekenis van beheerind verschilt per site (de code is gelijk).
-			Welk niveau welk recht geeft, staat per site in includes/rechten.php.
+			Welk niveau welk recht geeft, staat in includes/rechten.php
+			(gelijk voor beide sites).
 			Gebruik in pagina's heeft_recht('naam') / require_recht('naam') uit config.php,
 			niet het getal zelf.
 			Oude waarde 'j' telt als 9.
@@ -326,8 +326,8 @@ class User extends Person
 	{
 		/*
 		beheerind:
-			De betekenis van beheerind verschilt per site (de code is gelijk).
-			Welk niveau welk recht geeft, staat per site in includes/rechten.php.
+			Welk niveau welk recht geeft, staat in includes/rechten.php
+			(gelijk voor beide sites).
 			Gebruik in pagina's heeft_recht('naam') / require_recht('naam') uit config.php,
 			niet het getal zelf.
 			Oude waarde 'j' telt als 9.

@@ -423,7 +423,7 @@ if (isset($_POST["updateMtBut"]) && $_POST["updateMtBut"] == "wijzig") {
 						</div>
 						<textarea type="textarea" name="omschrijving" rows="5" class="form-control" value=""><?php echo h($mtj->omschrijving) ?></textarea>
 					</div>
-					<!-- Oplossing om ervoor te zorgen dat alleen Joke (en ik) met beheerind > 6 maatjes kunnen wijzigen of toevoegen -->
+					<!-- Alleen met het recht maatjes_wijzigen (zie includes/rechten.php) mag je maatjes wijzigen of toevoegen -->
 					<?php if (heeft_recht('maatjes_wijzigen')) {
 					echo '<div class="forms-group mb-1">
 										<button name="updateMtBut" value="wijzig" type="submit" class="btn btn-primary btn-width btn-sm">Wijzig</button>
