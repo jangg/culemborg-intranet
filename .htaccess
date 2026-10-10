@@ -1,3 +1,29 @@
+# =====================================================================
+# ONDERHOUDSMODUS
+#
+# Aan:  zet een (leeg) bestand "onderhoud.aan" in de hoofdmap van de site.
+# Uit:  verwijder "onderhoud.aan".
+#
+# Vanaf de IP-adressen hieronder werkt de site gewoon, zodat je kunt testen.
+# Meer adressen? Kopieer de regel met REMOTE_ADDR (alle regels moeten kloppen,
+# dus elk extra adres is een extra uitzondering).
+#
+# Dit blok moet BOVENAAN deze .htaccess staan, vóór eventuele RewriteRules.
+# Het mag permanent blijven staan: zonder onderhoud.aan doet het niets.
+#
+# De cronjob (verjaardagskaarten) draait via de php-opdrachtregel en gaat dus
+# NIET via deze .htaccess: die loopt gewoon door tijdens het onderhoud.
+# =====================================================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{DOCUMENT_ROOT}/onderhoud.aan -f
+    RewriteCond %{REMOTE_ADDR} !=77.168.222.49
+    RewriteCond %{REQUEST_URI} !=/onderhoud.html
+    RewriteRule ^ - [R=503,L]
+</IfModule>
+ErrorDocument 503 /onderhoud.html
+# ===================== einde onderhoudsmodus =========================
+
 # ------------------------------------------------------------------
 # Intranet: basisbeveiliging (okt 2026)
 # ------------------------------------------------------------------
