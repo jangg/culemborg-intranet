@@ -1,0 +1,16 @@
+# macOS- en editor-rommel
+.DS_Store
+.fuse_hidden*
+.nova/
+
+# Foto's van personen en logs: persoonsgegevens, horen niet in git
+fotoos_person/*
+fotoos_wkz/*
+logs/*
+# ...maar de .htaccess in die mappen wel bewaren (die beschermt de foto's)
+!fotoos_person/.htaccess
+!fotoos_wkz/.htaccess
+!logs/.htaccess
+
+# Schakelaar onderhoudsmodus: nooit in git
+onderhoud.aan
