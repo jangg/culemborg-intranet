@@ -414,7 +414,7 @@ if (isset($_POST["updateMtBut"]) && $_POST["updateMtBut"] == "wijzig") {
         }
       }
       ?>
-						<div class="p-1 m-0 form-control" style="background-color: #e4e7eb; font-size: .9em; max-width: 100%; height: 100%;"><?php echo h($wkzs) ?></div>
+						<div class="p-1 m-0 form-control" style="background-color: #e4e7eb; font-size: .9em; max-width: 100%; height: 100%;"><?php echo $wkzs /* al veilige HTML: de namen zijn hierboven met h() opgebouwd */ ?></div>
 					</div>
 
 					<div class="input-group input-group-sm mb-1">
