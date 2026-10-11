@@ -185,7 +185,9 @@ function verwijderknop(string $actie, array $velden, string $vraag): string
 	foreach ($velden as $naam => $waarde) {
 		$html .= '<input type="hidden" name="' . h($naam) . '" value="' . h($waarde) . '">';
 	}
-	return $html . '<button type="submit" class="btn btn-link p-0 m-0 align-baseline" title="Verwijderen">'
+	// font-size en line-height: 1 houden de knop klein, zodat tabelregels niet hoger worden.
+	return $html . '<button type="submit" class="btn btn-link p-0 m-0 align-baseline" title="Verwijderen"'
+		 . ' style="font-size: 0.85rem; line-height: 1;">'
 		 . '<i class="fa-regular fa-trash-can"></i></button></form>';
 }
 
