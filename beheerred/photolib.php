@@ -181,8 +181,6 @@ function makeSquare($path)
 		case IMAGETYPE_WEBP: imagewebp($square, $path, 90); break;
 	}
 
-	imagedestroy($img);
-	imagedestroy($square);
 }
 
 // Thumbnail functie
@@ -221,8 +219,6 @@ function createThumbnail($src, $dest, $w, $h)
 		case IMAGETYPE_WEBP: imagewebp($thumb, $dest, 80);  break;
 	}
 
-	imagedestroy($img);
-	imagedestroy($thumb);
 }
 ?>
 
