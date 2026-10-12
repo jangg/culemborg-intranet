@@ -28,5 +28,7 @@ define('RECHTEN', [
 	'was_wijzigen'      => [5, 6, 8, 9],
 	'maatjes_wijzigen'  => [6, 9],
 	'presentie_anderen' => [6, 9],      // aanmelden van anderen voor maatjesavonden (pages/presence_list.php)
+	'documenten_eigen'   => range(2, 9),   // eigen documenten (documenten.php)
+	'documenten_gedeeld' => range(4, 9),   // de gemeenschappelijke documentenmap
 	'beheerder'         => [9],
 ]);

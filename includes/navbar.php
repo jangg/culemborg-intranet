@@ -9,6 +9,7 @@ $canForumWrite = heeft_recht('forum_schrijven');
 $canRedactie   = heeft_recht('redactie');
 $canWas        = heeft_recht('was_lezen');
 $canAll        = heeft_recht('beheerder');
+$canDocs       = heeft_recht('documenten_eigen');
 ?>
 <nav class="navbar navbar-expand-xl navbar-dark fixed-top bg-primary">
 	<div class="container">
@@ -40,6 +41,10 @@ $canAll        = heeft_recht('beheerder');
 				</li>
 				
 				
+				<li class="nav-item <?php if (in_array(basename($_SERVER['PHP_SELF']), ['documenten.php', 'documenten_beheer.php'])) echo 'active'; ?>">
+					<a class="nav-link <?= h($canDocs ? '' : 'disabled') ?>" href="<?= h($canDocs ? '/documenten.php' : '#') ?>">Documenten</a>
+				</li>
+
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Beheer</a>
 					<div class="dropdown-menu">
