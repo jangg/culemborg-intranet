@@ -14,3 +14,6 @@ logs/*
 
 # Schakelaar onderhoudsmodus: nooit in git
 onderhoud.aan
+
+# Instellingen met wachtwoorden: nooit in git (voorbeeld: includes/configDB.voorbeeld.php)
+includes/configDB.php
