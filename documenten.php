@@ -59,26 +59,63 @@ function plek (array $extra = []): string
 	$p = array_filter($p, fn($v) => $v !== null);
 	return 'documenten.php?' . http_build_query($p);
 }
-function melding (string $soort, string $tekst): void
+/* $lijst (optioneel): regels die onder de melding als opsomming verschijnen. */
+function melding (string $soort, string $tekst, array $lijst = []): void
 {
-	$_SESSION['doc_melding'][] = [$soort, $tekst];
+	$_SESSION['doc_melding'][] = [$soort, $tekst, $lijst];
 }
 
-/* ---------- Acties (POST) ---------- */
+/* ---------- Uploaden (bestanden en hele mappen) ----------
+ * Het script onderaan de pagina verstuurt de bestanden in porties (fetch),
+ * omdat PHP maar een beperkt aantal bestanden per keer aanneemt
+ * (max_file_uploads, meestal 20) en een map er honderden kan bevatten.
+ *   actie=upload        één portie: bestanden[] met paden[] ("Cursus/2026/brief.pdf")
+ *   actie=upload_klaar  het einde: zet de meldingen klaar en het script herlaadt de pagina
+ * Alle verzoeken van één upload hebben hetzelfde upload_id; de tussenstand
+ * (aantal gelukt, lijst van wat niet lukte) staat zolang in de sessie.
+ * Antwoord is JSON, geen doorverwijzing. */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($_POST['actie'] ?? '', ['upload', 'upload_klaar'], true)) {
+	if ($r === 'beheer') { http_response_code(400); exit('Hier kun je niets toevoegen.'); }
+	$uid = preg_replace('/[^a-z0-9]/', '', (string)($_POST['upload_id'] ?? '')) ?: 'x';
+	$stand = $_SESSION['doc_upload'][$uid] ?? ['gelukt' => 0, 'niet' => []];
+
+	if ($_POST['actie'] === 'upload') {
+		$bestanden = Document::normaliseerFiles($_FILES['bestanden'] ?? []);
+		$paden = (array)($_POST['paden'] ?? []);
+		$cache = [];
+		foreach ($bestanden as $i => $b) {
+			$pad = Document::schoonPad((string)($paden[$i] ?? $b['name']));
+			$doel = DocMap::maakPad($r, $eigenaar, $mapId, $pad, $mijnId, $cache);
+			$fout = Document::upload($b, $r, $eigenaar, $doel, $mijnId);
+			if ($fout === null) $stand['gelukt']++; else $stand['niet'][] = "$pad: $fout";
+		}
+		$_SESSION['doc_upload'][$uid] = $stand;
+	} else {
+		unset($_SESSION['doc_upload'][$uid]);
+		// Wat de browser zelf al heeft overgeslagen (verkeerde soort, te groot) of niet kon versturen
+		$overgeslagen = json_decode((string)($_POST['overgeslagen'] ?? '[]'), true);
+		foreach (is_array($overgeslagen) ? $overgeslagen : [] as $o) {
+			if (is_array($o) && count($o) === 2) {
+				$stand['niet'][] = Document::schoonPad((string)$o[0]) . ': ' . mb_substr((string)$o[1], 0, 200);
+			}
+		}
+		$g = $stand['gelukt'];
+		$n = count($stand['niet']);
+		if ($g > 0) melding('success', $g == 1 ? 'Er is 1 document toegevoegd.' : "Er zijn $g documenten toegevoegd.");
+		if ($n > 0) melding('warning', $n == 1 ? 'Dit bestand is niet toegevoegd:' : "Deze $n bestanden zijn niet toegevoegd:", $stand['niet']);
+		if ($g == 0 && $n == 0) melding('info', 'Er was niets om toe te voegen.');
+	}
+	header('Content-Type: application/json; charset=utf-8');
+	echo json_encode(['ok' => true]);
+	exit();
+}
+
+/* ---------- Overige acties (POST) ---------- */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$actie = (string)($_POST['actie'] ?? '');
 	$id    = (int)($_POST['id'] ?? 0);
 
 	switch ($actie) {
-		case 'upload':
-			$bestanden = Document::normaliseerFiles($_FILES['bestanden'] ?? []);
-			$gelukt = 0;
-			foreach ($bestanden as $b) {
-				$fout = Document::upload($b, $r, $eigenaar, $mapId, $mijnId);
-				if ($fout === null) $gelukt++; else melding('danger', $fout);
-			}
-			if ($gelukt > 0) melding('success', $gelukt == 1 ? 'Het document is toegevoegd.' : "$gelukt documenten zijn toegevoegd.");
-			break;
 
 		case 'nieuwe_map':
 			$naam = DocMap::schoneNaam((string)($_POST['naam'] ?? ''));
@@ -176,6 +213,7 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($andereNaam !== '' ? 
 		.sleepvak { border: 3px dashed #c5cde0; border-radius: 10px; padding: 1.2rem; text-align: center;
 			color: #5a6378; background: #f8f9fc; transition: background .15s, border-color .15s; }
 		.sleepvak.actief { background: #e3ecff; border-color: #304280; }
+		.melding-lijst { max-height: 18rem; overflow-y: auto; padding-left: 1.2rem; }
 		.knoppen-rij .btn { margin: 0 .5rem .5rem 0; }
 		.acties form, .acties button { display: inline; }
 		.acties .btn-link { padding: 0 .35rem; }
@@ -197,9 +235,14 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($andereNaam !== '' ? 
 		<?php endif; ?>
 	</ul>
 
-	<?php foreach ($meldingen as [$soort, $tekst]): ?>
-		<div class="alert alert-<?= h($soort) ?> alert-dismissible">
-			<?= h($tekst) ?><button type="button" class="close" data-dismiss="alert">&times;</button>
+	<?php foreach ($meldingen as $m): $lijst = $m[2] ?? []; ?>
+		<div class="alert alert-<?= h($m[0]) ?> alert-dismissible">
+			<?= h($m[1]) ?><button type="button" class="close" data-dismiss="alert">&times;</button>
+			<?php if ($lijst): ?>
+			<ul class="melding-lijst mb-0 mt-2">
+				<?php foreach ($lijst as $regel): ?><li><?= h($regel) ?></li><?php endforeach; ?>
+			</ul>
+			<?php endif; ?>
 		</div>
 	<?php endforeach; ?>
 
@@ -263,24 +306,29 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($andereNaam !== '' ? 
 	</nav>
 
 	<?php if ($zoek === ''): ?>
-	<!-- Toevoegen: knop of slepen. Het formulier wordt meteen verstuurd zodra er bestanden gekozen zijn. -->
+	<!-- Toevoegen: knoppen of slepen. Het versturen doet het script onderaan (in porties). -->
 	<form id="uploadform" method="POST" action="documenten.php" enctype="multipart/form-data">
 		<?= csrf_veld() ?>
 		<input type="hidden" name="actie" value="upload">
 		<input type="hidden" name="r" value="<?= h($r) ?>">
 		<input type="hidden" name="u" value="<?= $r === 'eigen' ? (int)$eigenaar : 0 ?>">
 		<input type="hidden" name="map" value="<?= (int)$mapId ?>">
-		<input type="file" name="bestanden[]" id="bestanden" multiple class="d-none"
+		<input type="file" id="bestanden" multiple class="d-none"
 			   accept="<?= h(implode(',', array_map(fn($e) => '.' . $e, $extensies))) ?>">
+		<!-- webkitdirectory: de browser laat een map kiezen in plaats van losse bestanden
+		     (werkt in alle gangbare browsers, ondanks het "webkit" in de naam) -->
+		<input type="file" id="mapkeuze" webkitdirectory multiple class="d-none">
 		<div class="sleepvak mb-3" id="sleepvak">
 			<div class="knoppen-rij">
-				<button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('bestanden').click();" <?= $opslagOk ? '' : 'disabled' ?>>
+				<button type="button" class="btn btn-primary btn-lg upload-knop" onclick="document.getElementById('bestanden').click();" <?= $opslagOk ? '' : 'disabled' ?>>
 					<i class="fa-solid fa-upload"></i> Document toevoegen</button>
-				<button type="button" class="btn btn-outline-primary btn-lg" onclick="nieuweMap();">
+				<button type="button" class="btn btn-primary btn-lg upload-knop" onclick="document.getElementById('mapkeuze').click();" <?= $opslagOk ? '' : 'disabled' ?>>
+					<i class="fa-solid fa-folder-open"></i> Map toevoegen</button>
+				<button type="button" class="btn btn-outline-primary btn-lg upload-knop" onclick="nieuweMap();">
 					<i class="fa-solid fa-folder-plus"></i> Nieuwe map</button>
 			</div>
-			<div>of sleep bestanden naar dit vak</div>
-			<div id="bezig" class="mt-2 d-none"><i class="fa-solid fa-spinner fa-spin"></i> Bezig met toevoegen, even geduld...</div>
+			<div>of sleep bestanden of een map naar dit vak</div>
+			<div id="bezig" class="mt-2 d-none"><i class="fa-solid fa-spinner fa-spin"></i> <span id="bezig-tekst">Bezig met toevoegen, even geduld...</span></div>
 		</div>
 	</form>
 	<?php endif; ?>
@@ -365,6 +413,12 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($andereNaam !== '' ? 
 	// (de server controleert het daarna nog een keer).
 	const MAX_BYTES = <?= (int)$maxBytes ?>;
 	const EXTENSIES = <?= json_encode($extensies) ?>;
+	// Hoeveel bestanden en bytes er per verzoek mee mogen (PHP: max_file_uploads en post_max_size).
+	// Ruim eronder blijven: het verzoek bevat naast de bestanden ook de formuliervelden.
+	const PORTIE_AANTAL = <?= max(1, min(20, (int)ini_get('max_file_uploads') ?: 20)) ?>;
+	const PORTIE_BYTES  = <?= (int)(Instelling::phpMaxBytes() * 0.9) ?>;
+	// Systeembestanden van Mac en Windows in mappen: stil overslaan, die horen niet in de lijst
+	const STIL_OVERSLAAN = ['thumbs.db', 'desktop.ini'];
 
 	function verstuurActie (actie, id, naam) {
 		const f = document.getElementById('actieform');
@@ -380,31 +434,125 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($andereNaam !== '' ? 
 		if (naam && naam.trim() !== '' && naam !== huidig) verstuurActie(actie, id, naam);
 	}
 
-	// Controleer de gekozen bestanden en verstuur het formulier.
-	function controleerEnVerstuur (files) {
-		const fouten = [];
-		for (const f of files) {
-			const ext = f.name.includes('.') ? f.name.split('.').pop().toLowerCase() : '';
-			if (!EXTENSIES.includes(ext)) fouten.push(f.name + ': dit soort bestand is niet toegestaan.');
-			else if (f.size > MAX_BYTES) fouten.push(f.name + ': te groot (maximaal ' + Math.round(MAX_BYTES / 1048576) + ' MB).');
-		}
-		if (fouten.length) { alert(fouten.join('\n')); return false; }
-		document.getElementById('bezig').classList.remove('d-none');
-		document.getElementById('uploadform').submit();
-		return true;
+	/* ---------- Uploaden ----------
+	 * Alles wat geüpload wordt, wordt eerst een lijst van {file, pad}. pad is de plek
+	 * binnen een gekozen of gesleepte map ("Cursus/2026/brief.pdf"), of alleen de
+	 * naam bij losse bestanden. De server maakt de mappen uit het pad na.
+	 */
+	function mb (bytes) { return (bytes / 1048576).toLocaleString('nl-NL', {maximumFractionDigits: 1}) + ' MB'; }
+
+	// Losse bestanden of een map via de knop. Bij een map vult de browser webkitRelativePath.
+	function uitKeuze (files) {
+		return Array.from(files).map(f => ({file: f, pad: f.webkitRelativePath || f.name}));
 	}
 
-	const invoer = document.getElementById('bestanden');
-	const vak    = document.getElementById('sleepvak');
-	if (invoer && vak) {
-		invoer.addEventListener('change', () => { if (invoer.files.length) controleerEnVerstuur(invoer.files); });
+	// Slepen. Een gesleepte map zit niet in dataTransfer.files; die moet je zelf
+	// doorlopen via webkitGetAsEntry(). Let op: de items zijn alleen tijdens het
+	// drop-moment zelf leesbaar, daarom eerst (zonder wachten) de entries ophalen.
+	async function uitSleep (dt) {
+		const items   = Array.from(dt.items || []).filter(i => i.kind === 'file');
+		const entries = items.map(i => i.webkitGetAsEntry ? i.webkitGetAsEntry() : null).filter(e => e);
+		const reserve = uitKeuze(dt.files);			// voor browsers zonder webkitGetAsEntry
+		if (!entries.length) return reserve;
+		const lijst = [];
+		async function doorloop (entry, pad) {
+			if (entry.isFile) {
+				const f = await new Promise((ok, nok) => entry.file(ok, nok));
+				lijst.push({file: f, pad: pad + f.name});
+			} else if (entry.isDirectory) {
+				const lezer = entry.createReader();
+				let stuk;
+				do {	// readEntries geeft de inhoud in stukken (vaak 100 per keer): doorgaan tot het leeg is
+					stuk = await new Promise((ok, nok) => lezer.readEntries(ok, nok));
+					for (const e of stuk) await doorloop(e, pad + entry.name + '/');
+				} while (stuk.length);
+			}
+		}
+		for (const e of entries) await doorloop(e, '');
+		return lijst;
+	}
+
+	function bezig (aan, tekst) {
+		document.getElementById('bezig').classList.toggle('d-none', !aan);
+		if (tekst) document.getElementById('bezig-tekst').textContent = tekst;
+		document.querySelectorAll('.upload-knop').forEach(k => k.disabled = aan);
+		// Waarschuwen als iemand tijdens het uploaden de pagina wil verlaten
+		window.onbeforeunload = aan ? () => true : null;
+	}
+
+	// Stuurt één verzoek naar de server. Geeft true als het is aangekomen.
+	async function verstuur (velden, bestanden) {
+		const fd = new FormData(document.getElementById('uploadform'));	// csrf_token, r, u, map
+		for (const [k, v] of Object.entries(velden)) fd.set(k, v);
+		for (const b of bestanden) { fd.append('bestanden[]', b.file, b.file.name); fd.append('paden[]', b.pad); }
+		try {
+			const antwoord = await fetch('documenten.php', {method: 'POST', body: fd, credentials: 'same-origin'});
+			return antwoord.ok;
+		} catch (e) {
+			return false;
+		}
+	}
+
+	async function uploadAlles (lijst) {
+		// 1. Controleren in de browser: wat niet mag, gaat niet mee maar komt in de lijst
+		const goed = [], overgeslagen = [];
+		for (const b of lijst) {
+			const naam = b.file.name.toLowerCase();
+			if (naam.startsWith('.') || STIL_OVERSLAAN.includes(naam)) continue;
+			const ext = naam.includes('.') ? naam.split('.').pop() : '';
+			if (!EXTENSIES.includes(ext))      overgeslagen.push([b.pad, 'dit soort bestand is niet toegestaan']);
+			else if (b.file.size === 0)        overgeslagen.push([b.pad, 'het bestand is leeg']);
+			else if (b.file.size > MAX_BYTES)  overgeslagen.push([b.pad, 'te groot (' + mb(b.file.size) + ', maximaal ' + mb(MAX_BYTES) + ')']);
+			else goed.push(b);
+		}
+
+		// 2. In porties verdelen
+		const porties = [];
+		let portie = [], bytes = 0;
+		for (const b of goed) {
+			if (portie.length && (portie.length >= PORTIE_AANTAL || bytes + b.file.size > PORTIE_BYTES)) {
+				porties.push(portie); portie = []; bytes = 0;
+			}
+			portie.push(b); bytes += b.file.size;
+		}
+		if (portie.length) porties.push(portie);
+
+		// 3. Versturen, portie na portie. Lukt een portie niet, dan komen die bestanden in de lijst.
+		const uploadId = Date.now().toString(36) + Math.random().toString(36).slice(2);
+		let verstuurd = 0;
+		bezig(true, 'Bezig met toevoegen...');
+		for (const p of porties) {
+			bezig(true, 'Bezig met toevoegen: ' + verstuurd + ' van ' + goed.length + ' bestanden...');
+			if (!await verstuur({actie: 'upload', upload_id: uploadId}, p)) {
+				p.forEach(b => overgeslagen.push([b.pad, 'kon niet worden verstuurd (verbinding of sessie verlopen?)']));
+			}
+			verstuurd += p.length;
+		}
+
+		// 4. Afronden: de server zet de meldingen klaar (met de lijst), daarna de pagina opnieuw laden
+		bezig(true, 'Bijna klaar...');
+		const ok = await verstuur({actie: 'upload_klaar', upload_id: uploadId, overgeslagen: JSON.stringify(overgeslagen)}, []);
+		bezig(false);
+		if (!ok) alert('Het toevoegen is klaar, maar het overzicht kon niet worden opgehaald. Kijk in de lijst of alles er staat.');
+		window.location.replace(window.location.href);
+	}
+
+	const vak = document.getElementById('sleepvak');
+	if (vak) {
+		for (const id of ['bestanden', 'mapkeuze']) {
+			const invoer = document.getElementById(id);
+			invoer.addEventListener('change', () => {
+				if (invoer.files.length) uploadAlles(uitKeuze(invoer.files));
+				invoer.value = '';		// zodat dezelfde keuze nog eens kan
+			});
+		}
 		// Slepen: standaard opent de browser een gesleept bestand zelf; preventDefault() voorkomt dat.
 		['dragenter', 'dragover'].forEach(e => vak.addEventListener(e, ev => { ev.preventDefault(); vak.classList.add('actief'); }));
 		['dragleave', 'drop'].forEach(e => vak.addEventListener(e, ev => { ev.preventDefault(); vak.classList.remove('actief'); }));
-		vak.addEventListener('drop', ev => {
-			if (!ev.dataTransfer.files.length) return;
-			invoer.files = ev.dataTransfer.files;		// de gesleepte bestanden in het formulier zetten
-			controleerEnVerstuur(invoer.files);
+		vak.addEventListener('drop', async ev => {
+			if (document.querySelector('.upload-knop').disabled) return;	// er loopt al een upload
+			const lijst = await uitSleep(ev.dataTransfer);
+			if (lijst.length) uploadAlles(lijst);
 		});
 	}
 	</script>
