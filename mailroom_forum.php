@@ -18,6 +18,7 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/class/c_user_coll.php';
 require_once __DIR__ . '/class/c_topic.php';
 require_once __DIR__ . '/class/c_post.php';
+require_once __DIR__ . '/class/c_cat.php';
 
 // Noodreparatie okt 2026: zonder deze regel was deze pagina zonder inloggen bereikbaar.
 require_cli_or_admin();
@@ -65,12 +66,13 @@ function getMsgTemplate(): string
 	return file_get_contents($templatePath);
 }
 
-function buildForumMessage(string $template, Topic $topic, Post $post, string $userName): string
+function buildForumMessage(string $template, Topic $topic, Categorie $categorie, Post $post, string $userName): string
 {
 	// Post-tekst bevat al HTML; niet escapen
 	$messageText = Tools::opmaakHtml($post->tekst ?? '');   // gefilterde HTML (geen script e.d.)
-	$search = ['###message_topic###', '###message_text###', '###topic_id###', '###naam###', '###afzenderDomein###'];
+	$search = ['###message_cat###', '###message_topic###', '###message_text###', '###topic_id###', '###naam###', '###afzenderDomein###'];
 	$replace = [
+		htmlspecialchars($categorie->naam ?? '', ENT_QUOTES, 'UTF-8'),
 		htmlspecialchars($topic->onderwerp ?? '', ENT_QUOTES, 'UTF-8'),
 		$messageText,
 		$topic->id ?? '',
@@ -106,6 +108,7 @@ function createMailer(): PHPMailer
 $args = validateArgs($argv);
 
 $topic = new Topic('id', $args['topic_id']);
+$categorie = new Categorie('id', $topic->id_cat);
 $post  = new Post('id', $args['post_id']);
 $userOfPost = new User('id', $args['user_id']);
 
@@ -128,7 +131,7 @@ $userName = trim(sprintf(
 ));
 
 $template = getMsgTemplate();
-$emailBody = buildForumMessage($template, $topic, $post, $userName);
+$emailBody = buildForumMessage($template, $topic, $categorie, $post, $userName);
 
 $mailPrototype = createMailer();
 $mailPrototype->Subject = $topic->onderwerp ?? '(zonder onderwerp)';
