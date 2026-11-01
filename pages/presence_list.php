@@ -61,7 +61,7 @@ foreach ($userColl->userColl as $user) {
 			<td>{$i}</td>
 			<td>{$voornaam} {$tussenvoegsels} {$achternaam}</td>
 			<td>
-				<label>komt naar de jaarafsluiting&nbsp;&nbsp;</label>
+				<label>komt naar de maatjesavond van 11 november&nbsp;&nbsp;</label>
 				<input class=\"usersel\" type=\"checkbox\" name=\"userid\"{$htmlextra}
 					data-toggle=\"toggle\" data-size=\"sm\"
 					data-on=\"{$first_text}\" data-off=\"{$second_text}\"
@@ -121,14 +121,14 @@ foreach ($userColl->userColl as $user) {
 	<div id="main">
 		<div class="container my-5">
 
-			<h3 class="bluefont">20 mei 2026</h3>
-			<h1 class="text-black mb-5 bluefont">Deelnamelijst Jaarafsluiting 25/26</h1>
+			<h3 class="bluefont">19 oktober 2026</h3>
+			<h1 class="text-black mb-5 bluefont">Deelnamelijst Maatjesavond 11 november</h1>
 
-			<p>Op vrijdagavond 3 juli 2026 sluit JobHulp Culemborg het jaar feestelijk af met een hapje en een drankje.</p>
+			<p>Woensdagavond 11 november: Maatjesavond is Intervisieavond</p>
 			<p>Nu aanmelden of afmelden is belangrijk en simpel. De knop is grijs als je nog geen keuze hebt gemaakt.
 			   Als je de schuifknop 1&times; aanklikt wordt het &lsquo;ja&rsquo; en geef je aan dat je komt.
 			   Als je de knop 2&times; aanklikt wordt het, na refresh, &lsquo;nee&rsquo; en geef je dus aan dat je niet komt.</p>
-			<p><strong>Schrijf je hier in en kom ook op 3 juli.</strong></p>
+			<p><strong>Schrijf je hier in en kom ook op 11 november.</strong></p>
 
 			<table class="table table-sm">
 				<thead>
