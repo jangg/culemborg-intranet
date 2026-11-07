@@ -18,3 +18,6 @@ onderhoud.uit
 
 # Instellingen met wachtwoorden: nooit in git (voorbeeld: includes/configDB.voorbeeld.php)
 includes/configDB.php
+
+# Logboek van cleanDB.php: bevat namen van werkzoekenden en versiebeheer is niet nodig
+maintenance/*.log
