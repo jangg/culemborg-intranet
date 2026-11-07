@@ -31,6 +31,9 @@ include ('includes/configDB.php');
 include_once ('class/c_tools.php');
 error_reporting(E_ALL);
 setlocale(LC_ALL, 'nl_NL');
+// Nederlandse tijd voor date(), DateTime e.d., ongeacht wat er in php.ini staat
+// (MAMP gebruikte UTC: in het logboek van cleanDB.php stond de tijd een uur te vroeg).
+date_default_timezone_set('Europe/Amsterdam');
 
 function openDB ()
 {
