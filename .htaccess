@@ -43,3 +43,9 @@ Options -Indexes
 		Deny from all
 	</IfModule>
 </FilesMatch>
+
+# Niet opnemen in zoekmachines (ook de inlogpagina niet).
+# Werkt samen met robots.txt, waarin bewust niets wordt uitgesloten.
+<IfModule mod_headers.c>
+	Header always set X-Robots-Tag "noindex, nofollow"
+</IfModule>

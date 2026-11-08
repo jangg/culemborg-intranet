@@ -1,1 +1,5 @@
-User-agent: * Disallow: /
+# Intranet: niet opnemen in zoekmachines.
+# Dat regelt de kopregel X-Robots-Tag in .htaccess. Disallow blijft leeg,
+# zodat zoekmachines die noindex-kop ook echt te zien krijgen.
+User-agent: *
+Disallow:
