@@ -21,3 +21,6 @@ includes/configDB.php
 
 # Logboek van cleanDB.php: bevat namen van werkzoekenden en versiebeheer is niet nodig
 maintenance/*.log
+
+# Aanmeldlijst voor de maatjesavond: Jan past die per keer met de hand aan op de server
+pages/presence_list.php
