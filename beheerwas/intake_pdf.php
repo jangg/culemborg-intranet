@@ -17,8 +17,9 @@ function chkchkbx ($val)
 	if (($val & 2) ==  2) $textstring .= 'Deelnemen aan een JobGroep<br/>';
 	if (($val & 4) ==  4) $textstring .= 'Deelnemen aan "Stap in vrijwilligerswerk"<br/>';
 	if (($val & 8) ==  8) $textstring .= 'Helpen als vrijwilliger<br/>';
-	if (($val & 16) ==  16) $textstring .= 'een Workshop<br/>';
-	if (($val & 32) ==  32) $textstring .= 'Stap in Vrijwilligerswerk<br/>';
+	// 16 en 32 zijn in nov 2026 vervallen; alleen nog bij oude aanmeldingen.
+	if (($val & 16) ==  16) $textstring .= 'Workshop (oude keuze)<br/>';
+	if (($val & 32) ==  32) $textstring .= 'Anders (oude keuze)<br/>';
 	if (($val & 64) ==  64) $textstring .= 'Iets anders';
 	return $textstring;
 }

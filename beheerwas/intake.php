@@ -388,14 +388,20 @@ foreach ($intakerLijst as $intaker)
 							<input class="form-check-input" type="checkbox" disabled <?php  if(chkchkbx(4, $wkz->opties)) echo ' checked'; ?>>
 							<label class="form-check-label">&nbsp;Helpen als vrijwilliger</label>
 						</div>
-						<div class="form-check" hidden>
-							<input class="form-check-input" type="checkbox" disabled <?php  if(chkchkbx(5, $wkz->opties)) echo ' checked'; ?>>
-							<label class="form-check-label">&nbsp;Workshop volgen</label>
-						</div>
+						<?php // Hulpvorm 5 en 6 zijn in nov 2026 vervallen (staan niet op het
+						      // aanmeldformulier). Alleen nog tonen bij oude aanmeldingen waar ze zijn aangevinkt.
+						if (chkchkbx(5, $wkz->opties)) { ?>
 						<div class="form-check">
-							<input class="form-check-input" type="checkbox" disabled <?php  if(chkchkbx(6, $wkz->opties)) echo ' checked'; ?>>
-							<label class="form-check-label">&nbsp;Stap in Vrijwilligerswerk</label>
+							<input class="form-check-input" type="checkbox" disabled checked>
+							<label class="form-check-label">&nbsp;Workshop (oude keuze)</label>
 						</div>
+						<?php }
+						if (chkchkbx(6, $wkz->opties)) { ?>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" disabled checked>
+							<label class="form-check-label">&nbsp;Anders (oude keuze)</label>
+						</div>
+						<?php } ?>
 						<div class="form-check">
 							<input class="form-check-input" type="checkbox" disabled <?php  if(chkchkbx(7, $wkz->opties)) echo ' checked'; ?>>
 							<label class="form-check-label">&nbsp;Iets anders</label>
