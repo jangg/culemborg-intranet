@@ -7,6 +7,7 @@ include_once "../class/c_processtap.php";
 include_once "../class/c_aantekening.php";
 include_once "../class/c_maatje_coll.php";
 include_once "../class/c_jobgroup_coll.php";
+include_once "../class/c_documenten.php";
 
 $nbrPS = 0;
 $nbrAant = 0;
@@ -496,6 +497,9 @@ if ($wkz->id_user_modified != "") {
 						<!-- Navigatieknoppen links -->
 						<div class="d-flex flex-wrap align-items-center gap-2">
 							<a class="btn btn-primary mr-2" style="min-width:140px" href="intake.php?id=<?php echo (int) $wkz->id; ?>">Intake formulier</a>
+						<?php if (heeft_recht('beheerder') || heeft_recht('documenten_werkzoekenden')): ?>
+						<a class="btn btn-primary mr-2" style="min-width:140px" href="../documenten.php?r=werkzoekende&amp;w=<?php echo (int) $wkz->id; ?>"><i class="fa-regular fa-folder-open"></i> Documenten (<?= Document::aantal('werkzoekende', (int) $wkz->id) ?>)</a>
+						<?php endif; ?>
 							<a class="btn btn-primary mr-2" style="min-width:140px" href="overz_werkzoekenden.php">Terug</a>
 						</div>
 					</div>

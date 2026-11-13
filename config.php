@@ -54,8 +54,12 @@ openDB();
 /* ------------------------------------------------------------------
  * Toegangscontrole
  *
- * Welk beheerind-niveau welk recht geeft, staat in includes/rechten.php.
+ * Welke rechten er zijn, staat in includes/rechten.php. Welke rechten een
+ * gebruiker heeft, staat in de tabel user_recht (zie User::rechten()) en
+ * wordt ingesteld op het Systeem-scherm (systeem.php).
  * Dat bestand en dit bestand (config.php) zijn in beide sites gelijk.
+ * (Tijdelijk niet: Zoetermeer heeft sinds nov 2026 rechten per gebruiker,
+ * Culemborg nog de niveaus. Culemborg volgt.)
  *
  * require_login()
  *   Niet ingelogd? Dan naar het inlogscherm en stoppen.
@@ -86,21 +90,23 @@ function require_login(): void
 	}
 }
 
-function huidig_niveau(): int
+function huidige_rechten(): array
 {
 	// "static" onthoudt de waarde tussen aanroepen binnen hetzelfde verzoek.
 	// Zo wordt de gebruiker maar één keer uit de database gehaald, ook als
 	// heeft_recht() op een pagina tien keer wordt aangeroepen.
-	static $niveau = null;
-	if ($niveau === null) {
+	static $rechten = null;
+	if ($rechten === null) {
 		if (!isset($_SESSION['userid'])) {
-			return -1;   // niet ingelogd: geen enkel recht
+			return [];   // niet ingelogd: geen enkel recht
 		}
 		include_once __DIR__ . '/class/c_user.php';
-		$user   = new User('id', $_SESSION['userid']);
-		$niveau = (int)$user->authLevel();
+		$user = new User('id', $_SESSION['userid']);
+		// Geblokkeerd (person.delind = 'j') of niet gevonden: geen rechten,
+		// ook niet als hij nog ingelogd was.
+		$rechten = $user->id ? $user->rechten() : [];
 	}
-	return $niveau;
+	return $rechten;
 }
 
 function heeft_recht(string $recht): bool
@@ -110,8 +116,9 @@ function heeft_recht(string $recht): bool
 		error_log("heeft_recht: onbekend recht '$recht'");
 		return false;
 	}
-	// true als derde argument: vergelijk ook het type (int met int).
-	return in_array(huidig_niveau(), RECHTEN[$recht], true);
+	$rechten = huidige_rechten();
+	// De beheerder mag alles. true als derde argument: vergelijk ook het type.
+	return in_array('beheerder', $rechten, true) || in_array($recht, $rechten, true);
 }
 
 function require_recht(string $recht): void

@@ -1,32 +1,56 @@
 <?php
 /* ------------------------------------------------------------------
- * Rechten — GELIJK voor beide intranetten (Culemborg en Zoetermeer)
+ * Rechten (nov 2026: rechten per gebruiker)
  *
- * Per recht staat hier welke beheerind-niveaus (tabel user) het hebben.
- * range(1, 9) betekent: 1, 2, 3, 4, 5, 6, 7, 8 en 9.
- * Dit bestand moet in beide sites gelijk blijven (vergelijk.sh controleert dat).
- * Nieuw recht nodig? Voeg hier een regel toe en gebruik
- * heeft_recht('naam') of require_recht('naam').
+ * Elke gebruiker heeft zijn eigen lijst van rechten (tabel user_recht,
+ * één regel per recht). Het Systeem-scherm (systeem.php, alleen voor de
+ * beheerder) toont deze lijst als vinkjes.
  *
- * Niveaus (besluit Jan, 9 oktober 2026):
- *   0 = wel inloggen, geen forum
- *   1 = buitenstaander: forum lezen
- *   2 = maatje: 1 + forum schrijven
- *   3 = 2 + redactie
- *   4 = 2 + WAS lezen
- *   5 = 2 + WAS lezen en schrijven
- *   6 = 5 + maatjes wijzigen/verwijderen
- *   7 = redactie + WAS lezen            (3 + 4)
- *   8 = redactie + WAS lezen en schrijven (3 + 5)
- *   9 = alles (beheerder)
+ * RECHTEN    alle rechten die er zijn, met een omschrijving voor het scherm.
+ *            Nieuw recht nodig? Voeg hier een regel toe. Er verschijnt dan
+ *            vanzelf een vinkje op het Systeem-scherm; aan de database
+ *            verandert niets. Gebruik het in de code met
+ *            heeft_recht('naam') of require_recht('naam') (zie config.php).
+ * VEREIST    rechten die niet zonder een ander recht kunnen. Wie het eerste
+ *            krijgt, krijgt het tweede er automatisch bij.
+ * PROFIELEN  vaste combinaties. Op het Systeem-scherm zet één klik de vinkjes;
+ *            daarna kun je per persoon nog afwijken. Een profiel wordt niet
+ *            opgeslagen: alleen de vinkjes tellen.
+ *
+ * Het recht 'beheerder' staat niet als vinkje op het scherm: de beheerder
+ * mag automatisch alles, en zijn account kan daar niet worden gewijzigd of
+ * geblokkeerd. Beheerder maken kan alleen in phpMyAdmin (tabel user_recht).
+ *
+ * Tot 6 november 2026 gold hier een niveau (user.beheerind, 0-9). Hoe die
+ * niveaus zijn omgezet: migraties/2026-11-06_rechten-per-gebruiker_jhmz.sql.
  * ------------------------------------------------------------------ */
 define('RECHTEN', [
-	'forum_lezen'       => range(1, 9),
-	'forum_schrijven'   => range(2, 9),
-	'redactie'          => [3, 7, 8, 9],
-	'was_lezen'         => [4, 5, 6, 7, 8, 9],
-	'was_wijzigen'      => [5, 6, 8, 9],
-	'maatjes_wijzigen'  => [6, 9],
-	'presentie_anderen' => [6, 9],      // aanmelden van anderen voor maatjesavonden (pages/presence_list.php)
-	'beheerder'         => [9],
+	// naam                       => [groep, omschrijving op het Systeem-scherm]
+	'forum_lezen'              => ['Forum',      'Forum lezen'],
+	'forum_schrijven'          => ['Forum',      'Forum: berichten schrijven'],
+	'redactie'                 => ['Redactie',   'Redactie: nieuws, agenda, postits'],
+	'was_lezen'                => ['WAS',        'WAS lezen'],
+	'was_wijzigen'             => ['WAS',        'WAS wijzigen (werkzoekenden, intakes)'],
+	'maatjes_wijzigen'         => ['WAS',        'Maatjes wijzigen en verwijderen'],
+	'presentie_anderen'        => ['WAS',        'Anderen aanmelden voor maatjesavonden'],
+	'documenten_gedeeld'       => ['Documenten', 'A. Gedeelde documenten'],
+	'documenten_eigen'         => ['Documenten', 'B. Documenten van de eigen werkzoekenden'],
+	'documenten_werkzoekenden' => ['Documenten', 'C. Documenten van alle werkzoekenden'],
+	'beheerder'                => ['Beheer',     'Beheerder: mag alles'],
+]);
+
+define('VEREIST', [
+	'forum_schrijven'  => ['forum_lezen'],
+	'was_wijzigen'     => ['was_lezen'],
+	'maatjes_wijzigen' => ['was_lezen', 'was_wijzigen'],
+]);
+
+define('PROFIELEN', [
+	'Buitenstaander' => ['forum_lezen'],
+	'Maatje'         => ['forum_lezen', 'forum_schrijven', 'documenten_eigen'],
+	'Redactie'       => ['forum_lezen', 'forum_schrijven', 'documenten_eigen', 'redactie'],
+	'Coördinator'    => ['forum_lezen', 'forum_schrijven', 'documenten_eigen', 'was_lezen', 'was_wijzigen',
+	                     'documenten_gedeeld', 'documenten_werkzoekenden'],
+	'Coördinator + maatjes' => ['forum_lezen', 'forum_schrijven', 'documenten_eigen', 'was_lezen', 'was_wijzigen',
+	                     'documenten_gedeeld', 'documenten_werkzoekenden', 'maatjes_wijzigen', 'presentie_anderen'],
 ]);

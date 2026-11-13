@@ -9,6 +9,8 @@ $canForumWrite = heeft_recht('forum_schrijven');
 $canRedactie   = heeft_recht('redactie');
 $canWas        = heeft_recht('was_lezen');
 $canAll        = heeft_recht('beheerder');
+// Documenten: minstens één van de rechten A, B of C (zelfde regel als Document::magPagina())
+$canDocs       = heeft_recht('documenten_gedeeld') || heeft_recht('documenten_eigen') || heeft_recht('documenten_werkzoekenden');
 ?>
 <nav class="navbar navbar-expand-xl navbar-dark fixed-top bg-primary">
 	<div class="container">
@@ -40,6 +42,10 @@ $canAll        = heeft_recht('beheerder');
 				</li>
 				
 				
+				<li class="nav-item <?php if (in_array(basename($_SERVER['PHP_SELF']), ['documenten.php', 'documenten_beheer.php'])) echo 'active'; ?>">
+					<a class="nav-link <?= h($canDocs ? '' : 'disabled') ?>" href="<?= h($canDocs ? '/documenten.php' : '#') ?>">Documenten</a>
+				</li>
+
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Beheer</a>
 					<div class="dropdown-menu">
@@ -49,7 +55,11 @@ $canAll        = heeft_recht('beheerder');
 					
 					<a class="dropdown-item <?= h($canWas ? '' : 'disabled') ?>"
 					   href="<?= h($canWas ? '/beheerwas/beheer.php' : '#') ?>"
-					   <?= h($canWas ? '' : 'aria-disabled="true"') ?>>de WAS</a>					
+					   <?= h($canWas ? '' : 'aria-disabled="true"') ?>>de WAS</a>
+					<?php if ($canAll): /* nov 2026: alleen voor de beheerder, anderen zien het niet */ ?>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="/systeem.php">Systeem</a>
+					<?php endif; ?>
 				   </div>
 				</li>
 			</ul>
