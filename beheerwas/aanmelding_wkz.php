@@ -250,21 +250,23 @@ if (isset($_POST["saveWzBut"]) && $_POST["saveWzBut"] === "bewaar1") {
 				<span class="input-group-text" style="width: 100%;">Opties</span>
 			</div>
 			<div class="pl-3" style="font-size: .9em;">
+				<?php // Hulpvorm 1-4 en 7: dezelfde omschrijvingen als het aanmeldformulier op de
+				      // publieke website (pub-jhc/aanmelden.php). Dat formulier is leidend. ?>
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" name="hulpvorm1" id="hulpvorm1"<?php if (chkchkbx(1, $wkz->opties)) { echo " checked"; } ?>>
-					<label class="form-check-label" for="hulpvorm1">&nbsp;JobMaatje traject</label>
+					<label class="form-check-label" for="hulpvorm1">&nbsp;Individueel traject met een JobMaatje</label>
 				</div>
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" name="hulpvorm2" id="hulpvorm2"<?php if (chkchkbx(2, $wkz->opties)) { echo " checked"; } ?>>
-					<label class="form-check-label" for="hulpvorm2">&nbsp;Jobgroep</label>
+					<label class="form-check-label" for="hulpvorm2">&nbsp;Deelnemen aan een JobGroep</label>
 				</div>
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" name="hulpvorm3" id="hulpvorm3"<?php if (chkchkbx(3, $wkz->opties)) { echo " checked"; } ?> hidden>
-					<label class="form-check-label" for="hulpvorm3" hidden>&nbsp;Jobgroup "Ik Werk In Nederland"</label>
+					<input class="form-check-input" type="checkbox" name="hulpvorm3" id="hulpvorm3"<?php if (chkchkbx(3, $wkz->opties)) { echo " checked"; } ?>>
+					<label class="form-check-label" for="hulpvorm3">&nbsp;Deelnemen aan "Stap in vrijwilligerswerk"</label>
 				</div>
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" name="hulpvorm4" id="hulpvorm4"<?php if (chkchkbx(4, $wkz->opties)) { echo " checked"; } ?> hidden>
-					<label class="form-check-label" for="hulpvorm4" hidden>&nbsp;Jobgroup voor ZZP'ers</label>
+					<input class="form-check-input" type="checkbox" name="hulpvorm4" id="hulpvorm4"<?php if (chkchkbx(4, $wkz->opties)) { echo " checked"; } ?>>
+					<label class="form-check-label" for="hulpvorm4">&nbsp;Helpen als vrijwilliger</label>
 				</div>
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" name="hulpvorm5" id="hulpvorm5"<?php if (chkchkbx(5, $wkz->opties)) { echo " checked"; } ?>>
@@ -276,7 +278,7 @@ if (isset($_POST["saveWzBut"]) && $_POST["saveWzBut"] === "bewaar1") {
 				</div>
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" name="hulpvorm7" id="hulpvorm7"<?php if (chkchkbx(7, $wkz->opties)) { echo " checked"; } ?>>
-					<label class="form-check-label" for="hulpvorm7">&nbsp;Weet ik nog niet</label>
+					<label class="form-check-label" for="hulpvorm7">&nbsp;Iets anders</label>
 				</div>
 			</div>
 		</div>

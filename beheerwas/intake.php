@@ -414,19 +414,19 @@ foreach ($intakerLijst as $intaker)
 					<div class="pl-3" style="font-size: .9em;">
 						<div class="form-check">
 							<input class="form-check-input" type="checkbox" disabled <?php  if(chkchkbx(1, $wkz->opties)) echo ' checked'; ?>>
-							<label class="form-check-label">&nbsp;JobMaatje traject</label>
+							<label class="form-check-label">&nbsp;Individueel traject met een JobMaatje</label>
 						</div>
 						<div class="form-check">
 							<input class="form-check-input" type="checkbox" disabled <?php  if(chkchkbx(2, $wkz->opties)) echo ' checked'; ?>>
-							<label class="form-check-label">&nbsp;Jobgroep</label>
+							<label class="form-check-label">&nbsp;Deelnemen aan een JobGroep</label>
 						</div>
-						<div class="form-check" hidden>
+						<div class="form-check">
 							<input class="form-check-input" type="checkbox" disabled <?php  if(chkchkbx(3, $wkz->opties)) echo ' checked'; ?>>
-							<label class="form-check-label">&nbsp;Jobgroup "Ik Werk In Nederland"</label>
+							<label class="form-check-label">&nbsp;Deelnemen aan "Stap in vrijwilligerswerk"</label>
 						</div>
-						<div class="form-check" hidden>
+						<div class="form-check">
 							<input class="form-check-input" type="checkbox" disabled <?php  if(chkchkbx(4, $wkz->opties)) echo ' checked'; ?>>
-							<label class="form-check-label">&nbsp;Jobgroup voor ZZP'ers</label>
+							<label class="form-check-label">&nbsp;Helpen als vrijwilliger</label>
 						</div>
 						<div class="form-check" hidden>
 							<input class="form-check-input" type="checkbox" disabled <?php  if(chkchkbx(5, $wkz->opties)) echo ' checked'; ?>>
@@ -438,7 +438,7 @@ foreach ($intakerLijst as $intaker)
 						</div>
 						<div class="form-check">
 							<input class="form-check-input" type="checkbox" disabled <?php  if(chkchkbx(7, $wkz->opties)) echo ' checked'; ?>>
-							<label class="form-check-label">&nbsp;Weet het nog niet</label>
+							<label class="form-check-label">&nbsp;Iets anders</label>
 						</div>
 					</div>
 				</div>

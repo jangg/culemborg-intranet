@@ -12,13 +12,15 @@ require_recht('was_lezen');
 function chkchkbx ($val)
 {
 	$textstring = '';
-	if (($val & 1) ==  1) $textstring = 'een JobMaatje traject<br/>';
-	if (($val & 2) ==  2) $textstring .= 'een Jobgroep<br/>';
-	if (($val & 4) ==  4) $textstring .= 'een Jobgroup "Ik Werk In Nederland"<br/>';
-	if (($val & 8) ==  8) $textstring .= 'een Jobgroup voor ZZP\'ers<br/>';
-	if (($val & 16) ==  16) $textstring .= 'een Workshop';
-	if (($val & 32) ==  32) $textstring .= 'Stap in Vrijwilligerswerk';
-	if (($val & 64) ==  64) $textstring .= 'iets anders';
+	// 1, 2, 4, 8 en 64: dezelfde omschrijvingen als het aanmeldformulier op de
+	// publieke website (pub-jhc/aanmelden.php). Dat formulier is leidend.
+	if (($val & 1) ==  1) $textstring = 'Individueel traject met een JobMaatje<br/>';
+	if (($val & 2) ==  2) $textstring .= 'Deelnemen aan een JobGroep<br/>';
+	if (($val & 4) ==  4) $textstring .= 'Deelnemen aan "Stap in vrijwilligerswerk"<br/>';
+	if (($val & 8) ==  8) $textstring .= 'Helpen als vrijwilliger<br/>';
+	if (($val & 16) ==  16) $textstring .= 'een Workshop<br/>';
+	if (($val & 32) ==  32) $textstring .= 'Stap in Vrijwilligerswerk<br/>';
+	if (($val & 64) ==  64) $textstring .= 'Iets anders';
 	return $textstring;
 }
 
