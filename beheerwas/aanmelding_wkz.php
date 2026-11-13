@@ -268,14 +268,8 @@ if (isset($_POST["saveWzBut"]) && $_POST["saveWzBut"] === "bewaar1") {
 					<input class="form-check-input" type="checkbox" name="hulpvorm4" id="hulpvorm4"<?php if (chkchkbx(4, $wkz->opties)) { echo " checked"; } ?>>
 					<label class="form-check-label" for="hulpvorm4">&nbsp;Helpen als vrijwilliger</label>
 				</div>
-				<div class="form-check">
-					<input class="form-check-input" type="checkbox" name="hulpvorm5" id="hulpvorm5"<?php if (chkchkbx(5, $wkz->opties)) { echo " checked"; } ?>>
-					<label class="form-check-label" for="hulpvorm5">&nbsp;Workshop</label>
-				</div>
-				<div class="form-check">
-					<input class="form-check-input" type="checkbox" name="hulpvorm6" id="hulpvorm6"<?php if (chkchkbx(6, $wkz->opties)) { echo " checked"; } ?>>
-					<label class="form-check-label" for="hulpvorm6">&nbsp;Anders</label>
-				</div>
+				<?php // Hulpvorm 5 (Workshop) en 6 (Anders) zijn in nov 2026 vervallen: ze staan
+				      // niet op het aanmeldformulier. Hulpvorm 7 houdt zijn eigen nummer. ?>
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" name="hulpvorm7" id="hulpvorm7"<?php if (chkchkbx(7, $wkz->opties)) { echo " checked"; } ?>>
 					<label class="form-check-label" for="hulpvorm7">&nbsp;Iets anders</label>
