@@ -66,7 +66,8 @@ function getMsgs ($number, $naam)
 	$n = 0;
 	foreach ($newsitemColl->newsitemColl as $newsitem) 
 	{
-		$datum = new DateTimeImmutable($newsitem->datetime_pub_intern);
+		// Geen 'datum intern' ingevuld (null)? Dan de datum van vandaag ('now').
+		$datum = new DateTimeImmutable($newsitem->datetime_pub_intern ?? 'now');
 		$width = 100;
 		$place = 'left';
 		
