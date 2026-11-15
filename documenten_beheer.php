@@ -23,6 +23,11 @@ if (isset($_POST['wezen_opruimen'])) {
 	header('Location: documenten_beheer.php?opgeruimd=' . $n);
 	exit();
 }
+if (isset($_POST['eigen_opruimen'])) {
+	// De persoonlijke documenten uit de testperiode (ruimte 'eigen'; zie Document::verwijderEigen())
+	header('Location: documenten_beheer.php?eigen_opgeruimd=' . Document::verwijderEigen());
+	exit();
+}
 if (isset($_POST['opslaan'])) {
 	// Extensies: alleen letters en cijfers, kleine letters, zonder punt, geen dubbele
 	$ext = preg_split('/[\s,;]+/', strtolower((string)($_POST['extensies'] ?? '')), -1, PREG_SPLIT_NO_EMPTY);
@@ -71,6 +76,7 @@ $gebruik  = Document::opslagPerRuimte();		// per ruimte: aantal documenten en by
 
 	<?php if (isset($_GET['opgeslagen'])): ?><div class="alert alert-success">De instellingen zijn opgeslagen.</div><?php endif; ?>
 	<?php if (isset($_GET['opgeruimd'])): ?><div class="alert alert-success"><?= (int)$_GET['opgeruimd'] ?> document(en) van werkzoekenden die niet meer bestaan, zijn verwijderd.</div><?php endif; ?>
+	<?php if (isset($_GET['eigen_opgeruimd'])): ?><div class="alert alert-success"><?= (int)$_GET['eigen_opgeruimd'] ?> eigen document(en) uit de testperiode zijn verwijderd.</div><?php endif; ?>
 	<?php foreach ($fouten as $f): ?><div class="alert alert-warning"><?= h($f) ?></div><?php endforeach; ?>
 
 	<form method="POST" action="documenten_beheer.php">
@@ -113,7 +119,12 @@ $gebruik  = Document::opslagPerRuimte();		// per ruimte: aantal documenten en by
 	<table class="table table-sm" style="max-width: 520px;">
 		<thead><tr><th></th><th class="text-right">Documenten</th><th class="text-right">Ruimte</th></tr></thead>
 		<?php foreach ($regels as $ruimte => $omschrijving): ?>
-		<tr><td><?= h($omschrijving) ?></td>
+		<tr><td><?= h($omschrijving) ?>
+			<?php if ($ruimte === 'eigen'): ?>
+			<form method="POST" action="documenten_beheer.php" class="d-inline" onsubmit="return confirm('Alle eigen documenten uit de testperiode definitief verwijderen?');">
+				<?= csrf_veld() ?><button name="eigen_opruimen" value="1" class="btn btn-sm btn-outline-danger ml-2">Opruimen</button>
+			</form>
+			<?php endif; ?></td>
 			<td class="text-right"><?= number_format($gebruik[$ruimte]['aantal'], 0, ',', '.') ?></td>
 			<td class="text-right"><?= h(Document::mb($gebruik[$ruimte]['bytes'])) ?></td></tr>
 		<?php endforeach; ?>
