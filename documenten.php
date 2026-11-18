@@ -20,6 +20,7 @@
 require_once('config.php');
 include_once('class/c_user.php');
 include_once('class/c_documenten.php');
+include_once('includes/uitleg_videos.php');	// instructievideo's (nov 2026)
 
 require_login();
 if (!Document::magPagina()) {	// minstens één van de rechten A, B of C (nov 2026)
@@ -236,8 +237,9 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($wzk ? 'Documenten va
 		<?php if ($magWzk): ?>
 		<li class="nav-item"><a class="nav-link <?= $r === 'werkzoekende' ? 'active' : '' ?>" href="documenten.php?r=werkzoekende"><i class="fa-regular fa-address-card"></i> Werkzoekenden</a></li>
 		<?php endif; ?>
+		<li class="nav-item ml-auto"><a class="nav-link" href="uitleg_documenten.php"><i class="fa-solid fa-circle-play"></i> Uitleg</a></li>
 		<?php if ($beheerder): ?>
-		<li class="nav-item ml-auto"><a class="nav-link" href="documenten_beheer.php"><i class="fa-solid fa-sliders"></i> Instellingen</a></li>
+		<li class="nav-item"><a class="nav-link" href="documenten_beheer.php"><i class="fa-solid fa-sliders"></i> Instellingen</a></li>
 		<?php endif; ?>
 	</ul>
 
@@ -258,7 +260,7 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($wzk ? 'Documenten va
 	<?php endif; ?>
 
 <?php if ($lijstWzk): /* ====================== LIJST VAN WERKZOEKENDEN ====================== */ ?>
-	<h4 class="mb-2">Werkzoekenden</h4>
+	<h4 class="mb-2">Werkzoekenden<?= uitleg_knop('doc1') ?></h4>
 	<p class="text-muted mb-3">
 		<?php if ($beheerder || heeft_recht('documenten_werkzoekenden')): ?>
 			Alle werkzoekenden. Klik op een naam voor de documenten van die werkzoekende (cv, brieven, afspraken).
@@ -319,7 +321,7 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($wzk ? 'Documenten va
 
 <?php else: /* ====================== GEDEELD OF ÉÉN WERKZOEKENDE ====================== */ ?>
 
-	<h4 class="mb-2"><?= h($titelRuimte) ?></h4>
+	<h4 class="mb-2"><?= h($titelRuimte) ?><?= uitleg_knop($r === 'gedeeld' ? 'doc5' : 'doc1') ?></h4>
 	<p class="text-muted mb-3">
 		<?php if ($r === 'gedeeld'): ?>
 			Deze documenten zijn te zien voor alle coördinatoren. Alleen wie een document heeft toegevoegd, kan het verwijderen of een andere naam geven.
@@ -371,9 +373,9 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($wzk ? 'Documenten va
 				<button type="button" class="btn btn-primary btn-lg upload-knop" onclick="document.getElementById('mapkeuze').click();" <?= $opslagOk ? '' : 'disabled' ?>>
 					<i class="fa-solid fa-folder-open"></i> Map toevoegen</button>
 				<button type="button" class="btn btn-outline-primary btn-lg upload-knop" onclick="nieuweMap();">
-					<i class="fa-solid fa-folder-plus"></i> Nieuwe map</button>
+					<i class="fa-solid fa-folder-plus"></i> Nieuwe map</button><?= uitleg_knop('doc3') ?>
 			</div>
-			<div>of sleep bestanden of een map naar dit vak</div>
+			<div>of sleep bestanden of een map naar dit vak<?= uitleg_knop($r === 'gedeeld' ? 'doc5' : 'doc1') ?></div>
 			<div id="bezig" class="mt-2 d-none"><i class="fa-solid fa-spinner fa-spin"></i> <span id="bezig-tekst">Bezig met toevoegen, even geduld...</span></div>
 		</div>
 	</form>
@@ -389,9 +391,9 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($wzk ? 'Documenten va
 
 	<table class="table table-hover doc-tabel">
 		<thead class="thead-light"><tr>
-			<th class="icoon"></th><th>Naam</th><th class="d-none d-md-table-cell">Datum</th>
+			<th class="icoon"></th><th>Naam<?= uitleg_knop('doc2') ?></th><th class="d-none d-md-table-cell">Datum</th>
 			<th class="d-none d-md-table-cell">Toegevoegd door</th>
-			<th class="text-right d-none d-sm-table-cell">Grootte</th><th></th>
+			<th class="text-right d-none d-sm-table-cell">Grootte</th><th class="text-right"><?= uitleg_knop('doc4') ?></th>
 		</tr></thead>
 		<tbody>
 		<?php if ($mapId !== null && $zoek === ''):
@@ -606,5 +608,6 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($wzk ? 'Documenten va
 <?php endif; ?>
 </div>
 </main>
+<?= uitleg_venster() ?>
 </body>
 </html>

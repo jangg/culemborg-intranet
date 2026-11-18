@@ -11,6 +11,7 @@
 require_once('config.php');
 include_once('class/c_user.php');
 include_once('class/c_documenten.php');
+include_once('includes/uitleg_videos.php');	// instructievideo's (nov 2026)
 
 require_recht('beheerder');
 $curr_user = new User('id', $_SESSION['userid']);
@@ -71,7 +72,7 @@ $gebruik  = Document::opslagPerRuimte();		// per ruimte: aantal documenten en by
 <?php include('includes/navbar.php'); ?>
 <main role="main">
 <div class="container mb-5" style="max-width: 760px;">
-	<h1 class="display-4 bluefont p-3 mt-md-5">Instellingen documenten</h1>
+	<h1 class="display-4 bluefont p-3 mt-md-5">Instellingen documenten<?= uitleg_knop('doc6') ?></h1>
 	<p><a href="documenten.php"><i class="fa-solid fa-arrow-left"></i> Terug naar de documenten</a></p>
 
 	<?php if (isset($_GET['opgeslagen'])): ?><div class="alert alert-success">De instellingen zijn opgeslagen.</div><?php endif; ?>
@@ -158,5 +159,6 @@ $gebruik  = Document::opslagPerRuimte();		// per ruimte: aantal documenten en by
 	<?php endif; ?>
 </div>
 </main>
+<?= uitleg_venster() ?>
 </body>
 </html>
