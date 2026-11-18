@@ -26,7 +26,7 @@ define('RECHTEN', [
 	'redactie'          => [3, 7, 8, 9],
 	'was_lezen'         => [4, 5, 6, 7, 8, 9],
 	'was_wijzigen'      => [5, 6, 8, 9],
-	'maatjes_wijzigen'  => [6, 9],
-	'presentie_anderen' => [6, 9],      // aanmelden van anderen voor maatjesavonden (pages/presence_list.php)
+	'maatjes_wijzigen'  => [6, 8, 9],
+	'presentie_anderen' => [6, 8, 9],      // aanmelden van anderen voor maatjesavonden (pages/presence_list.php)
 	'beheerder'         => [9],
 ]);
