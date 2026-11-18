@@ -11,6 +11,8 @@
  *   - delete intakeform  where id_werkzkd = werkzkd.id
  *   - delete werkzkd
  *   - delete person
+ *   - delete de documenten van de werkzoekende (tabellen document en docmap
+ *     én de bestanden in DOC_DIR), via Document::verwijderAllesVan() (nov 2026)
  *
  * Usage:
  *   php cron/cleanup_werkzkd.php                 (DRY-RUN)
@@ -23,6 +25,7 @@ declare(strict_types=1);
 // Noodreparatie okt 2026: zonder deze regel was deze pagina zonder inloggen bereikbaar.
 // Alleen via de command line (cron) of door een ingelogde beheerder (niveau 9).
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../class/c_documenten.php';
 require_cli_or_admin();
 
 function getFlag(string $key): bool
@@ -149,10 +152,11 @@ try
 		$cntA = (int)$pdo->query("SELECT COUNT(*) FROM aantekening WHERE id_werkzkd = {$wid}")->fetchColumn();
 		$cntP = (int)$pdo->query("SELECT COUNT(*) FROM processtap  WHERE id_werkzkd = {$wid}")->fetchColumn();
 		$cntI = (int)$pdo->query("SELECT COUNT(*) FROM intakeform  WHERE id_werkzkd = {$wid}")->fetchColumn();
+		$cntD = Document::aantal('werkzoekende', $wid);
 
 		if ($dryRun) 
 		{
-			log_line("DRY-RUN wid={$wid}, pid={$pid} => delete aantekening={$cntA}, processtap={$cntP}, intakeform={$cntI}, werkzkd=1, person=1, naam={$naam}",
+			log_line("DRY-RUN wid={$wid}, pid={$pid} => delete aantekening={$cntA}, processtap={$cntP}, intakeform={$cntI}, documenten={$cntD}, werkzkd=1, person=1, naam={$naam}",
 				$logFile, $verbose);
 			$pdo->rollBack();
 			continue;
@@ -167,9 +171,13 @@ try
 		$stDelPers->execute([':pid' => $pid]); $totals['person']++;
 
 		$pdo->commit();
+
+		// De documenten pas NA de commit: bestanden kun je niet terugdraaien met een rollback.
+		// Mislukt dit, dan ziet de beheerder ze in documenten_beheer.php en kan hij ze daar opruimen.
+		$cntD = Document::verwijderAllesVan('werkzoekende', $wid);
 		// echo 'records zijn verwijderd!<br/>';
 
-		log_line("OK wid={$wid}, pid={$pid} verwijderd (aant={$cntA}, proc={$cntP}, intk={$cntI}), naam={$naam}", $logFile, $verbose);
+		log_line("OK wid={$wid}, pid={$pid} verwijderd (aant={$cntA}, proc={$cntP}, intk={$cntI}, doc={$cntD}), naam={$naam}", $logFile, $verbose);
 	}
 
 	if ($dryRun) 

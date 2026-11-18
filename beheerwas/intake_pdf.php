@@ -4,6 +4,7 @@ include_once('../config.php');
 require_once('../class/c_intakeformpdf.php');
 include_once('../class/c_werkzoekende.php');
 include_once('../class/c_intakeform.php');
+include_once('../class/c_documenten.php');
 
 // Noodreparatie okt 2026: zonder deze regel was deze pagina zonder inloggen bereikbaar.
 require_recht('was_lezen');
@@ -125,12 +126,24 @@ function chkopleiding ($val)
 }
 
 
-if (!isset($_GET['id']) || !is_numeric($_GET['id']))
+/* Nov 2026: deze pagina doet twee dingen.
+ *   GET  intake_pdf.php?id=12                 de PDF in de browser tonen (zoals altijd)
+ *   POST id=12, actie=opslaan                 de PDF opslaan in de documenten (DBS)
+ *        (+ vervang=1)                        van deze werkzoekende, zie onderaan
+ * Het maken van de PDF zelf is voor beide hetzelfde. */
+$opslaan = ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['actie'] ?? '') === 'opslaan');
+$wkzId   = $opslaan ? ($_POST['id'] ?? '') : ($_GET['id'] ?? '');
+if (!is_numeric($wkzId))
 {
 	header('location: intake.php');
 	exit();
 }
-$wkz = new Werkzoekende ('id', $_GET['id']);
+$wkz = new Werkzoekende ('id', $wkzId);
+if (!$wkz->id)
+{
+	header('location: intake.php');
+	exit();
+}
 if ($wkz->id_intakeform != '')
 	$intakeform = new Intakeform ('id', $wkz->id_intakeform);
 	else
@@ -305,9 +318,37 @@ $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
 // ---------------------------------------------------------
 
-// Close and output PDF document
-// This method has several options, check the source code documentation for more information.
-$pdf->Output('intakeformulier.pdf', 'I');
+if (!$opslaan)
+{
+	// Tonen in de browser ('I' = inline)
+	$pdf->Output('intakeformulier.pdf', 'I');
+	exit();
+}
+
+/* ---------------------------------------------------------
+ * Opslaan in de documenten van de werkzoekende (nov 2026)
+ * 'S' = de PDF niet versturen maar als tekst teruggeven, zodat we hem
+ * zelf kunnen wegschrijven. De naam bevat de datum van vandaag; bestaat
+ * die naam al (vandaag al eens opgeslagen), dan alleen vervangen als de
+ * gebruiker dat na de waarschuwing heeft bevestigd (vervang=1).
+ * Het resultaat gaat als melding mee terug naar intake.php.
+ * --------------------------------------------------------- */
+$mijnId = (int)$_SESSION['userid'];
+$terug  = 'intake.php?id=' . urlencode((string)$wkz->id);
+if (!Document::magRuimte('werkzoekende', (int)$wkz->id, $mijnId))
+{
+	$_SESSION['intake_melding'] = ['danger', 'Je mag geen documenten opslaan bij deze werkzoekende.'];
+} else
+{
+	$naam = Document::intakeNaam($wkz);
+	$fout = Document::bewaarInhoud($pdf->Output('', 'S'), $naam, 'werkzoekende', (int)$wkz->id, null,
+		$mijnId, ($_POST['vervang'] ?? '') === '1');
+	$_SESSION['intake_melding'] = $fout === null
+		? ['success', 'Het intakeformulier is opgeslagen als "' . $naam . '" in de documenten van deze werkzoekende.']
+		: ['danger', $fout];
+}
+header('location: ' . $terug);
+exit();
 
 //============================================================+
 // END OF FILE

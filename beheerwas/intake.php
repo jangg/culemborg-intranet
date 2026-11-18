@@ -4,6 +4,7 @@ include_once('../class/c_user.php');
 include_once('../class/c_werkzoekende.php');
 include_once('../class/c_intakeform.php');
 include_once('../class/c_maatje_coll.php');
+include_once('../class/c_documenten.php');
 
 /************************
 Dit stukje is nodig om misbruik van de website voorkomen
@@ -66,6 +67,20 @@ if (isset($_GET['id']) && is_numeric($_GET['id']))
 	}	
 }
 
+/* Nov 2026: de knop "PDF opslaan in Documenten".
+   Bij alle werkzoekenden, actief of niet (niet-actieve verdwijnen later via de
+   periodieke opschoning), maar alleen als deze gebruiker bij de documenten van
+   die werkzoekende mag (dezelfde regel als op de pagina Documenten).
+   $bestaatAl: is het formulier vandaag al opgeslagen? Dan waarschuwt de knop eerst. */
+$magOpslaan = $wkz->id
+	&& Document::magRuimte('werkzoekende', (int)$wkz->id, (int)$_SESSION['userid']);
+$intakeNaam = $magOpslaan ? Document::intakeNaam($wkz) : '';
+$bestaatAl  = $magOpslaan && Document::zoekNaamInMap('werkzoekende', (int)$wkz->id, null, $intakeNaam) !== null;
+
+/* De melding van intake_pdf.php na het opslaan: één keer tonen, dan weg. */
+$intakeMelding = $_SESSION['intake_melding'] ?? null;
+unset($_SESSION['intake_melding']);
+
 /* Haal alle beschikbare intakers op */
 $arr1 = array (array (0 => 'person.type', 1 => 'mtj'));
 $arr2 = array (array (0 => 'person.achternaam', 1 => 'ASC'));
@@ -118,7 +133,8 @@ foreach ($intakerLijst as $intaker)
 		border-radius: 6px;
 	}
 	.but-size {
-		width: 125px;
+		width: 150px;
+		white-space: nowrap;	/* tekst altijd op één regel, dan blijven de knoppen even hoog */
 	}
 	
 	
@@ -191,10 +207,34 @@ foreach ($intakerLijst as $intaker)
 		</div>
 
 		<div class="container" id="tabContainer">
-			<p>
-				<a class="btn btn-primary but-size" href="intake_pdf.php?id=<?php echo h($wkz->id) ?>" role="button">maak PDF</a>
+			<?php // Een div met d-flex in plaats van <p>: een <form> mag niet binnen een <p> staan
+			      // (de browser sluit de <p> dan af en de knoppen komen niet netjes op één rij).
+			      // d-flex zet alles op één rij; mr-2 geeft 0,5 rem ruimte rechts van elke knop. ?>
+			<div class="d-flex flex-wrap mb-3">
+				<a class="btn btn-primary but-size mr-2" href="intake_pdf.php?id=<?php echo h($wkz->id) ?>" role="button">maak PDF</a>
+				<?php if ($magOpslaan): ?>
+					<?php // POST-formulier (met CSRF-token) in plaats van een link, omdat er iets wordt opgeslagen.
+					      // Bestaat het bestand van vandaag al, dan eerst een waarschuwing (confirm) en vervang=1. ?>
+					<form method="POST" action="intake_pdf.php" class="mr-2"
+						<?php if ($bestaatAl): ?>onsubmit="return confirm(<?= h(json_encode('Het intakeformulier van vandaag is al opgeslagen als "' . $intakeNaam . '".' . "\n\n" . 'Wil je het oude bestand vervangen door het formulier zoals het nu is?')) ?>);"<?php endif; ?>>
+						<?= csrf_veld() ?>
+						<input type="hidden" name="actie" value="opslaan">
+						<input type="hidden" name="id" value="<?= h($wkz->id) ?>">
+						<?php if ($bestaatAl): ?><input type="hidden" name="vervang" value="1"><?php endif; ?>
+						<button type="submit" class="btn btn-primary but-size" title="Opslaan als &quot;<?= h($intakeNaam) ?>&quot; in de documenten van deze werkzoekende">PDF opslaan</button>
+					</form>
+				<?php endif; ?>
 				<a class="btn btn-primary but-size" href="mut_persoon.php?id=<?php echo h($wkz->id) ?>" role="button">terug</a>
-			</p>
+			</div>
+			<?php if ($intakeMelding): ?>
+				<div class="alert alert-<?= h($intakeMelding[0]) ?> alert-dismissible fade show" role="alert">
+					<?= h($intakeMelding[1]) ?>
+					<?php if ($intakeMelding[0] === 'success'): ?>
+						<a href="../documenten.php?r=werkzoekende&amp;w=<?= h($wkz->id) ?>" class="alert-link ml-2">Bekijk in Documenten</a>
+					<?php endif; ?>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Sluiten"><span aria-hidden="true">&times;</span></button>
+				</div>
+			<?php endif; ?>
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" href="#personalia" id="personalia-tab" role="tab" aria-controls="personalia" aria-selected="true">Basis info</a>

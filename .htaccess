@@ -18,6 +18,7 @@
     RewriteEngine On
     RewriteCond %{DOCUMENT_ROOT}/onderhoud.aan -f
     RewriteCond %{REMOTE_ADDR} !=77.168.222.49
+	RewriteCond %{REMOTE_ADDR} !^2a02:a451:90cd:ff00:
     RewriteCond %{REQUEST_URI} !=/onderhoud.html
     RewriteRule ^ - [R=503,L]
 </IfModule>
