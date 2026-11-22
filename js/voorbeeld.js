@@ -241,6 +241,10 @@
 	}
 	window.toonVoorbeeld = toonVoorbeeld;
 
+	// Grijs oogje bij bestanden zonder voorbeeld: uitleg in een popover (Bootstrap 4).
+	// Klikken of tikken toont de uitleg, ergens anders klikken sluit hem (trigger "focus").
+	$(function () { $('.geen-voorbeeld').popover(); });
+
 	// Eén klikhandler voor alle links en knoppen met class "voorbeeld-link".
 	// Zonder JavaScript (of bij een fout vóór dit punt) werkt de gewone link: downloaden.
 	document.addEventListener('click', e => {

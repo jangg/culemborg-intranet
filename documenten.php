@@ -423,7 +423,15 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($wzk ? 'Documenten va
 			// Word, Excel en tekst: voorbeeldvenster op de pagina (js/voorbeeld.js, nov 2026)
 			$voorbeeld = in_array($d['extensie'], ['docx', 'xlsx', 'xls', 'ods', 'csv', 'txt'], true);
 			$vbAttr = $voorbeeld ? ' data-id="' . (int)$d['id'] . '" data-naam="' . h($d['naam']) . '" data-ext="' . h($d['extensie'])
-				. '" data-grootte="' . (int)$d['grootte'] . '"' : ''; ?>
+				. '" data-grootte="' . (int)$d['grootte'] . '"' : '';
+			// Geen voorbeeld mogelijk: grijs doorgestreept oogje met uitleg (klik of tik)
+			$tipGeen = ($bekijk || $voorbeeld) ? '' : match (true) {
+				in_array($d['extensie'], ['doc', 'rtf', 'odt'], true)
+					=> 'Van dit soort tekstbestand kan geen voorbeeld worden getoond. Download het, of open het in Word en kies Opslaan als > Word-document (.docx). Upload dat bestand, dan kun je het hier wel bekijken.',
+				in_array($d['extensie'], ['ppt', 'pptx'], true)
+					=> 'Van een PowerPoint-bestand kan geen voorbeeld worden getoond. Download het om het te bekijken, of sla het in PowerPoint op als PDF en upload dat.',
+				default => 'Van dit soort bestand kan geen voorbeeld worden getoond. Download het om het te bekijken.',
+			}; ?>
 			<tr>
 				<td class="icoon"><i class="<?= h(Document::icoon($d['extensie'])) ?>"></i></td>
 				<td><a class="naam<?= $voorbeeld ? ' voorbeeld-link' : '' ?>" href="document.php?id=<?= (int)$d['id'] ?><?= $bekijk ? '&amp;bekijk=1' : '' ?>"<?= $bekijk ? ' target="_blank"' : '' ?><?= $vbAttr ?>><?= h($d['naam']) ?></a></td>
@@ -435,6 +443,9 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($wzk ? 'Documenten va
 					<a class="btn btn-link" title="Bekijken" target="_blank" href="document.php?id=<?= (int)$d['id'] ?>&amp;bekijk=1"><i class="fa-regular fa-eye"></i></a>
 				<?php elseif ($voorbeeld): ?>
 					<a class="btn btn-link voorbeeld-link" title="Bekijken" href="document.php?id=<?= (int)$d['id'] ?>"<?= $vbAttr ?>><i class="fa-regular fa-eye"></i></a>
+				<?php else: ?>
+					<button type="button" class="btn btn-link geen-voorbeeld" title="Geen voorbeeld mogelijk" data-toggle="popover" data-trigger="focus"
+						data-placement="left" data-content="<?= h($tipGeen) ?>"><i class="fa-regular fa-eye-slash text-muted"></i></button>
 				<?php endif; ?>
 					<a class="btn btn-link" title="Downloaden" href="document.php?id=<?= (int)$d['id'] ?>"><i class="fa-solid fa-download"></i></a>
 				<?php if (Document::magWijzigen($d, $mijnId)): ?>
@@ -618,6 +629,6 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($wzk ? 'Documenten va
 </div>
 </main>
 <?= uitleg_venster() ?>
-<script src="js/voorbeeld.js?v=1"></script>	<!-- voorbeeldvenster voor Word/Excel/tekst (nov 2026) -->
+<script src="js/voorbeeld.js?v=2"></script>	<!-- voorbeeldvenster voor Word/Excel/tekst (nov 2026) -->
 </body>
 </html>
