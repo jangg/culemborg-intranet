@@ -69,7 +69,7 @@ if (isset($_SESSION['userid']))
 <div class="jumbotron">
 	<div id="main">
 		<div class="container verslag my-5">
-			<h3 class="bluefont">19 november 2026</h4>
+			<h3 class="bluefont">19 november 2026, bijgewerkt 22 november 2026</h3>
 			<h2 class="text-black mb-2 bluefont">Handleiding documenten beheer</h2>
 			<h5 class="text-black mb-5 bluefont">door Jan Geerdes</h5>
 			<h1>Werken met documenten in het intranet</h1>
@@ -93,7 +93,7 @@ if (isset($_SESSION['userid']))
 				<tr><th>Wat wil je doen?</th><th>Hoe</th></tr>
 				<tr><td>Een document toevoegen</td><td>Open de juiste map en klik op <strong>Document toevoegen</strong>. Kies een of meer bestanden. Je kunt bestanden ook vanaf je computer naar het vak slepen.</td></tr>
 				<tr><td>Een hele map toevoegen</td><td>Klik op <strong>Map toevoegen</strong> en kies een map op je computer. De map komt er met alle bestanden en submappen in.</td></tr>
-				<tr><td>Een document openen</td><td>Klik op de naam. Een PDF of foto opent in een nieuw tabblad, andere bestanden worden gedownload.</td></tr>
+				<tr><td>Een document bekijken</td><td>Klik op het oogje <i class="fa-regular fa-eye"></i> achter het document, of op de naam. Je ziet het document dan direct, zonder dat het op je computer wordt opgeslagen. Zie hieronder: <em>Bekijken zonder downloaden</em>.</td></tr>
 				<tr><td>Een document downloaden</td><td>Klik op het pijltje naar beneden achter het document.</td></tr>
 				<tr><td>Een nieuwe map maken</td><td>Klik op <strong>Nieuwe map</strong> en typ de naam.</td></tr>
 				<tr><td>Een andere naam geven</td><td>Klik op het potloodje achter het document of de map.</td></tr>
@@ -102,6 +102,24 @@ if (isset($_SESSION['userid']))
 			</table>
 			<p><strong>Verwijderen kan alleen bij wat je zelf hebt toegevoegd.</strong> Wat een ander heeft toegevoegd, kun je wel openen, maar niet verwijderen of hernoemen. Moet dat toch weg, vraag het dan aan wie het toevoegde of aan de beheerder. Verwijderen kan niet ongedaan worden gemaakt.</p>
 			
+			<h2>Bekijken zonder downloaden</h2>
+			<p>Achter de meeste documenten staat een <strong>oogje</strong> <i class="fa-regular fa-eye"></i>. Klik erop (of op de naam van het document) om het te bekijken. Het document wordt dan <strong>niet</strong> in je map Downloads opgeslagen. Dat is handiger, en beter voor de privacy van de werkzoekende.</p>
+			<table>
+				<tr><th>Soort document</th><th>Wat je ziet</th></tr>
+				<tr><td>Word (.docx)</td><td>Een venster met de pagina's van het document, zoals in Word.</td></tr>
+				<tr><td>Excel (.xlsx, .xls)</td><td>Een venster met een tabel. Heeft het bestand meer tabbladen, dan staan die bovenaan; klik erop om te wisselen.</td></tr>
+				<tr><td>Tekst (.txt)</td><td>Een venster met de tekst.</td></tr>
+				<tr><td>PDF en foto's</td><td>Het document opent in een nieuw tabblad van je browser.</td></tr>
+			</table>
+			<ul>
+				<li>Sluit het venster met <strong>Sluiten</strong> of het kruisje rechtsboven.</li>
+				<li>Wil je het document <strong>aanpassen</strong>? Klik dan in het venster op <strong>Downloaden</strong>. Pas het aan op je computer en voeg het daarna opnieuw toe.</li>
+				<li>Het is een voorbeeld: ingewikkelde opmaak (tekstvakken, grafieken) kan er iets anders uitzien dan in Word of Excel. De inhoud is wel hetzelfde.</li>
+				<li>Erg grote bestanden (meer dan 20 MB) worden gewoon gedownload. Bij een heel lange Excel-lijst zie je de eerste 2000 rijen.</li>
+			</ul>
+			<p><strong>Een grijs, doorgestreept oogje</strong> <i class="fa-regular fa-eye-slash text-muted"></i> betekent: van dit document kan geen voorbeeld worden getoond. Klik erop voor uitleg. Dat geldt bijvoorbeeld voor oude Word-bestanden (.doc) en PowerPoint. Die kun je wel downloaden met het pijltje.</p>
+			<p><strong>Tip:</strong> heb je een oud Word-bestand (.doc)? Open het in Word en kies <strong>Opslaan als</strong> &gt; <strong>Word-document (.docx)</strong>. Voeg dat nieuwe bestand toe en verwijder het oude. Dan kan iedereen het voortaan met het oogje bekijken.</p>
+
 			<h2>Het intakeformulier opslaan</h2>
 			<p>Je kunt het ingevulde intakeformulier met één klik als PDF in de map van de werkzoekende zetten. Downloaden en opnieuw uploaden is niet meer nodig.</p>
 			<ol>
@@ -129,7 +147,7 @@ if (isset($_SESSION['userid']))
 				<li><strong>Hoeveel ruimte?</strong> Iedereen mag bij werkzoekenden samen 100 MB aan documenten toevoegen. Dat zijn honderden cv's en brieven. De gedeelde map heeft samen 4 GB. Hoeveel je al gebruikt, zie je onderaan de pagina Documenten.</li>
 				<li><strong>Welke bestanden?</strong> Gewone documenten: PDF, Word, Excel, PowerPoint, tekst en foto's (JPG, PNG). Programma's en andere soorten worden geweigerd. Een te groot bestand ook; je krijgt dan een melding met het maximum.</li>
 				<li><strong>Wat hoort waar?</strong> Alles over één werkzoekende in de map van die werkzoekende. Algemene stukken in <strong>Gedeeld</strong>. Bewaar geen persoonlijke stukken van werkzoekenden in de gedeelde map.</li>
-				<li><strong>Privacy:</strong> download documenten alleen als het echt nodig is, en verwijder ze daarna weer van je eigen computer. In het intranet zijn ze beter beveiligd dan in je downloadmap.</li>
+				<li><strong>Privacy:</strong> bekijk documenten zo veel mogelijk met het oogje. Download alleen als het echt nodig is, bijvoorbeeld om iets aan te passen, en verwijder het daarna weer van je eigen computer. In het intranet zijn ze beter beveiligd dan in je downloadmap.</li>
 				<li><strong>Opruimen:</strong> als een werkzoekende uit het systeem wordt verwijderd, gaan zijn of haar documenten automatisch mee.</li>
 				<li><strong>Hulp nodig?</strong> Kom je er niet uit, of zie je een foutmelding? Neem contact op met de beheerder. Of kijk eerst even naar de uitleg-video's (tabblad Uitleg bij Documenten).</li>
 			</ul>
