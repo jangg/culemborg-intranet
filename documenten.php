@@ -419,14 +419,23 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($wzk ? 'Documenten va
 		<?php endforeach; ?>
 
 		<?php foreach ($docs as $d):
-			$bekijk = in_array($d['extensie'], ['pdf', 'jpg', 'jpeg', 'png'], true); ?>
+			$bekijk = in_array($d['extensie'], ['pdf', 'jpg', 'jpeg', 'png'], true);
+			// Word, Excel en tekst: voorbeeldvenster op de pagina (js/voorbeeld.js, nov 2026)
+			$voorbeeld = in_array($d['extensie'], ['docx', 'xlsx', 'xls', 'ods', 'csv', 'txt'], true);
+			$vbAttr = $voorbeeld ? ' data-id="' . (int)$d['id'] . '" data-naam="' . h($d['naam']) . '" data-ext="' . h($d['extensie'])
+				. '" data-grootte="' . (int)$d['grootte'] . '"' : ''; ?>
 			<tr>
 				<td class="icoon"><i class="<?= h(Document::icoon($d['extensie'])) ?>"></i></td>
-				<td><a class="naam" href="document.php?id=<?= (int)$d['id'] ?><?= $bekijk ? '&amp;bekijk=1' : '' ?>"<?= $bekijk ? ' target="_blank"' : '' ?>><?= h($d['naam']) ?></a></td>
+				<td><a class="naam<?= $voorbeeld ? ' voorbeeld-link' : '' ?>" href="document.php?id=<?= (int)$d['id'] ?><?= $bekijk ? '&amp;bekijk=1' : '' ?>"<?= $bekijk ? ' target="_blank"' : '' ?><?= $vbAttr ?>><?= h($d['naam']) ?></a></td>
 				<td class="d-none d-md-table-cell text-nowrap"><?= h(date('d-m-Y', strtotime($d['gemaakt_op']))) ?></td>
 				<td class="d-none d-md-table-cell"><?= h($d['door_naam']) ?></td>
 				<td class="text-right d-none d-sm-table-cell text-nowrap"><?= h(Document::mb((int)$d['grootte'])) ?></td>
 				<td class="text-right acties text-nowrap">
+				<?php if ($bekijk): ?>
+					<a class="btn btn-link" title="Bekijken" target="_blank" href="document.php?id=<?= (int)$d['id'] ?>&amp;bekijk=1"><i class="fa-regular fa-eye"></i></a>
+				<?php elseif ($voorbeeld): ?>
+					<a class="btn btn-link voorbeeld-link" title="Bekijken" href="document.php?id=<?= (int)$d['id'] ?>"<?= $vbAttr ?>><i class="fa-regular fa-eye"></i></a>
+				<?php endif; ?>
 					<a class="btn btn-link" title="Downloaden" href="document.php?id=<?= (int)$d['id'] ?>"><i class="fa-solid fa-download"></i></a>
 				<?php if (Document::magWijzigen($d, $mijnId)): ?>
 					<button type="button" class="btn btn-link" title="Andere naam" onclick='hernoem("hernoem_doc", <?= (int)$d['id'] ?>, <?= h(json_encode($d['naam'])) ?>);'><i class="fa-regular fa-pen-to-square"></i></button>
@@ -609,5 +618,6 @@ $titelRuimte = $r === 'gedeeld' ? 'Gedeelde documenten' : ($wzk ? 'Documenten va
 </div>
 </main>
 <?= uitleg_venster() ?>
+<script src="js/voorbeeld.js?v=1"></script>	<!-- voorbeeldvenster voor Word/Excel/tekst (nov 2026) -->
 </body>
 </html>
